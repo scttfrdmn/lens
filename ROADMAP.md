@@ -333,13 +333,34 @@ Expand beyond Jupyter/RStudio/VSCode to support additional research and analysis
   - [ ] `data-viz` - D3.js visualizations
   - [ ] `interactive` - Interactive analysis
 
+**NICE DCV Desktop** 🎯 HIGH PRIORITY
+- [ ] Create `apps/dcv-desktop/` (full Linux desktop via DCV)
+- [ ] AWS native remote desktop protocol (NICE DCV)
+- [ ] Low-latency, high-quality desktop streaming
+- [ ] Essential for GUI applications (MATLAB, Igor Pro, ImageJ, etc.)
+- [ ] GPU support for visualization and computation
+- [ ] Built-in environments:
+  - [ ] `matlab-desktop` - MATLAB with full GUI
+  - [ ] `data-viz-desktop` - ParaView, Visit, Tableau Desktop
+  - [ ] `image-analysis` - ImageJ, Fiji, QuPath, CellProfiler
+  - [ ] `bioinformatics-gui` - Geneious, CLC Workbench, UGENE
+  - [ ] `general-desktop` - Ubuntu desktop with research tools
+  - [ ] `gpu-workstation` - CUDA, visualization, ML (GPU instances)
+- [ ] Benefits:
+  - [ ] No need for X11 forwarding or VNC
+  - [ ] Works from browser or native client
+  - [ ] Clipboard and file transfer support
+  - [ ] Multi-monitor support
+  - [ ] Better than traditional remote desktop protocols
+
 ### Implementation Order
 1. **Amazon Q Developer** (AWS native, already partially integrated)
-2. **Streamlit** (most requested, easiest to use)
-3. **Zeppelin** (fills notebook alternative niche)
-4. **Theia** (general-purpose IDE)
-5. **Quarto** (academic publishing)
-6. **Observable** (specialized use case)
+2. **NICE DCV Desktop** (critical for GUI apps, GPU workloads, AWS native)
+3. **Streamlit** (most requested, easiest to use)
+4. **Zeppelin** (fills notebook alternative niche)
+5. **Theia** (general-purpose IDE)
+6. **Quarto** (academic publishing)
+7. **Observable** (specialized use case)
 
 ### Success Criteria
 - ✅ At least 3 new research tools added (Streamlit, Zeppelin, Theia)
