@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	version = "0.6.1" // App version
+	version = "0.6.2" // App version
 	commit  = "unknown"
 	date    = "unknown"
 )
@@ -52,6 +52,8 @@ Features:
 	rootCmd.AddCommand(cli.NewGenerateCmd())
 	rootCmd.AddCommand(cli.NewKeyCmd())
 	rootCmd.AddCommand(cli.NewExportConfigCmd())
+	rootCmd.AddCommand(cli.NewConfigCmd())
+	rootCmd.AddCommand(cli.NewCostsCmd())
 
 	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
