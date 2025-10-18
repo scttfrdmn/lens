@@ -36,6 +36,14 @@ AWS IDE is a monorepo containing multiple CLI tools for managing different cloud
 - **Auto-Stop**: Configurable idle timeout to prevent runaway costs
 - **Flexible Timeouts**: Set custom idle timeouts (e.g., `--idle-timeout 30m`, `2h`, `8h`)
 - **Smart Monitoring**: Detects active sessions, CPU usage, and running computations
+- **Cost Tracking**: Built-in cost analysis showing effective cost per hour with stop/start savings
+- **Monthly Estimates**: Project costs based on actual usage patterns
+
+### 🔧 Configuration & Management
+- **Unified Config**: Single config file (`~/.aws-ide/config.yaml`) shared across all tools
+- **Flexible Settings**: Configure defaults for region, instance type, networking, and more
+- **Cost Alerts**: Set monthly cost thresholds with automatic warnings
+- **Per-Tool Overrides**: App-specific settings for Jupyter, RStudio, and VSCode
 
 ## Quick Start
 
@@ -56,25 +64,25 @@ scoop install aws-jupyter aws-rstudio aws-vscode
 **APT (Debian/Ubuntu)**
 ```bash
 # Download and install deb packages
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-jupyter_0.5.1_linux_amd64.deb
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-rstudio_0.5.1_linux_amd64.deb
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-vscode_0.5.1_linux_amd64.deb
+wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-jupyter_0.6.2_linux_amd64.deb
+wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-rstudio_0.6.2_linux_amd64.deb
+wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-vscode_0.6.2_linux_amd64.deb
 
-sudo dpkg -i aws-jupyter_0.5.1_linux_amd64.deb
-sudo dpkg -i aws-rstudio_0.5.1_linux_amd64.deb
-sudo dpkg -i aws-vscode_0.5.1_linux_amd64.deb
+sudo dpkg -i aws-jupyter_0.6.2_linux_amd64.deb
+sudo dpkg -i aws-rstudio_0.6.2_linux_amd64.deb
+sudo dpkg -i aws-vscode_0.6.2_linux_amd64.deb
 ```
 
 **YUM/DNF (RedHat/Fedora/Amazon Linux)**
 ```bash
 # Download and install rpm packages
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-jupyter_0.5.1_linux_amd64.rpm
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-rstudio_0.5.1_linux_amd64.rpm
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-vscode_0.5.1_linux_amd64.rpm
+wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-jupyter_0.6.2_linux_amd64.rpm
+wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-rstudio_0.6.2_linux_amd64.rpm
+wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-vscode_0.6.2_linux_amd64.rpm
 
-sudo rpm -i aws-jupyter_0.5.1_linux_amd64.rpm
-sudo rpm -i aws-rstudio_0.5.1_linux_amd64.rpm
-sudo rpm -i aws-vscode_0.5.1_linux_amd64.rpm
+sudo rpm -i aws-jupyter_0.6.2_linux_amd64.rpm
+sudo rpm -i aws-rstudio_0.6.2_linux_amd64.rpm
+sudo rpm -i aws-vscode_0.6.2_linux_amd64.rpm
 ```
 
 ### Install from Source
@@ -117,6 +125,64 @@ aws-jupyter launch --connection session-manager
 
 # Launch with custom timeout
 aws-jupyter launch --idle-timeout 2h
+```
+
+### Configuration Management
+
+All three tools share a unified configuration system:
+
+```bash
+# Initialize config file with defaults
+aws-jupyter config init
+
+# View current configuration
+aws-jupyter config show
+
+# Set defaults
+aws-jupyter config set default_region us-west-2
+aws-jupyter config set default_instance_type t4g.large
+aws-rstudio config set default_ebs_size 50
+
+# Enable cost tracking
+aws-vscode config set enable_cost_tracking true
+aws-vscode config set cost_alert_threshold 100
+
+# App-specific settings
+aws-vscode config set vscode.port 8080
+```
+
+Configuration is stored in `~/.aws-ide/config.yaml` and shared across all tools.
+
+### Cost Tracking
+
+Monitor and optimize your cloud spending:
+
+```bash
+# View costs for all instances
+aws-jupyter costs
+
+# Detailed breakdown for specific instance
+aws-jupyter costs i-1234567890abcdef0
+
+# Show detailed breakdowns for all instances
+aws-rstudio costs --details
+```
+
+**Key Metrics:**
+- **Effective Cost**: Total cost / elapsed hours (shows true savings from stop/start)
+- **Utilization**: Percentage of time instance was actually running
+- **Monthly Estimate**: Projected monthly cost based on current usage pattern
+- **24/7 Comparison**: How much you save vs running continuously
+
+Example output:
+```
+Instance: i-abc123 (data-science)
+  Type: t4g.large
+  Running: 12.5h / 48.0h (26% utilization)
+  Total Cost: $1.23
+  Effective Rate: $0.026/hour
+
+  Savings vs 24/7: $0.073/hour (74%)
 ```
 
 ## How It Works: SSM-Based Readiness Polling
@@ -225,12 +291,12 @@ See the [Jupyter AWS Authentication Guide](apps/jupyter/docs/AWS_AUTHENTICATION.
 
 AWS IDE uses **unified versioning** across all apps in the monorepo. All three tools share the same version number and are released together.
 
-- **Current Release**: v0.5.1
-- **aws-jupyter**: v0.5.1 (production)
-- **aws-rstudio**: v0.5.1 (production)
-- **aws-vscode**: v0.5.1 (beta)
+- **Current Release**: v0.6.2
+- **aws-jupyter**: v0.6.2 (production)
+- **aws-rstudio**: v0.6.2 (production)
+- **aws-vscode**: v0.6.2 (production)
 
-Releases use semantic versioning with Git tags: `v0.5.1`, `v0.6.0`, etc.
+Releases use semantic versioning with Git tags: `v0.6.0`, `v0.6.1`, `v0.6.2`, etc.
 
 See [VERSIONING.md](VERSIONING.md) for detailed versioning strategy and release process.
 
@@ -284,18 +350,22 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 ## Roadmap
 
 ### ✅ Completed
-- **v0.1.0-v0.4.0**: Core Jupyter features, Session Manager, cost optimization
-- **Monorepo Migration**: Shared infrastructure for multiple IDE types
+- **v0.1.0-v0.5.0**: Core Jupyter features, Session Manager, cost optimization, monorepo migration
+- **v0.6.0**: Testing & quality improvements, VSCode feature parity
+- **v0.6.1**: Unified config system, cost tracking with effective cost calculation
+- **v0.6.2**: Full feature parity - config and costs commands for all three tools
 
-### 🚀 In Progress
-- **aws-vscode**: VSCode Server implementation (alpha)
+### 🚀 Up Next
+- **v0.7.0**: Security hardening, audit logging, compliance reporting
+- **v0.8.0**: Package manager integration (conda, apt/yum)
+- **v0.9.0**: Advanced networking (VPC peering, custom DNS, VPN integration)
+- **v1.0.0**: Production-ready release with comprehensive documentation
 
-### 📋 Planned
-- **v0.6.0** (Q1 2025): Complete aws-vscode launch command, UX enhancements
-- **v0.7.0** (Q1 2025): Integration testing (40%+ coverage)
-- **v0.8.0-v1.0.0**: Multi-instance ops, backups, enterprise features
-- **RStudio Feature Parity**: Port all Jupyter features to RStudio
-- **Additional IDEs**: Theia, Apache Zeppelin, Streamlit, etc.
+### 💡 Future Ideas
+- Multi-instance batch operations
+- Automated backups and snapshots
+- Additional IDE support (Theia, Apache Zeppelin, Streamlit)
+- Enterprise features (SAML/SSO, centralized management)
 
 See [ROADMAP.md](ROADMAP.md) for detailed planning.
 
