@@ -2,22 +2,29 @@
 
 This document outlines the future development plans for the AWS IDE project. The project follows semantic versioning and is organized into phases.
 
-## 📊 Current Status: Monorepo Established
+## 📊 Current Status: Production-Ready Platform
 
 **Project Evolution:**
 - ✅ **v0.1.0-v0.4.0**: aws-jupyter (single app) - Feature complete
-- ✅ **Monorepo Migration**: Transformed into multi-IDE platform (January 2025)
-- 🚀 **Current Focus**: RStudio feature parity and shared infrastructure improvements
+- ✅ **v0.5.0**: Monorepo established with RStudio feature parity
+- ✅ **v0.6.0**: Comprehensive testing infrastructure
+- ✅ **v0.6.1**: Unified config system and cost tracking
+- ✅ **v0.6.2**: Full feature parity - config and costs commands for all tools
+- ✅ **v0.6.3**: Documentation polish and updates
+- 🚀 **Current Focus**: User experience for non-technical academic researchers
+
+**Target Audience:** Academic researchers who need cloud-based analysis tools but may not be technically savvy
 
 **Monorepo Structure:**
-- `pkg/` - Shared AWS infrastructure library
-- `apps/jupyter/` - Jupyter Lab launcher (feature complete)
-- `apps/rstudio/` - RStudio Server launcher (basic implementation)
+- `pkg/` - Shared AWS infrastructure library (well-tested)
+- `apps/jupyter/` - Jupyter Lab launcher (production ready)
+- `apps/rstudio/` - RStudio Server launcher (production ready)
+- `apps/vscode/` - VSCode Server launcher (production ready)
 
 **Coverage Status:**
-- pkg: Tests passing (aws package tested)
-- apps/jupyter: 27.8% CLI, all tests passing
-- apps/rstudio: No tests yet (needs development)
+- pkg: Comprehensive unit, integration, and E2E tests
+- All three apps: Production ready with full feature parity
+- Testing: Unit → Integration → Smoke → E2E test pyramid
 
 ---
 
@@ -179,226 +186,419 @@ Establish comprehensive testing infrastructure with unit, integration, and E2E t
 
 ---
 
-## ✨ v0.7.0 - User Experience (Q4 2025 - Q1 2026)
+## ✨ v0.7.0 - User Experience & Accessibility
 
-**Status:** Planned
-**Target Date:** December 2025
-**Priority:** MEDIUM
+**Status:** Next (Starting Now)
+**Target:** 1-2 months
+**Priority:** 🔥 CRITICAL - Non-technical researchers need this
 
 ### Goals
-Improve usability and developer experience with better UI/UX.
+Make AWS IDE accessible to non-technical academic researchers with guided setup and plain-language interactions.
 
 ### Tasks
-- [ ] Interactive Launch Wizard
-  - [ ] Guide users through launch options
-  - [ ] Provide recommendations based on use case
-  - [ ] Show cost estimates
-  - [ ] Support both Jupyter and RStudio
 
-- [ ] Enhanced Output
-  - [ ] Add color-coded output (success/warning/error)
-  - [ ] Add progress bars for long operations
-  - [ ] Improve table formatting in `list` command
-  - [ ] Add spinner for API calls
+**Interactive Launch Wizard** 🎯 HIGHEST PRIORITY
+- [ ] Add `wizard` command that guides users through setup
+  - [ ] "What type of analysis do you want to do?"
+    - Data science (Python + R)
+    - Statistical analysis (R-focused)
+    - Bioinformatics (conda + bio tools)
+    - Web development (VS Code)
+  - [ ] Plain language options (no technical jargon)
+  - [ ] Automatic "best practice" selections
+  - [ ] Show cost estimate before launching
+- [ ] Add `quickstart` command for each app
+  - [ ] `aws-jupyter quickstart` → instant launch with sensible defaults
+  - [ ] `aws-rstudio quickstart` → instant R environment
+  - [ ] `aws-vscode quickstart` → instant coding environment
 
-- [ ] Better Error Messages
-  - [ ] Contextual error messages
-  - [ ] Suggest fixes for common errors
-  - [ ] Add error codes for documentation
-  - [ ] Include AWS error details when relevant
+**Better Error Messages** 🎯 HIGH PRIORITY
+- [ ] Audit all error messages for academic-friendliness
+  - [ ] Replace "NoCredentialsError" with "AWS credentials aren't set up"
+  - [ ] Replace "InvalidParameterException" with plain explanations
+  - [ ] Add "What this means:" and "How to fix it:" sections
+- [ ] Suggest specific fixes with commands
+  - [ ] "Run: aws configure" (not just "configure AWS")
+  - [ ] Link to relevant documentation section
+- [ ] Built-in help for common issues
+  - [ ] `aws-jupyter doctor` → diagnose common problems
+  - [ ] Check AWS credentials, permissions, quotas
+  - [ ] Verify prerequisites
 
-- [ ] Configuration File Support
-  - [ ] `~/.aws-ide/config.yaml` for defaults
-  - [ ] Profile support (dev, prod, etc.)
-  - [ ] Per-app configuration sections
-  - [ ] Validate configuration on load
+**Enhanced Visual Output** 🎯 HIGH PRIORITY
+- [ ] Color-coded output (success=green, warning=yellow, error=red)
+- [ ] Progress bars with plain text
+  - [ ] "Setting up your Jupyter environment... [=====>    ] 50%"
+  - [ ] "Installing packages... this may take 2-3 minutes"
+- [ ] Friendly completion messages
+  - [ ] "✓ Your Jupyter Lab is ready!"
+  - [ ] "Open in browser: http://..."
+  - [ ] Clear next steps
+- [ ] Remove technical AWS jargon from all output
+  - [ ] "Starting instance" not "EC2 RunInstances API call"
+  - [ ] "Waiting for environment to be ready" not "Polling SSM"
+
+**Status Notifications**
+- [ ] Optional email notifications
+  - [ ] "Your Jupyter Lab is ready at: http://..."
+  - [ ] "Your instance will stop in 30 minutes due to idle timeout"
+- [ ] Optional Slack webhook support
+- [ ] Desktop notifications (investigate feasibility)
+
+**Default Behavior Improvements**
+- [ ] Make wizard the default when no arguments provided
+  - [ ] `aws-jupyter` → launches wizard
+  - [ ] `aws-jupyter launch` → uses last settings or defaults
+- [ ] Remember user preferences
+  - [ ] Last used environment, instance type, region
+  - [ ] Offer to reuse settings: "Use same settings as last time? (Y/n)"
 
 ### Success Criteria
-- ✅ Interactive wizard working
-- ✅ Color output on supported terminals
-- ✅ Error messages provide actionable guidance
-- ✅ Unified configuration system
+- ✅ Non-technical researcher can launch Jupyter in <2 minutes without reading docs
+- ✅ All error messages are in plain English with clear next steps
+- ✅ Progress is visible and understandable
+- ✅ No AWS/technical jargon in user-facing output
 
 ---
 
-## 💰 v0.8.0 - Cost Management (Q2 2025)
+## 🔬 v0.8.0 - Additional Research Tools
 
 **Status:** Planned
-**Target Date:** May 2025
-**Priority:** MEDIUM
+**Target:** 2-3 months
+**Priority:** 🔥 HIGH - Researchers need variety of tools
 
 ### Goals
-Add cost tracking, monitoring, and optimization features.
+Expand beyond Jupyter/RStudio/VSCode to support additional research and analysis tools.
 
-### Tasks
-- [ ] Cost Tracking
-  - [ ] Track instance running time
-  - [ ] Calculate estimated costs per instance
-  - [ ] Show cumulative costs in `list` command
-  - [ ] Export cost reports (CSV/JSON)
-  - [ ] Support both Jupyter and RStudio instances
+### Applications to Add
 
-- [ ] Cost Optimization
-  - [ ] Recommend cheaper instance types
-  - [ ] Enhanced idle detection (already started)
-  - [ ] Auto-stop improvements
-  - [ ] Suggest Spot instances
-  - [ ] Cost estimation in dry-run mode
+**Streamlit** 🎯 HIGHEST PRIORITY
+- [ ] Create `apps/streamlit/`
+- [ ] Turn Python scripts into interactive web apps
+- [ ] Perfect for sharing analysis with non-programmers
+- [ ] Excellent for academic collaboration
+- [ ] Built-in environments:
+  - [ ] `data-viz` - Data visualization apps
+  - [ ] `ml-demo` - Machine learning demos
+  - [ ] `dashboard` - Analysis dashboards
 
-- [ ] Monitoring Dashboard
-  - [ ] Instance health checks
-  - [ ] Resource utilization tracking (CPU, memory)
-  - [ ] Alert on unexpected costs
-  - [ ] Unified dashboard for all IDE types
+**Apache Zeppelin** 🎯 HIGH PRIORITY
+- [ ] Create `apps/zeppelin/`
+- [ ] Multi-language notebooks (Python, R, Scala, SQL)
+- [ ] Built-in visualization and charting
+- [ ] Popular in big data research
+- [ ] Built-in environments:
+  - [ ] `data-engineering` - ETL and data processing
+  - [ ] `sql-analytics` - Database analysis
+  - [ ] `spark` - Big data processing
+
+**Theia IDE** 🎯 MEDIUM PRIORITY
+- [ ] Create `apps/theia/`
+- [ ] Full IDE similar to VSCode but more extensible
+- [ ] Good for researchers who code occasionally
+- [ ] Built-in environments:
+  - [ ] `python` - Python development
+  - [ ] `r-dev` - R package development
+  - [ ] `multi-lang` - Multiple languages
+
+**Quarto** 🎯 MEDIUM PRIORITY
+- [ ] Create `apps/quarto/`
+- [ ] Academic publishing platform
+- [ ] Create papers, presentations, websites from code
+- [ ] Works with Jupyter and R
+- [ ] Important for reproducible research
+- [ ] Built-in environments:
+  - [ ] `academic-paper` - LaTeX + code
+  - [ ] `presentation` - Reveal.js slides
+  - [ ] `website` - Research group websites
+
+**Observable Framework** 🎯 LOW PRIORITY
+- [ ] Create `apps/observable/`
+- [ ] Interactive JavaScript notebooks
+- [ ] Excellent for data visualization
+- [ ] Used in data journalism and research
+- [ ] Built-in environments:
+  - [ ] `data-viz` - D3.js visualizations
+  - [ ] `interactive` - Interactive analysis
+
+### Implementation Order
+1. **Streamlit** (most requested, easiest to use)
+2. **Zeppelin** (fills notebook alternative niche)
+3. **Theia** (general-purpose IDE)
+4. **Quarto** (academic publishing)
+5. **Observable** (specialized use case)
 
 ### Success Criteria
-- ✅ Accurate cost tracking per instance
-- ✅ Cost optimization recommendations
-- ✅ Monitoring dashboard functional
-- ✅ Works for all IDE types
+- ✅ At least 3 new research tools added (Streamlit, Zeppelin, Theia)
+- ✅ All tools have 2-3 domain-specific environments
+- ✅ Unified CLI experience across all tools
+- ✅ Documentation for each tool with academic use cases
+- ✅ Easy switching between tools for same project
 
 ---
 
-## 🔄 v0.9.0 - Multi-Instance Management (Q3 2025)
+## 📦 v0.9.0 - Package Managers & Reproducible Environments
 
 **Status:** Planned
-**Target Date:** July 2025
-**Priority:** MEDIUM
+**Target:** 2-3 months
+**Priority:** MEDIUM-HIGH - Reproducibility is critical for research
 
 ### Goals
-Improve management of multiple instances and add batch operations.
+Make it easy for researchers to create reproducible, domain-specific environments.
 
 ### Tasks
-- [ ] Batch Operations
-  - [ ] Stop/start/terminate multiple instances
-  - [ ] Filter by IDE type, environment, tags
-  - [ ] Pattern matching for instance selection
-  - [ ] Bulk operations with confirmation
 
-- [ ] Instance Groups
-  - [ ] Group instances by project/team
-  - [ ] Manage groups together
-  - [ ] Share groups across team
-  - [ ] Group-level policies
+**Complete Conda Integration** 🎯 HIGH PRIORITY
+- [ ] Full conda environment support
+  - [ ] Support environment.yml files
+  - [ ] Automatic conda environment activation
+  - [ ] Package caching to speed up launches
+- [ ] BioConda integration for bioinformatics
+  - [ ] Pre-configured bioinformatics environments
+  - [ ] Common genomics tools pre-installed
+- [ ] Conda forge channel support
+- [ ] Environment export/import
+  - [ ] `aws-jupyter env export` → saves environment.yml
+  - [ ] `aws-jupyter env import environment.yml` → recreates environment
 
-- [ ] Enhanced List Command
-  - [ ] Filter by IDE type (jupyter, rstudio, etc.)
-  - [ ] Filter by state, environment, age
-  - [ ] Sort options (cost, uptime, name)
-  - [ ] Export to JSON/CSV
+**System Package Management** 🎯 MEDIUM PRIORITY
+- [ ] Declarative package installation in environments
+  - [ ] apt packages (Ubuntu/Debian)
+  - [ ] yum packages (Amazon Linux)
+- [ ] Custom package lists per environment
+  - [ ] `system_packages:` section in environment YAML
+  - [ ] Version pinning support
+- [ ] Package caching for faster rebuilds
+
+**Domain-Specific Environment Templates** 🎯 HIGH PRIORITY
+- [ ] **Biology/Genomics**
+  - [ ] Genomics pipeline (GATK, BWA, SAMtools)
+  - [ ] RNA-seq analysis (DESeq2, edgeR)
+  - [ ] Single-cell analysis (Seurat, Scanpy)
+- [ ] **Social Sciences**
+  - [ ] Survey analysis (pandas, statsmodels)
+  - [ ] Text analysis (NLTK, spaCy)
+  - [ ] Network analysis (NetworkX, igraph)
+- [ ] **Economics/Finance**
+  - [ ] Econometrics (statsmodels, linearmodels)
+  - [ ] Time series (prophet, ARIMA)
+  - [ ] Financial modeling (QuantLib)
+- [ ] **Climate Science**
+  - [ ] Climate data analysis (xarray, iris)
+  - [ ] Geospatial tools (GDAL, rasterio)
+  - [ ] Visualization (cartopy, proplot)
+- [ ] **Physics/Engineering**
+  - [ ] Scientific computing (NumPy, SciPy)
+  - [ ] Symbolic math (SymPy, Maxima)
+  - [ ] Simulation tools (OpenFOAM, FEniCS)
+
+**Environment Sharing** 🎯 MEDIUM PRIORITY
+- [ ] Export environments to shareable format
+  - [ ] Include all packages and versions
+  - [ ] Include system packages
+  - [ ] Include custom configurations
+- [ ] Import environments from collaborators
+- [ ] Community environment repository
+  - [ ] Share environments with research community
+  - [ ] Upvote/review system
+  - [ ] Search by research domain
+
+**Easy Package Installation Commands**
+- [ ] `aws-jupyter packages install pandas matplotlib seaborn`
+- [ ] `aws-rstudio packages install tidyverse ggplot2`
+- [ ] Automatic dependency resolution
+- [ ] Conflict detection and resolution
 
 ### Success Criteria
-- ✅ Batch operations working reliably
-- ✅ Filtering and sorting feature-rich
-- ✅ Multi-instance management efficient
+- ✅ Conda fully integrated with all major channels
+- ✅ At least 10 domain-specific templates available
+- ✅ Environment export/import works reliably
+- ✅ Researchers can recreate exact environments from papers
+- ✅ Package installation is simple and fast
+
+---
+
+## 🤝 v0.10.0 - Collaboration Features
+
+**Status:** Planned
+**Target:** 2-3 months
+**Priority:** MEDIUM - Academic research is collaborative
+
+### Goals
+Enable research teams to collaborate effectively using shared cloud resources.
+
+### Tasks
+
+**Instance Sharing** 🎯 HIGH PRIORITY
+- [ ] Share running instances with lab members
+  - [ ] Generate time-limited access tokens
+  - [ ] Read-only vs full access modes
+  - [ ] Revoke access tokens
+- [ ] Email invitations with one-click access
+- [ ] Access logs for shared instances
+
+**Team Workspaces** 🎯 MEDIUM PRIORITY
+- [ ] Lab-wide configuration templates
+  - [ ] PI sets defaults for entire lab
+  - [ ] Lab members inherit settings
+  - [ ] Override mechanism for special cases
+- [ ] Shared environments
+  - [ ] Lab-specific environment library
+  - [ ] Version control for shared environments
+- [ ] Resource quotas per team member
+  - [ ] Set limits on instance types
+  - [ ] Set limits on running hours
+  - [ ] Budget allocation per researcher
+
+**Data Sync & Backup** 🎯 HIGH PRIORITY
+- [ ] S3 integration for datasets
+  - [ ] Automatic sync of project folders
+  - [ ] Configurable sync schedules
+  - [ ] Bandwidth optimization
+- [ ] Automatic notebook backups
+  - [ ] Daily backups to S3
+  - [ ] Version history
+  - [ ] Easy restore from backup
+- [ ] Project folder management
+  - [ ] Shared project directories
+  - [ ] Permissions management
+
+**JupyterHub Support** 🎯 LOW PRIORITY (Future)
+- [ ] Multi-user Jupyter on single instance
+  - [ ] Create apps/jupyterhub
+  - [ ] Authentication integration
+  - [ ] User management
+  - [ ] Resource quotas per user
+- [ ] Ideal for teaching/workshops
+- [ ] Class-wide deployments
+
+### Success Criteria
+- ✅ Lab members can easily share instances
+- ✅ Team configuration templates work reliably
+- ✅ Data sync prevents work loss
+- ✅ Collaboration features are secure
 - ✅ Works across all IDE types
 
 ---
 
-## 🆕 v0.10.0 - Additional IDEs (Q3 2025)
+## 💰 v0.11.0 - Cost Management for Labs
 
 **Status:** Planned
-**Target Date:** September 2025
-**Priority:** LOW-MEDIUM
+**Target:** 1-2 months
+**Priority:** MEDIUM - Academic budgets are tight
 
 ### Goals
-Add support for additional cloud-based IDE types.
+Help research labs manage cloud spending with budget tracking and optimization.
 
 ### Tasks
-- [ ] VSCode Server
-  - [ ] Create apps/vscode with basic implementation
-  - [ ] Port core features from Jupyter/RStudio
-  - [ ] VSCode-specific environments
-  - [ ] Extension management support
 
-- [ ] JupyterHub (Multi-user)
-  - [ ] Create apps/jupyterhub
-  - [ ] Multi-user authentication
-  - [ ] User management
-  - [ ] Resource quotas
+**Budget Alerts** 🎯 HIGH PRIORITY
+- [ ] Set monthly budget per lab/project
+  - [ ] Configure budget threshold in config
+  - [ ] Per-researcher budgets
+  - [ ] Per-project budgets
+- [ ] Email alerts when approaching limit
+  - [ ] Warning at 50%, 75%, 90% of budget
+  - [ ] Daily digest for lab managers
+- [ ] Auto-stop when budget exceeded
+  - [ ] Configurable enforcement
+  - [ ] Grace period before hard stop
+  - [ ] Emergency override mechanism
 
-- [ ] Additional Candidates
-  - [ ] Theia IDE
-  - [ ] Code-server alternatives
-  - [ ] Zeppelin notebooks
-  - [ ] Custom IDE support framework
+**Cost Reporting** 🎯 HIGH PRIORITY
+- [ ] Generate reports for grant reporting
+  - [ ] PDF and CSV export
+  - [ ] Customizable date ranges
+  - [ ] Include breakdown by researcher
+  - [ ] Include breakdown by project
+- [ ] Per-project cost breakdown
+  - [ ] Tag instances with project codes
+  - [ ] Aggregate costs by project
+  - [ ] Export for grant renewals
+- [ ] Per-student/researcher tracking
+  - [ ] Individual usage reports
+  - [ ] Cost allocation by user
+  - [ ] Usage trends over time
+
+**Optimization Recommendations** 🎯 MEDIUM PRIORITY
+- [ ] Usage pattern analysis
+  - [ ] "Your instance has been idle 80% of the time"
+  - [ ] Suggest smaller instance types
+  - [ ] Identify over-provisioned resources
+- [ ] Spot instance suggestions
+  - [ ] Analyze workload suitability for Spot
+  - [ ] Estimate savings with Spot instances
+  - [ ] One-click conversion to Spot
+- [ ] Reserved instance analysis
+  - [ ] Identify steady-state workloads
+  - [ ] Calculate RI savings potential
+  - [ ] Recommend RI purchase strategy
+
+**Cost Forecasting**
+- [ ] Predict monthly costs based on current usage
+- [ ] Alert when trending over budget
+- [ ] Seasonal adjustment (academic calendar)
+- [ ] Multi-year cost projections
 
 ### Success Criteria
-- ✅ At least 2 additional IDE types supported
-- ✅ All core features work across all IDE types
-- ✅ Documentation for each IDE type
-- ✅ Unified CLI experience
+- ✅ Labs can set and enforce budgets
+- ✅ Cost reports suitable for grant reporting
+- ✅ Researchers see their individual usage
+- ✅ Cost optimization recommendations save 20%+
+- ✅ No surprise bills
 
 ---
 
-## 🏢 v0.11.0 - Enterprise Features (Q4 2025)
+## 🚀 v1.0.0 - Production Ready for Academia
 
 **Status:** Planned
-**Target Date:** November 2025
-**Priority:** LOW
+**Target:** 6-9 months
+**Priority:** HIGH - Ready for wide academic adoption
 
 ### Goals
-Add features for enterprise/team usage.
-
-### Tasks
-- [ ] Multi-Account Support
-  - [ ] Switch between AWS accounts
-  - [ ] Cross-account resource access
-  - [ ] Organization-wide policies
-
-- [ ] Team Collaboration
-  - [ ] Share instances with team members
-  - [ ] Role-based access control
-  - [ ] Audit logging
-  - [ ] Team resource quotas
-
-- [ ] Compliance & Security
-  - [ ] Encryption at rest (EBS)
-  - [ ] Compliance reporting
-  - [ ] Security scanning
-  - [ ] SOC2/HIPAA considerations
-
-### Success Criteria
-- ✅ Multi-account management working
-- ✅ Team features functional
-- ✅ Compliance requirements met
-
----
-
-## 🚀 v1.0.0 - Production Ready (Q4 2025)
-
-**Status:** Planned
-**Target Date:** December 2025
-**Priority:** HIGH
-
-### Goals
-Achieve production-grade stability and completeness.
+Achieve production-grade stability and completeness for academic research use.
 
 ### Requirements for v1.0.0
+- [ ] **Research Tools:** 6+ IDE types (Jupyter, RStudio, VSCode, Streamlit, Zeppelin, Theia)
+- [ ] **User Experience:** Non-technical researchers can use without training
+- [ ] **Documentation:** Video tutorials and step-by-step guides for each tool
+- [ ] **Stability:** No critical bugs, <2s command response time
+- [ ] **Reproducibility:** Full environment export/import for research reproducibility
+- [ ] **Cost Management:** Budget tracking and optimization for labs
+- [ ] **Collaboration:** Instance sharing and team features working
+- [ ] **Domain Templates:** 10+ research domain-specific environments
 - [ ] **Test Coverage:** 60%+ overall coverage
-- [ ] **Documentation:** Complete and up-to-date for all IDEs
-- [ ] **Performance:** <2s command response time
-- [ ] **Stability:** No critical bugs in issue tracker
-- [ ] **Security:** Security audit completed
-- [ ] **Compatibility:** Tested on Linux/macOS/Windows
-- [ ] **IDE Support:** 3+ IDE types fully supported
-- [ ] **User Base:** 100+ active users
-- [ ] **Feedback:** Incorporate feedback from beta users
+- [ ] **User Base:** 100+ active researchers across multiple institutions
+- [ ] **Feedback:** Incorporate feedback from academic beta testers
 
-### Final Polish
-- [ ] Performance optimization
-- [ ] Memory usage optimization
-- [ ] Binary size optimization
-- [ ] Comprehensive benchmarking
-- [ ] Professional branding/logo
-- [ ] Video tutorials for each IDE type
-- [ ] Migration guides
+### Final Polish for Academic Users
+- [ ] **Video Tutorials**
+  - [ ] Getting started for complete beginners
+  - [ ] Each IDE type with research examples
+  - [ ] Common workflows (data analysis, paper writing, etc.)
+  - [ ] Troubleshooting common issues
+- [ ] **Documentation**
+  - [ ] Research-focused examples (not developer examples)
+  - [ ] Domain-specific guides (biology, social science, etc.)
+  - [ ] Screenshots and step-by-step instructions
+  - [ ] FAQ for non-technical users
+- [ ] **Performance**
+  - [ ] Optimize launch times (<5 minutes typical)
+  - [ ] Reduce memory usage
+  - [ ] Binary size <50MB
+- [ ] **Community**
+  - [ ] Environment template repository
+  - [ ] User showcase (research enabled by AWS IDE)
+  - [ ] Active discussion forum for researchers
 
-### Success Criteria
-- ✅ All v1.0.0 requirements met
-- ✅ Production deployments successful
-- ✅ Positive user feedback
-- ✅ Active community
+### Success Criteria for Academic Adoption
+- ✅ Non-technical researcher can launch and use any tool in <5 minutes
+- ✅ Widely adopted across 5+ universities/research institutions
+- ✅ Used in published research (reproducibility)
+- ✅ Positive feedback from diverse research domains
+- ✅ Active community sharing environments and tips
+- ✅ Cost savings documented (vs commercial alternatives)
+- ✅ Cited in research papers' methods sections
 
 ---
 
@@ -449,11 +649,12 @@ We welcome contributions! Here's how to get involved:
 4. **Join discussions** - Participate in feature planning
 
 ### Priority Areas for Contributions
-- RStudio feature parity (v0.5.0)
-- Testing infrastructure (v0.6.0)
-- Additional IDE support (v0.10.0)
-- Documentation and examples
-- Bug fixes and performance improvements
+- User experience improvements (v0.7.0) - Make it easier for non-technical researchers
+- Additional research tools (v0.8.0) - Streamlit, Zeppelin, Theia, Quarto
+- Domain-specific environment templates (v0.9.0) - Biology, social science, etc.
+- Documentation with research examples
+- Video tutorials for academic users
+- Bug fixes and usability improvements
 
 ---
 
@@ -479,12 +680,14 @@ We welcome contributions! Here's how to get involved:
 - Memory Usage: <100MB for typical operations
 - Startup Time: <100ms
 
-### Community Metrics
-- Active Users: 1000+ by v1.0.0
+### Community Metrics (Academic Focus)
+- Active Researchers: 100+ across 5+ institutions by v1.0.0
+- Research Domains: 10+ represented (biology, social science, etc.)
 - GitHub Stars: 500+ by v1.0.0
-- Contributors: 10+ by v1.0.0
+- Contributors: 10+ by v1.0.0 (including academic contributors)
 - Issues Resolved: 90%+ within 30 days
-- IDE Types Supported: 3+ by v1.0.0
+- IDE Types Supported: 6+ by v1.0.0 (Jupyter, RStudio, VSCode, Streamlit, Zeppelin, Theia)
+- Environment Templates: 20+ domain-specific templates
 
 ### Monorepo Health
 - Shared library stability: No breaking changes
@@ -513,9 +716,10 @@ We follow [Semantic Versioning 2.0.0](https://semver.org/):
 ## 📝 Last Updated
 
 - **Date:** October 2025
-- **Version:** v0.6.0 (Testing & Quality - Complete)
+- **Version:** v0.6.3 (Documentation Polish - Complete)
+- **Next Focus:** v0.7.0 - User Experience & Accessibility for academic researchers
 - **Next Review:** December 2025
-- **Project Status:** Multi-IDE platform with comprehensive testing infrastructure
+- **Project Status:** Production-ready platform with 3 IDE types, pivoting to academic research focus
 
 ---
 
@@ -526,9 +730,10 @@ Have suggestions for the roadmap?
 - Start a discussion: https://github.com/scttfrdmn/aws-ide/discussions
 
 We prioritize features based on:
-1. User demand
-2. Multi-IDE compatibility
-3. Project goals
-4. Implementation complexity
-5. Maintainability
-6. Community contributions
+1. **Academic researcher needs** - Ease of use for non-technical users
+2. **Research domain coverage** - Support for diverse research fields
+3. **Reproducibility** - Enable reproducible research workflows
+4. **Cost efficiency** - Help labs manage limited budgets
+5. **Multi-IDE compatibility** - Consistent experience across tools
+6. **Implementation complexity** vs impact
+7. **Community contributions** - Especially from academic users
