@@ -272,6 +272,18 @@ Expand beyond Jupyter/RStudio/VSCode to support additional research and analysis
 
 ### Applications to Add
 
+**Amazon Q Developer** 🎯 HIGHEST PRIORITY
+- [ ] Create `apps/q-developer/` (standalone Amazon Q IDE)
+- [ ] AI-assisted coding environment for researchers
+- [ ] Code suggestions, explanations, and documentation
+- [ ] Perfect for researchers learning to code
+- [ ] AWS native - seamless integration
+- [ ] Built-in environments:
+  - [ ] `research-coding` - Python + R with Q assistance
+  - [ ] `data-analysis` - Data science with AI help
+  - [ ] `learning` - Beginner-friendly with Q explanations
+- [ ] **Already added to VSCode** - Q Developer extension included in all VSCode environments
+
 **Streamlit** 🎯 HIGHEST PRIORITY
 - [ ] Create `apps/streamlit/`
 - [ ] Turn Python scripts into interactive web apps
@@ -322,11 +334,12 @@ Expand beyond Jupyter/RStudio/VSCode to support additional research and analysis
   - [ ] `interactive` - Interactive analysis
 
 ### Implementation Order
-1. **Streamlit** (most requested, easiest to use)
-2. **Zeppelin** (fills notebook alternative niche)
-3. **Theia** (general-purpose IDE)
-4. **Quarto** (academic publishing)
-5. **Observable** (specialized use case)
+1. **Amazon Q Developer** (AWS native, already partially integrated)
+2. **Streamlit** (most requested, easiest to use)
+3. **Zeppelin** (fills notebook alternative niche)
+4. **Theia** (general-purpose IDE)
+5. **Quarto** (academic publishing)
+6. **Observable** (specialized use case)
 
 ### Success Criteria
 - ✅ At least 3 new research tools added (Streamlit, Zeppelin, Theia)

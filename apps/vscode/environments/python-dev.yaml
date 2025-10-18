@@ -25,5 +25,5 @@ pip_packages:
   - matplotlib
 environment_vars:
   PYTHON_VERSION: "3"
-  VSCODE_EXTENSIONS: "ms-python.python,ms-python.vscode-pylance,ms-python.black-formatter,ms-toolsai.jupyter,ms-python.debugpy"
+  VSCODE_EXTENSIONS: "ms-python.python,ms-python.vscode-pylance,ms-python.black-formatter,ms-toolsai.jupyter,ms-python.debugpy,amazonwebservices.amazon-q-vscode"
   PYTHONPATH: "/home/ubuntu/workspace"

@@ -12,5 +12,5 @@ packages:
 environment_vars:
   NODEJS_VERSION: "20"
   NPM_PACKAGES: "typescript eslint prettier"
-  VSCODE_EXTENSIONS: "dbaeumer.vscode-eslint,esbenp.prettier-vscode,bradlc.vscode-tailwindcss,ms-vscode.vscode-typescript-next,formulahendry.auto-rename-tag,ritwickdey.liveserver"
+  VSCODE_EXTENSIONS: "dbaeumer.vscode-eslint,esbenp.prettier-vscode,bradlc.vscode-tailwindcss,ms-vscode.vscode-typescript-next,formulahendry.auto-rename-tag,ritwickdey.liveserver,amazonwebservices.amazon-q-vscode"
   NODE_ENV: "development"

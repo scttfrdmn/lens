@@ -28,6 +28,6 @@ environment_vars:
   NODEJS_VERSION: "20"
   PYTHON_VERSION: "3"
   NPM_PACKAGES: "typescript eslint prettier pm2"
-  VSCODE_EXTENSIONS: "ms-python.python,dbaeumer.vscode-eslint,esbenp.prettier-vscode,ms-azuretools.vscode-docker,bradlc.vscode-tailwindcss,ms-python.vscode-pylance"
+  VSCODE_EXTENSIONS: "ms-python.python,dbaeumer.vscode-eslint,esbenp.prettier-vscode,ms-azuretools.vscode-docker,bradlc.vscode-tailwindcss,ms-python.vscode-pylance,amazonwebservices.amazon-q-vscode"
   NODE_ENV: "development"
   PYTHONPATH: "/home/ubuntu/workspace"

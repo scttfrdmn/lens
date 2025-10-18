@@ -11,5 +11,5 @@ packages:
   - awscli
 environment_vars:
   GO_VERSION: "1.22.0"
-  VSCODE_EXTENSIONS: "golang.go,golang.go-nightly"
+  VSCODE_EXTENSIONS: "golang.go,golang.go-nightly,amazonwebservices.amazon-q-vscode"
   GOPATH: "/home/ubuntu/go"
