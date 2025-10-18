@@ -38,8 +38,10 @@ Thumbs.db
 # Project specific
 /aws-jupyter
 /aws-rstudio
+/aws-vscode
 /apps/*/aws-jupyter
 /apps/*/aws-rstudio
+/apps/*/aws-vscode
 *.yaml.bak
 .aws-jupyter/
 dist/
