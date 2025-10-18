@@ -40,6 +40,7 @@ Features:
 	}
 
 	// Add subcommands
+	rootCmd.AddCommand(cli.NewWizardCmd())
 	rootCmd.AddCommand(cli.NewLaunchCmd())
 	rootCmd.AddCommand(cli.NewListCmd())
 	rootCmd.AddCommand(cli.NewConnectCmd())
