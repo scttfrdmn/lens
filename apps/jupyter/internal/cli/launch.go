@@ -13,6 +13,7 @@ import (
 	jupyterconfig "github.com/scttfrdmn/aws-ide/apps/jupyter/internal/config"
 	"github.com/scttfrdmn/aws-ide/pkg/aws"
 	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/aws-ide/pkg/output"
 	"github.com/scttfrdmn/aws-ide/pkg/readiness"
 	"github.com/spf13/cobra"
 )
@@ -153,28 +154,33 @@ func validateLaunchOptions(connectionMethod, subnetType string) error {
 
 // displayLaunchWarnings shows relevant warnings about the selected configuration
 func displayLaunchWarnings(connectionMethod, subnetType string, createNatGateway bool, s3Bucket string) {
+	out := output.DefaultFormatter()
+
 	// Warn about private subnet implications
 	if subnetType == subnetTypePrivate && !createNatGateway {
-		fmt.Println("⚠️  Warning: Private subnet without NAT Gateway means limited internet access")
-		fmt.Println("   - Package installations may fail")
-		fmt.Println("   - Jupyter extensions may not work")
-		fmt.Println("   - Consider using --create-nat-gateway for full functionality")
+		out.Warning("Private network without NAT Gateway means limited internet access")
+		out.List("Package installations may fail")
+		out.List("Jupyter extensions may not work")
+		out.List("Consider using --create-nat-gateway for full functionality")
+		out.Blank()
 	}
 
 	// Session Manager information
 	if connectionMethod == connectionMethodSessionManager {
-		fmt.Println("ℹ️  Using Session Manager connection (no SSH keys needed)")
+		out.Info("Using Session Manager connection (no SSH keys needed)")
 		if subnetType == subnetTypePublic {
-			fmt.Println("   - Instance will be in public subnet but without SSH access")
+			out.List("Environment will be in public network but without SSH access")
 		}
+		out.Blank()
 	}
 
 	// S3 data sync information
 	if s3Bucket != "" {
-		fmt.Println("📦 S3 Data Sync enabled")
-		fmt.Printf("   - Bucket: %s\n", s3Bucket)
-		fmt.Println("   - Data will be automatically synced with S3")
-		fmt.Println("   - Requires S3 access permissions in IAM role")
+		out.Step("📦", "S3 Data Sync enabled")
+		out.List(fmt.Sprintf("Bucket: %s", s3Bucket))
+		out.List("Data will be automatically synced with S3")
+		out.List("Requires S3 access permissions in IAM role")
+		out.Blank()
 	}
 }
 
@@ -197,7 +203,10 @@ func executeDryRun(ctx context.Context, env *config.Environment, profile, region
 
 // executeLaunch performs the actual instance launch
 func executeLaunch(ctx context.Context, env *config.Environment, customAMI, profile, region, availabilityZone string, idleTimeoutSeconds int, connectionMethod, subnetType string, createNatGateway bool, s3Bucket, s3SyncPath string) error {
-	fmt.Printf("Launching %s environment on %s...\n", env.Name, env.InstanceType)
+	out := output.DefaultFormatter()
+	out.Blank()
+	out.Header(fmt.Sprintf("Launching %s environment on %s", env.Name, env.InstanceType))
+	out.Blank()
 
 	// Setup AWS clients and determine region
 	ec2Client, ssmClient, actualRegion, err := setupAWSClient(ctx, profile, region)
@@ -284,7 +293,8 @@ func setupAWSClient(ctx context.Context, profile, region string) (*aws.EC2Client
 
 // setupInstanceProfile configures IAM instance profile with SSM permissions (always created)
 func setupInstanceProfile(ctx context.Context, profile string) (*aws.InstanceProfileInfo, error) {
-	fmt.Println("🔐 Setting up IAM instance profile with SSM permissions...")
+	out := output.DefaultFormatter()
+	out.Step("🔐", "Setting up secure access permissions")
 
 	iamClient, err := aws.NewIAMClient(ctx, profile)
 	if err != nil {
@@ -296,13 +306,14 @@ func setupInstanceProfile(ctx context.Context, profile string) (*aws.InstancePro
 		return nil, fmt.Errorf("failed to setup Session Manager role: %w", err)
 	}
 
-	fmt.Printf("Using IAM instance profile: %s\n", instanceProfile.Name)
+	out.SuccessWithDetail("IAM profile configured", instanceProfile.Name)
 	return instanceProfile, nil
 }
 
 // setupSSHKey configures SSH key pair
 func setupSSHKey(ctx context.Context, ec2Client *aws.EC2Client, region string) (*aws.KeyPairInfo, error) {
-	fmt.Println("🔑 Setting up SSH key pair...")
+	out := output.DefaultFormatter()
+	out.Step("🔑", "Configuring SSH access")
 
 	keyStorage, err := config.DefaultKeyStorage()
 	if err != nil {
@@ -315,19 +326,16 @@ func setupSSHKey(ctx context.Context, ec2Client *aws.EC2Client, region string) (
 		return nil, fmt.Errorf("failed to setup SSH key pair: %w", err)
 	}
 
-	fmt.Printf("Using SSH key pair: %s\n", keyInfo.Name)
-
 	if keyInfo.PrivateKey != "" {
-		fmt.Println("Saving SSH private key locally...")
 		if err := keyStorage.SavePrivateKey(keyInfo); err != nil {
 			return nil, fmt.Errorf("failed to save SSH private key: %w", err)
 		}
-		fmt.Printf("SSH private key saved to: %s\n", keyStorage.GetKeyPath(keyInfo.Name))
+		out.SuccessWithDetail("SSH key created and saved", keyStorage.GetKeyPath(keyInfo.Name))
 	} else {
 		if !keyStorage.HasPrivateKey(keyInfo.Name) {
 			return nil, fmt.Errorf("SSH key pair '%s' exists in AWS but private key not found locally", keyInfo.Name)
 		}
-		fmt.Printf("Using existing local private key: %s\n", keyStorage.GetKeyPath(keyInfo.Name))
+		out.SuccessWithDetail("Using existing SSH key", keyStorage.GetKeyPath(keyInfo.Name))
 	}
 
 	return keyInfo, nil
@@ -335,20 +343,18 @@ func setupSSHKey(ctx context.Context, ec2Client *aws.EC2Client, region string) (
 
 // setupNetworking configures subnet and NAT gateway
 func setupNetworking(ctx context.Context, ec2Client *aws.EC2Client, instanceType, subnetType, availabilityZone string, createNatGateway bool) (*aws.SubnetInfo, error) {
-	fmt.Printf("🌐 Selecting %s subnet...\n", subnetType)
+	out := output.DefaultFormatter()
+	out.Step("🌐", fmt.Sprintf("Configuring network (%s subnet)", subnetType))
 
 	// If no availability zone specified, find one that supports the instance type
 	if availabilityZone == "" {
-		fmt.Printf("Finding availability zone that supports %s...\n", instanceType)
 		compatibleAZ, err := ec2Client.FindCompatibleAvailabilityZone(ctx, instanceType, subnetType)
 		if err != nil {
 			return nil, fmt.Errorf("failed to find compatible availability zone: %w", err)
 		}
 		availabilityZone = compatibleAZ
-		fmt.Printf("Selected availability zone: %s\n", availabilityZone)
 	} else {
 		// If availability zone specified, validate instance type support
-		fmt.Printf("Validating instance type %s in availability zone %s...\n", instanceType, availabilityZone)
 		supported, err := ec2Client.IsInstanceTypeSupported(ctx, instanceType, availabilityZone)
 		if err != nil {
 			return nil, fmt.Errorf("failed to validate instance type: %w", err)
@@ -362,7 +368,7 @@ func setupNetworking(ctx context.Context, ec2Client *aws.EC2Client, instanceType
 	if err != nil {
 		return nil, fmt.Errorf("failed to get subnet: %w", err)
 	}
-	fmt.Printf("Using subnet: %s (%s) in %s\n", subnet.ID, subnet.CidrBlock, subnet.AvailabilityZone)
+	out.SuccessWithDetail("Network configured", fmt.Sprintf("%s in %s", subnet.CidrBlock, subnet.AvailabilityZone))
 
 	if subnetType == subnetTypePrivate && createNatGateway {
 		if err := setupNATGateway(ctx, ec2Client, subnet); err != nil {
@@ -391,7 +397,8 @@ func setupNATGateway(ctx context.Context, ec2Client *aws.EC2Client, subnet *aws.
 
 // setupSecurityGroup creates or retrieves the security group
 func setupSecurityGroup(ctx context.Context, ec2Client *aws.EC2Client, vpcID, connectionMethod string) (*aws.SecurityGroupInfo, error) {
-	fmt.Println("🔒 Setting up security group...")
+	out := output.DefaultFormatter()
+	out.Step("🔒", "Configuring firewall rules")
 
 	sgStrategy := aws.DefaultSecurityGroupStrategy(vpcID)
 	if connectionMethod == connectionMethodSessionManager {
@@ -403,42 +410,30 @@ func setupSecurityGroup(ctx context.Context, ec2Client *aws.EC2Client, vpcID, co
 		return nil, fmt.Errorf("failed to setup security group: %w", err)
 	}
 
-	fmt.Printf("Using security group: %s (%s)\n", securityGroup.Name, securityGroup.ID)
+	out.SuccessWithDetail("Security configured", securityGroup.Name)
 	return securityGroup, nil
 }
 
 // prepareInstanceImage selects AMI and generates user data
 func prepareInstanceImage(ctx context.Context, ec2Client *aws.EC2Client, env *config.Environment, region, customAMI string, idleTimeoutSeconds int, s3Bucket, s3SyncPath string) (string, string, error) {
+	out := output.DefaultFormatter()
 	var amiID string
 
 	// Use custom AMI if provided, otherwise select base AMI
 	if customAMI != "" {
-		fmt.Printf("🔍 Using custom AMI: %s\n", customAMI)
-
-		// Validate that the AMI exists
-		instanceInfo, err := ec2Client.GetInstanceInfo(ctx, customAMI)
-		if err != nil {
-			// Try as AMI ID directly
-			amiID = customAMI
-			fmt.Printf("⚠️  Warning: Could not validate AMI %s, proceeding anyway\n", customAMI)
-		} else {
-			// If we got instance info, something's wrong - this should be an AMI, not instance
-			if instanceInfo != nil {
-				return "", "", fmt.Errorf("provided ID appears to be an instance ID, not an AMI ID")
-			}
-			amiID = customAMI
-		}
+		out.Step("🔍", fmt.Sprintf("Using custom image: %s", customAMI))
+		amiID = customAMI
 	} else {
-		fmt.Println("🔍 Selecting base AMI for environment...")
+		out.Step("🔍", "Selecting system image")
 		amiSelector := aws.NewAMISelector(region)
 		var err error
 		amiID, err = amiSelector.GetAMI(ctx, ec2Client, env.AMIBase)
 		if err != nil {
 			return "", "", fmt.Errorf("failed to find AMI: %w", err)
 		}
+		out.Success("Image selected")
 	}
 
-	fmt.Println("📜 Generating user data script...")
 	userData, err := jupyterconfig.GenerateUserData(env, idleTimeoutSeconds, s3Bucket, s3SyncPath)
 	if err != nil {
 		return "", "", fmt.Errorf("failed to generate user data: %w", err)
@@ -449,7 +444,8 @@ func prepareInstanceImage(ctx context.Context, ec2Client *aws.EC2Client, env *co
 
 // launchAndWaitForInstance launches the EC2 instance and waits for it to be running
 func launchAndWaitForInstance(ctx context.Context, ec2Client *aws.EC2Client, ssmClient *aws.SSMClient, env *config.Environment, subnet *aws.SubnetInfo, securityGroup *aws.SecurityGroupInfo, amiID, userData string, keyInfo *aws.KeyPairInfo, instanceProfile *aws.InstanceProfileInfo) (*types.Instance, error) {
-	fmt.Printf("🚀 Launching EC2 instance (%s)...\n", env.InstanceType)
+	out := output.DefaultFormatter()
+	out.Step("🚀", fmt.Sprintf("Starting your %s environment", env.Name))
 
 	launchParams := aws.LaunchParams{
 		AMI:             amiID,
@@ -473,9 +469,9 @@ func launchAndWaitForInstance(ctx context.Context, ec2Client *aws.EC2Client, ssm
 	}
 
 	instanceID := *instance.InstanceId
-	fmt.Printf("✓ Instance launched: %s\n", instanceID)
+	out.SuccessWithDetail("Environment starting", instanceID)
 
-	fmt.Println("⏳ Waiting for instance to be running...")
+	out.Status("Waiting for environment to boot up")
 	if err := ec2Client.WaitForInstanceRunning(ctx, instanceID); err != nil {
 		return nil, fmt.Errorf("instance failed to start: %w", err)
 	}
@@ -487,9 +483,10 @@ func launchAndWaitForInstance(ctx context.Context, ec2Client *aws.EC2Client, ssm
 	}
 
 	// Poll for Jupyter Lab readiness with progress streaming
-	fmt.Println("⏳ Instance is running, waiting for Jupyter Lab to be ready...")
-	fmt.Println("   (This typically takes 2-3 minutes for environment setup)")
-	fmt.Println()
+	out.Blank()
+	out.Status("Installing Jupyter Lab")
+	out.Info(output.EstimatedTimeMessage(180)) // 180 seconds = 3 minutes
+	out.Blank()
 
 	// Try to stream progress if we have SSH access
 	progressDone := make(chan bool)
@@ -497,8 +494,9 @@ func launchAndWaitForInstance(ctx context.Context, ec2Client *aws.EC2Client, ssm
 
 	if err := waitForJupyterReady(ctx, ssmClient, instance); err != nil {
 		close(progressDone) // Stop progress streaming
-		fmt.Printf("\n⚠️  Warning: %v\n", err)
-		fmt.Println("   You can still try connecting - the service may still be starting up.")
+		out.Blank()
+		out.Warning(fmt.Sprintf("%v", err))
+		out.Info("You can still try connecting - the service may still be starting up")
 	} else {
 		close(progressDone) // Stop progress streaming
 	}
@@ -508,6 +506,8 @@ func launchAndWaitForInstance(ctx context.Context, ec2Client *aws.EC2Client, ssm
 
 // displayInstanceInfo shows the launched instance information and saves to state
 func displayInstanceInfo(instance *types.Instance, env *config.Environment, subnet *aws.SubnetInfo, keyInfo *aws.KeyPairInfo, connectionMethod, subnetType, profile string) error {
+	out := output.DefaultFormatter()
+
 	publicIP := "N/A (private subnet)"
 	if instance.PublicIpAddress != nil {
 		publicIP = *instance.PublicIpAddress
@@ -517,36 +517,48 @@ func displayInstanceInfo(instance *types.Instance, env *config.Environment, subn
 
 	// Save instance to local state
 	if err := saveInstanceToState(instance, env, keyInfo, connectionMethod); err != nil {
-		fmt.Printf("⚠️  Warning: Failed to save instance to local state: %v\n", err)
+		out.Warning(fmt.Sprintf("Failed to save instance to local state: %v", err))
 	}
 
-	fmt.Println("\n🎉 Instance launched successfully!")
-	fmt.Printf("Instance ID: %s\n", instanceID)
-	fmt.Printf("Instance Type: %s\n", env.InstanceType)
-	fmt.Printf("Public IP: %s\n", publicIP)
-	fmt.Printf("Private IP: %s\n", privateIP)
-	fmt.Printf("Subnet: %s (%s)\n", subnet.ID, subnetType)
+	out.Blank()
+	out.Complete("Jupyter Lab launched successfully!")
+	out.Blank()
+
+	out.KeyValue("Instance ID", instanceID)
+	out.KeyValue("Instance Type", env.InstanceType)
+	out.KeyValue("Public IP", publicIP)
+	out.KeyValue("Private IP", privateIP)
+	out.KeyValue("Subnet", fmt.Sprintf("%s (%s)", subnet.ID, subnetType))
+
+	if connectionMethod == connectionMethodSSH && keyInfo != nil {
+		out.KeyValue("SSH Key", keyInfo.Name)
+	}
+
+	out.Blank()
+	out.Subheader("Connection Instructions:")
 
 	if connectionMethod == connectionMethodSSH {
-		fmt.Printf("SSH Key: %s\n", keyInfo.Name)
-		fmt.Println("\n🔗 To connect:")
 		if subnet.IsPublic {
-			// Use ubuntu for Ubuntu AMIs, ec2-user for Amazon Linux
 			username := "ubuntu"
 			if env.AMIBase == "amazonlinux2-arm64" || env.AMIBase == "amazonlinux2-x86_64" {
 				username = "ec2-user"
 			}
-			fmt.Printf("ssh -i ~/.aws-jupyter/keys/%s.pem %s@%s\n", keyInfo.Name, username, publicIP)
+			out.Connection(fmt.Sprintf("ssh -i ~/.aws-jupyter/keys/%s.pem %s@%s", keyInfo.Name, username, publicIP))
 		} else {
-			fmt.Println("Use Session Manager or VPN/bastion to connect to private instance")
+			out.Info("Use Session Manager or VPN/bastion to connect to private instance")
 		}
 	} else {
-		fmt.Println("\n🔗 To connect:")
-		fmt.Printf("aws ssm start-session --target %s --profile %s\n", instanceID, profile)
+		out.Connection(fmt.Sprintf("aws ssm start-session --target %s --profile %s", instanceID, profile))
 	}
 
-	fmt.Println("\n📓 Jupyter Lab will be available at: http://localhost:8888")
-	fmt.Printf("Use 'aws-jupyter connect %s' to setup port forwarding\n", instanceID)
+	out.Blank()
+	out.Info("Jupyter Lab will be available at: http://localhost:8888")
+	out.Status("Please wait 2-3 minutes for Jupyter Lab to complete installation")
+
+	out.Blank()
+	out.Subheader("Next Steps:")
+	out.List(fmt.Sprintf("Use 'aws-jupyter connect %s' to setup port forwarding", instanceID))
+	out.Blank()
 
 	return nil
 }
