@@ -38,6 +38,7 @@ Features:
 	}
 
 	// Add subcommands
+	rootCmd.AddCommand(cli.NewQuickstartCmd())
 	rootCmd.AddCommand(cli.NewWizardCmd())
 	rootCmd.AddCommand(cli.NewLaunchCmd())
 	rootCmd.AddCommand(cli.NewListCmd())
