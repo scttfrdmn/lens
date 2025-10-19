@@ -216,18 +216,22 @@ Make AWS IDE accessible to non-technical academic researchers with guided setup 
   - [ ] `aws-rstudio quickstart` → instant R environment
   - [ ] `aws-vscode quickstart` → instant coding environment
 
-**Better Error Messages** 🎯 HIGH PRIORITY
-- [ ] Audit all error messages for academic-friendliness
-  - [ ] Replace "NoCredentialsError" with "AWS credentials aren't set up"
-  - [ ] Replace "InvalidParameterException" with plain explanations
-  - [ ] Add "What this means:" and "How to fix it:" sections
-- [ ] Suggest specific fixes with commands
-  - [ ] "Run: aws configure" (not just "configure AWS")
-  - [ ] Link to relevant documentation section
-- [ ] Built-in help for common issues
-  - [ ] `aws-jupyter doctor` → diagnose common problems
-  - [ ] Check AWS credentials, permissions, quotas
-  - [ ] Verify prerequisites
+**Better Error Messages** 🎯 HIGH PRIORITY ✅ COMPLETE
+- [x] Created pkg/errors package for beginner-friendly error handling
+  - [x] FriendlyError struct with Title, Explanation, NextSteps
+  - [x] Emoji indicators for clarity (❌ error, 💡 next steps, 🔍 technical details)
+  - [x] Plain-English error messages (no AWS jargon)
+- [x] Common error patterns implemented:
+  - [x] AWS credentials → "Can't connect to AWS" with setup instructions
+  - [x] Instance states → Clear explanations ("turned off", "starting up")
+  - [x] Permission errors → "You don't have permission to do that"
+  - [x] Region mismatches → "Wrong AWS region" with switching instructions
+  - [x] Quotas → "Too many instances running" with cleanup guidance
+  - [x] Network issues → "Connection timed out" with troubleshooting
+  - [x] Missing environments → Suggestions to use wizard or list envs
+- [x] TranslateAWSError() automatically converts technical errors
+- [x] Next steps with specific commands users can run
+- [ ] `doctor` command (deferred - errors package provides diagnostic info)
 
 **Enhanced Visual Output** 🎯 HIGH PRIORITY ✅ COMPLETE
 - [x] Color-coded output (success=green, warning=yellow, error=red)
