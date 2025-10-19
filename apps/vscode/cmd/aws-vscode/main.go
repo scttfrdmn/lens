@@ -35,8 +35,21 @@ Features:
 • Smart security groups and key management
 • Built-in environments for web, Python, Go, and fullstack development
 • Cost-aware infrastructure with reuse strategies
-• Automatic extension installation`,
+• Automatic extension installation
+
+Quick Start:
+• Just run 'aws-vscode' to launch the interactive setup wizard
+• Or use 'aws-vscode quickstart' for instant launch with defaults
+• Run 'aws-vscode --help' to see all available commands`,
 		Version: fmt.Sprintf("v%s (platform: v%s, commit: %s, date: %s)", version, pkg.Version, commit, date),
+		Run: func(cmd *cobra.Command, args []string) {
+			// When no subcommand is provided, run the wizard by default
+			wizardCmd := cli.NewWizardCmd()
+			wizardCmd.SetArgs(args)
+			if err := wizardCmd.Execute(); err != nil {
+				os.Exit(1)
+			}
+		},
 	}
 
 	// Add subcommands

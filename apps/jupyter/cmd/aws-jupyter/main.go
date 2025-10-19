@@ -33,8 +33,21 @@ Features:
 • Private subnet support with NAT Gateway
 • Smart security groups and key management
 • Built-in environments for data science, ML, and research
-• Cost-aware infrastructure with reuse strategies`,
+• Cost-aware infrastructure with reuse strategies
+
+Quick Start:
+• Just run 'aws-jupyter' to launch the interactive setup wizard
+• Or use 'aws-jupyter quickstart' for instant launch with defaults
+• Run 'aws-jupyter --help' to see all available commands`,
 		Version: fmt.Sprintf("v%s (platform: v%s, commit: %s, date: %s)", version, pkg.Version, commit, date),
+		Run: func(cmd *cobra.Command, args []string) {
+			// When no subcommand is provided, run the wizard by default
+			wizardCmd := cli.NewWizardCmd()
+			wizardCmd.SetArgs(args)
+			if err := wizardCmd.Execute(); err != nil {
+				os.Exit(1)
+			}
+		},
 	}
 
 	// Add subcommands
