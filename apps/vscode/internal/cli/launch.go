@@ -366,20 +366,18 @@ func setupSSHKey(ctx context.Context, ec2Client *aws.EC2Client, region string) (
 
 // setupNetworking configures subnet and NAT gateway
 func setupNetworking(ctx context.Context, ec2Client *aws.EC2Client, instanceType, subnetType, availabilityZone string, createNatGateway bool) (*aws.SubnetInfo, error) {
-	fmt.Printf("🌐 Selecting %s subnet...\n", subnetType)
+	out := output.DefaultFormatter()
+	out.Step("🌐", fmt.Sprintf("Configuring network (%s subnet)", subnetType))
 
 	// If no availability zone specified, find one that supports the instance type
 	if availabilityZone == "" {
-		fmt.Printf("Finding availability zone that supports %s...\n", instanceType)
 		compatibleAZ, err := ec2Client.FindCompatibleAvailabilityZone(ctx, instanceType, subnetType)
 		if err != nil {
 			return nil, fmt.Errorf("failed to find compatible availability zone: %w", err)
 		}
 		availabilityZone = compatibleAZ
-		fmt.Printf("Selected availability zone: %s\n", availabilityZone)
 	} else {
 		// If availability zone specified, validate instance type support
-		fmt.Printf("Validating instance type %s in availability zone %s...\n", instanceType, availabilityZone)
 		supported, err := ec2Client.IsInstanceTypeSupported(ctx, instanceType, availabilityZone)
 		if err != nil {
 			return nil, fmt.Errorf("failed to validate instance type: %w", err)
@@ -393,7 +391,7 @@ func setupNetworking(ctx context.Context, ec2Client *aws.EC2Client, instanceType
 	if err != nil {
 		return nil, fmt.Errorf("failed to get subnet: %w", err)
 	}
-	fmt.Printf("Using subnet: %s (%s) in %s\n", subnet.ID, subnet.CidrBlock, subnet.AvailabilityZone)
+	out.SuccessWithDetail("Network configured", fmt.Sprintf("%s in %s", subnet.CidrBlock, subnet.AvailabilityZone))
 
 	if subnetType == subnetTypePrivate && createNatGateway {
 		if err := setupNATGateway(ctx, ec2Client, subnet); err != nil {
@@ -422,7 +420,8 @@ func setupNATGateway(ctx context.Context, ec2Client *aws.EC2Client, subnet *aws.
 
 // setupSecurityGroup creates or retrieves the security group
 func setupSecurityGroup(ctx context.Context, ec2Client *aws.EC2Client, vpcID, connectionMethod string) (*aws.SecurityGroupInfo, error) {
-	fmt.Println("🔒 Setting up security group...")
+	out := output.DefaultFormatter()
+	out.Step("🔒", "Configuring firewall rules")
 
 	sgStrategy := aws.DefaultSecurityGroupStrategy(vpcID)
 	if connectionMethod == connectionMethodSessionManager {
@@ -436,29 +435,30 @@ func setupSecurityGroup(ctx context.Context, ec2Client *aws.EC2Client, vpcID, co
 		return nil, fmt.Errorf("failed to setup security group: %w", err)
 	}
 
-	fmt.Printf("Using security group: %s (%s)\n", securityGroup.Name, securityGroup.ID)
+	out.SuccessWithDetail("Security configured", securityGroup.Name)
 	return securityGroup, nil
 }
 
 // prepareInstanceImage selects AMI and generates user data
 func prepareInstanceImage(ctx context.Context, ec2Client *aws.EC2Client, env *config.Environment, region, customAMI string, idleTimeoutSeconds int, s3Bucket, s3SyncPath string) (string, string, error) {
+	out := output.DefaultFormatter()
 	var amiID string
 
 	// Use custom AMI if provided, otherwise select base AMI
 	if customAMI != "" {
-		fmt.Printf("🔍 Using custom AMI: %s\n", customAMI)
+		out.Step("🔍", fmt.Sprintf("Using custom image: %s", customAMI))
 		amiID = customAMI
 	} else {
-		fmt.Println("🔍 Selecting base AMI for environment...")
+		out.Step("🔍", "Selecting system image")
 		amiSelector := aws.NewAMISelector(region)
 		var err error
 		amiID, err = amiSelector.GetAMI(ctx, ec2Client, env.AMIBase)
 		if err != nil {
 			return "", "", fmt.Errorf("failed to find AMI: %w", err)
 		}
+		out.Success("Image selected")
 	}
 
-	fmt.Println("📜 Generating user data script...")
 	userData, err := vscodeconfig.GenerateUserData(env, idleTimeoutSeconds, s3Bucket, s3SyncPath)
 	if err != nil {
 		return "", "", fmt.Errorf("failed to generate user data: %w", err)
@@ -469,7 +469,8 @@ func prepareInstanceImage(ctx context.Context, ec2Client *aws.EC2Client, env *co
 
 // launchAndWaitForInstance launches the EC2 instance and waits for it to be running
 func launchAndWaitForInstance(ctx context.Context, ec2Client *aws.EC2Client, ssmClient *aws.SSMClient, env *config.Environment, subnet *aws.SubnetInfo, securityGroup *aws.SecurityGroupInfo, amiID, userData string, keyInfo *aws.KeyPairInfo, instanceProfile *aws.InstanceProfileInfo, useSpot bool, spotMaxPrice, spotType string) (*types.Instance, error) {
-	fmt.Printf("🚀 Launching EC2 instance (%s)...\n", env.InstanceType)
+	out := output.DefaultFormatter()
+	out.Step("🚀", fmt.Sprintf("Starting your %s environment", env.Name))
 
 	launchParams := aws.LaunchParams{
 		AMI:              amiID,
@@ -496,9 +497,9 @@ func launchAndWaitForInstance(ctx context.Context, ec2Client *aws.EC2Client, ssm
 	}
 
 	instanceID := *instance.InstanceId
-	fmt.Printf("✓ Instance launched: %s\n", instanceID)
+	out.SuccessWithDetail("Environment starting", instanceID)
 
-	fmt.Println("⏳ Waiting for instance to be running...")
+	out.Status("Waiting for environment to boot up")
 	if err := ec2Client.WaitForInstanceRunning(ctx, instanceID); err != nil {
 		return nil, fmt.Errorf("instance failed to start: %w", err)
 	}
@@ -510,9 +511,10 @@ func launchAndWaitForInstance(ctx context.Context, ec2Client *aws.EC2Client, ssm
 	}
 
 	// Poll for VSCode Server readiness with progress streaming
-	fmt.Println("⏳ Instance is running, waiting for VSCode Server to be ready...")
-	fmt.Println("   (This typically takes 2-3 minutes for code-server installation)")
-	fmt.Println()
+	out.Blank()
+	out.Status("Installing VSCode Server")
+	out.Info(output.EstimatedTimeMessage(180)) // 180 seconds = 3 minutes
+	out.Blank()
 
 	// Try to stream progress if we have SSH access
 	progressDone := make(chan bool)
@@ -520,8 +522,9 @@ func launchAndWaitForInstance(ctx context.Context, ec2Client *aws.EC2Client, ssm
 
 	if err := waitForVSCodeReady(ctx, ssmClient, instance); err != nil {
 		close(progressDone) // Stop progress streaming
-		fmt.Printf("\n⚠️  Warning: %v\n", err)
-		fmt.Println("   You can still try connecting - the service may still be starting up.")
+		out.Blank()
+		out.Warning(fmt.Sprintf("%v", err))
+		out.Info("You can still try connecting - the service may still be starting up")
 	} else {
 		close(progressDone) // Stop progress streaming
 	}
