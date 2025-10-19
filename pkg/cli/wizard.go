@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/scttfrdmn/aws-ide/pkg/config"
 )
 
 // WizardConfig holds the configuration options for the wizard
@@ -24,19 +25,29 @@ type WizardResult struct {
 }
 
 // RunLaunchWizard runs an interactive wizard to help users launch their first instance
-func RunLaunchWizard(config WizardConfig) (*WizardResult, error) {
+func RunLaunchWizard(cfg WizardConfig) (*WizardResult, error) {
 	result := &WizardResult{}
+
+	// Load saved preferences
+	prefs, err := config.GetWizardPreferences(cfg.AppType)
+	if err != nil {
+		// Non-fatal - just use defaults if preferences can't be loaded
+		prefs = &config.WizardPreferences{}
+	}
 
 	fmt.Println()
 	fmt.Println("═══════════════════════════════════════════════════════════════")
-	fmt.Printf("  Welcome to %s! Let's set up your cloud environment.\n", config.AppName)
+	fmt.Printf("  Welcome to %s! Let's set up your cloud environment.\n", cfg.AppName)
+	if prefs.HasPreferences() {
+		fmt.Println("  (Your previous choices will be suggested as defaults)")
+	}
 	fmt.Println("═══════════════════════════════════════════════════════════════")
 	fmt.Println()
 
 	// Question 1: What type of work do you want to do?
-	envPrompt, envOptions := buildEnvironmentPrompt(config)
+	envPrompt, envOptions := buildEnvironmentPrompt(cfg)
 	var selectedEnv string
-	err := survey.AskOne(envPrompt, &selectedEnv, survey.WithValidator(survey.Required))
+	err = survey.AskOne(envPrompt, &selectedEnv, survey.WithValidator(survey.Required))
 	if err != nil {
 		return nil, err
 	}
@@ -46,15 +57,20 @@ func RunLaunchWizard(config WizardConfig) (*WizardResult, error) {
 
 	// Question 2: How powerful a computer do you need?
 	var powerChoice string
+	powerOptions := []string{
+		"Light work (browsing data, small datasets) - $0.0042/hour",
+		"Normal work (typical analysis) - $0.0084/hour [Recommended]",
+		"Heavy work (large datasets, complex models) - $0.0168/hour",
+		"Very heavy work (big data, deep learning) - $0.0336/hour",
+	}
+	defaultPower := "Normal work (typical analysis) - $0.0084/hour [Recommended]"
+	if prefs.LastInstanceType != "" {
+		defaultPower = mapInstanceTypeToChoice(prefs.LastInstanceType)
+	}
 	powerPrompt := &survey.Select{
 		Message: "How powerful a computer do you need?",
-		Options: []string{
-			"Light work (browsing data, small datasets) - $0.0042/hour",
-			"Normal work (typical analysis) - $0.0084/hour [Recommended]",
-			"Heavy work (large datasets, complex models) - $0.0168/hour",
-			"Very heavy work (big data, deep learning) - $0.0336/hour",
-		},
-		Default: "Normal work (typical analysis) - $0.0084/hour [Recommended]",
+		Options: powerOptions,
+		Default: defaultPower,
 	}
 	err = survey.AskOne(powerPrompt, &powerChoice)
 	if err != nil {
@@ -66,15 +82,20 @@ func RunLaunchWizard(config WizardConfig) (*WizardResult, error) {
 
 	// Question 3: How much storage space do you need?
 	var storageChoice string
+	storageOptions := []string{
+		"Small (20 GB) - Good for trying things out",
+		"Normal (50 GB) - Sufficient for most projects [Recommended]",
+		"Large (100 GB) - For big datasets",
+		"Very large (200 GB) - For very large datasets",
+	}
+	defaultStorage := "Normal (50 GB) - Sufficient for most projects [Recommended]"
+	if prefs.LastEBSSize > 0 {
+		defaultStorage = mapGBToChoice(prefs.LastEBSSize)
+	}
 	storagePrompt := &survey.Select{
 		Message: "How much storage space do you need?",
-		Options: []string{
-			"Small (20 GB) - Good for trying things out",
-			"Normal (50 GB) - Sufficient for most projects [Recommended]",
-			"Large (100 GB) - For big datasets",
-			"Very large (200 GB) - For very large datasets",
-		},
-		Default: "Normal (50 GB) - Sufficient for most projects [Recommended]",
+		Options: storageOptions,
+		Default: defaultStorage,
 	}
 	err = survey.AskOne(storagePrompt, &storageChoice)
 	if err != nil {
@@ -86,15 +107,20 @@ func RunLaunchWizard(config WizardConfig) (*WizardResult, error) {
 
 	// Question 4: Auto-stop behavior
 	var idleChoice string
+	idleOptions := []string{
+		"Yes, stop after 1 hour of inactivity [Recommended]",
+		"Yes, stop after 2 hours of inactivity",
+		"Yes, stop after 4 hours of inactivity",
+		"No, keep it running (you'll need to stop it manually)",
+	}
+	defaultIdle := "Yes, stop after 1 hour of inactivity [Recommended]"
+	if prefs.LastIdleTimeout != "" {
+		defaultIdle = mapTimeoutToChoice(prefs.LastIdleTimeout)
+	}
 	idlePrompt := &survey.Select{
 		Message: "Should your instance automatically stop when idle to save money?",
-		Options: []string{
-			"Yes, stop after 1 hour of inactivity [Recommended]",
-			"Yes, stop after 2 hours of inactivity",
-			"Yes, stop after 4 hours of inactivity",
-			"No, keep it running (you'll need to stop it manually)",
-		},
-		Default: "Yes, stop after 1 hour of inactivity [Recommended]",
+		Options: idleOptions,
+		Default: defaultIdle,
 		Help:    "Instances are charged by the hour when running. Auto-stop helps prevent unexpected costs.",
 	}
 	err = survey.AskOne(idlePrompt, &idleChoice)
@@ -165,15 +191,25 @@ func RunLaunchWizard(config WizardConfig) (*WizardResult, error) {
 		return nil, fmt.Errorf("launch cancelled by user")
 	}
 
+	// Save preferences for next time
+	prefs.UpdateEnvironment(result.Environment)
+	prefs.UpdateInstanceType(result.InstanceType)
+	prefs.UpdateEBSSize(result.EBSSize)
+	prefs.UpdateIdleTimeout(result.IdleTimeout)
+	if err := config.SaveWizardPreferences(cfg.AppType, prefs); err != nil {
+		// Non-fatal - just log and continue
+		fmt.Printf("Note: Could not save preferences for next time: %v\n", err)
+	}
+
 	return result, nil
 }
 
-func buildEnvironmentPrompt(config WizardConfig) (*survey.Select, map[string]string) {
+func buildEnvironmentPrompt(cfg WizardConfig) (*survey.Select, map[string]string) {
 	var message string
 	var options []string
 	envMap := make(map[string]string)
 
-	switch config.AppType {
+	switch cfg.AppType {
 	case "jupyter":
 		message = "What type of analysis do you want to do?"
 		options = []string{
@@ -270,4 +306,51 @@ func getHourlyCost(instanceType string) float64 {
 		return cost
 	}
 	return 0.01 // Default fallback
+}
+
+// Helper functions to map between instance types/sizes and user-friendly choices
+
+func mapInstanceTypeToChoice(instanceType string) string {
+	switch instanceType {
+	case "t4g.small":
+		return "Light work (browsing data, small datasets) - $0.0042/hour"
+	case "t4g.medium":
+		return "Normal work (typical analysis) - $0.0084/hour [Recommended]"
+	case "t4g.large":
+		return "Heavy work (large datasets, complex models) - $0.0168/hour"
+	case "t4g.xlarge":
+		return "Very heavy work (big data, deep learning) - $0.0336/hour"
+	default:
+		return "Normal work (typical analysis) - $0.0084/hour [Recommended]"
+	}
+}
+
+func mapGBToChoice(gb int) string {
+	switch gb {
+	case 20:
+		return "Small (20 GB) - Good for trying things out"
+	case 50:
+		return "Normal (50 GB) - Sufficient for most projects [Recommended]"
+	case 100:
+		return "Large (100 GB) - For big datasets"
+	case 200:
+		return "Very large (200 GB) - For very large datasets"
+	default:
+		return "Normal (50 GB) - Sufficient for most projects [Recommended]"
+	}
+}
+
+func mapTimeoutToChoice(timeout string) string {
+	switch timeout {
+	case "1h":
+		return "Yes, stop after 1 hour of inactivity [Recommended]"
+	case "2h":
+		return "Yes, stop after 2 hours of inactivity"
+	case "4h":
+		return "Yes, stop after 4 hours of inactivity"
+	case "":
+		return "No, keep it running (you'll need to stop it manually)"
+	default:
+		return "Yes, stop after 1 hour of inactivity [Recommended]"
+	}
 }
