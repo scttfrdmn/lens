@@ -13,6 +13,7 @@ import (
 	vscodeconfig "github.com/scttfrdmn/aws-ide/apps/vscode/internal/config"
 	"github.com/scttfrdmn/aws-ide/pkg/aws"
 	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/aws-ide/pkg/output"
 	"github.com/scttfrdmn/aws-ide/pkg/readiness"
 	"github.com/spf13/cobra"
 )
@@ -168,35 +169,41 @@ func validateLaunchOptions(connectionMethod, subnetType string) error {
 
 // displayLaunchWarnings shows relevant warnings about the selected configuration
 func displayLaunchWarnings(connectionMethod, subnetType string, createNatGateway bool, useSpot bool, s3Bucket string) {
+	out := output.DefaultFormatter()
+
 	// Warn about private subnet implications
 	if subnetType == subnetTypePrivate && !createNatGateway {
-		fmt.Println("⚠️  Warning: Private subnet without NAT Gateway means limited internet access")
-		fmt.Println("   - Package installations may fail")
-		fmt.Println("   - VSCode extensions may not install")
-		fmt.Println("   - Consider using --create-nat-gateway for full functionality")
+		out.Warning("Private subnet without NAT Gateway means limited internet access")
+		out.List("Package installations may fail")
+		out.List("VSCode extensions may not install")
+		out.List("Consider using --create-nat-gateway for full functionality")
+		out.Blank()
 	}
 
 	// Session Manager information
 	if connectionMethod == connectionMethodSessionManager {
-		fmt.Println("ℹ️  Using Session Manager connection (no SSH keys needed)")
+		out.Info("Using Session Manager connection (no SSH keys needed)")
 		if subnetType == subnetTypePublic {
-			fmt.Println("   - Instance will be in public subnet but without SSH access")
+			out.List("Instance will be in public subnet but without SSH access")
 		}
+		out.Blank()
 	}
 
 	// Spot instance information
 	if useSpot {
-		fmt.Println("💰 Launching as Spot instance (70-90% cost savings)")
-		fmt.Println("   - Instance may be interrupted with 2-minute warning")
-		fmt.Println("   - Best for fault-tolerant workloads")
+		out.Cost("Launching as Spot instance (70-90% cost savings)")
+		out.List("Instance may be interrupted with 2-minute warning")
+		out.List("Best for fault-tolerant workloads")
+		out.Blank()
 	}
 
 	// S3 data sync information
 	if s3Bucket != "" {
-		fmt.Println("📦 S3 Data Sync enabled")
-		fmt.Printf("   - Bucket: %s\n", s3Bucket)
-		fmt.Println("   - Data will be automatically synced with S3")
-		fmt.Println("   - Requires S3 access permissions in IAM role")
+		out.Step("📦", "S3 Data Sync enabled")
+		out.List(fmt.Sprintf("Bucket: %s", s3Bucket))
+		out.List("Data will be automatically synced with S3")
+		out.List("Requires S3 access permissions in IAM role")
+		out.Blank()
 	}
 }
 
@@ -219,7 +226,10 @@ func executeDryRun(ctx context.Context, env *config.Environment, profile, region
 
 // executeLaunch performs the actual instance launch
 func executeLaunch(ctx context.Context, env *config.Environment, customAMI, profile, region, availabilityZone string, idleTimeoutSeconds int, connectionMethod, subnetType string, createNatGateway bool, useSpot bool, spotMaxPrice, spotType, s3Bucket, s3SyncPath string) error {
-	fmt.Printf("Launching %s environment on %s...\n", env.Name, env.InstanceType)
+	out := output.DefaultFormatter()
+	out.Blank()
+	out.Header(fmt.Sprintf("Launching %s environment on %s", env.Name, env.InstanceType))
+	out.Blank()
 
 	// Setup AWS clients and determine region
 	ec2Client, ssmClient, actualRegion, err := setupAWSClient(ctx, profile, region)
@@ -306,7 +316,8 @@ func setupAWSClient(ctx context.Context, profile, region string) (*aws.EC2Client
 
 // setupInstanceProfile configures IAM instance profile with SSM permissions
 func setupInstanceProfile(ctx context.Context, profile string) (*aws.InstanceProfileInfo, error) {
-	fmt.Println("🔐 Setting up IAM instance profile with SSM permissions...")
+	out := output.DefaultFormatter()
+	out.Step("🔐", "Setting up secure access permissions")
 
 	iamClient, err := aws.NewIAMClient(ctx, profile)
 	if err != nil {
@@ -318,13 +329,14 @@ func setupInstanceProfile(ctx context.Context, profile string) (*aws.InstancePro
 		return nil, fmt.Errorf("failed to setup Session Manager role: %w", err)
 	}
 
-	fmt.Printf("Using IAM instance profile: %s\n", instanceProfile.Name)
+	out.SuccessWithDetail("IAM profile configured", instanceProfile.Name)
 	return instanceProfile, nil
 }
 
 // setupSSHKey configures SSH key pair
 func setupSSHKey(ctx context.Context, ec2Client *aws.EC2Client, region string) (*aws.KeyPairInfo, error) {
-	fmt.Println("🔑 Setting up SSH key pair...")
+	out := output.DefaultFormatter()
+	out.Step("🔑", "Configuring SSH access")
 
 	keyStorage, err := config.DefaultKeyStorage()
 	if err != nil {
@@ -337,19 +349,16 @@ func setupSSHKey(ctx context.Context, ec2Client *aws.EC2Client, region string) (
 		return nil, fmt.Errorf("failed to setup SSH key pair: %w", err)
 	}
 
-	fmt.Printf("Using SSH key pair: %s\n", keyInfo.Name)
-
 	if keyInfo.PrivateKey != "" {
-		fmt.Println("Saving SSH private key locally...")
 		if err := keyStorage.SavePrivateKey(keyInfo); err != nil {
 			return nil, fmt.Errorf("failed to save SSH private key: %w", err)
 		}
-		fmt.Printf("SSH private key saved to: %s\n", keyStorage.GetKeyPath(keyInfo.Name))
+		out.SuccessWithDetail("SSH key created and saved", keyStorage.GetKeyPath(keyInfo.Name))
 	} else {
 		if !keyStorage.HasPrivateKey(keyInfo.Name) {
 			return nil, fmt.Errorf("SSH key pair '%s' exists in AWS but private key not found locally", keyInfo.Name)
 		}
-		fmt.Printf("Using existing local private key: %s\n", keyStorage.GetKeyPath(keyInfo.Name))
+		out.SuccessWithDetail("Using existing SSH key", keyStorage.GetKeyPath(keyInfo.Name))
 	}
 
 	return keyInfo, nil
@@ -522,6 +531,8 @@ func launchAndWaitForInstance(ctx context.Context, ec2Client *aws.EC2Client, ssm
 
 // displayVSCodeInfo displays VSCode Server-specific connection information
 func displayVSCodeInfo(instance *types.Instance, env *config.Environment, subnet *aws.SubnetInfo, keyInfo *aws.KeyPairInfo, connectionMethod, subnetType, profile, s3Bucket, s3SyncPath string) error {
+	out := output.DefaultFormatter()
+
 	publicIP := "N/A (private subnet)"
 	if instance.PublicIpAddress != nil {
 		publicIP = *instance.PublicIpAddress
@@ -531,38 +542,51 @@ func displayVSCodeInfo(instance *types.Instance, env *config.Environment, subnet
 
 	// Save instance to local state
 	if err := saveInstanceToState(instance, env, keyInfo, connectionMethod, s3Bucket, s3SyncPath); err != nil {
-		fmt.Printf("⚠️  Warning: Failed to save instance to local state: %v\n", err)
+		out.Warning(fmt.Sprintf("Failed to save instance to local state: %v", err))
 	}
 
-	fmt.Println("\n🎉 VSCode Server launched successfully!")
-	fmt.Printf("Instance ID: %s\n", instanceID)
-	fmt.Printf("Instance Type: %s\n", env.InstanceType)
-	fmt.Printf("Public IP: %s\n", publicIP)
-	fmt.Printf("Private IP: %s\n", privateIP)
-	fmt.Printf("Subnet: %s (%s)\n", subnet.ID, subnetType)
+	out.Blank()
+	out.Complete("VSCode Server launched successfully!")
+	out.Blank()
+
+	out.KeyValue("Instance ID", instanceID)
+	out.KeyValue("Instance Type", env.InstanceType)
+	out.KeyValue("Public IP", publicIP)
+	out.KeyValue("Private IP", privateIP)
+	out.KeyValue("Subnet", fmt.Sprintf("%s (%s)", subnet.ID, subnetType))
+
+	if connectionMethod == connectionMethodSSH && keyInfo != nil {
+		out.KeyValue("SSH Key", keyInfo.Name)
+	}
+
+	out.Blank()
+	out.Subheader("Connection Instructions:")
 
 	if connectionMethod == connectionMethodSSH {
-		fmt.Printf("SSH Key: %s\n", keyInfo.Name)
-		fmt.Println("\n🔗 To connect:")
 		if subnet.IsPublic {
 			username := "ubuntu"
 			if env.AMIBase == "amazonlinux2-arm64" || env.AMIBase == "amazonlinux2-x86_64" {
 				username = "ec2-user"
 			}
-			fmt.Printf("ssh -i ~/.aws-vscode/keys/%s.pem %s@%s\n", keyInfo.Name, username, publicIP)
+			out.Connection(fmt.Sprintf("ssh -i ~/.aws-vscode/keys/%s.pem %s@%s", keyInfo.Name, username, publicIP))
 		} else {
-			fmt.Println("Use Session Manager or VPN/bastion to connect to private instance")
+			out.Info("Use Session Manager or VPN/bastion to connect to private instance")
 		}
 	} else {
-		fmt.Println("\n🔗 To connect:")
-		fmt.Printf("aws ssm start-session --target %s --profile %s\n", instanceID, profile)
+		out.Connection(fmt.Sprintf("aws ssm start-session --target %s --profile %s", instanceID, profile))
 	}
 
-	fmt.Println("\n💻 VSCode Server will be available at: http://localhost:8080")
-	fmt.Println("⏳ Please wait 2-3 minutes for VSCode Server to complete installation...")
-	fmt.Printf("\nTo get the password, SSH into the instance and run:\n")
-	fmt.Printf("cat ~/.config/code-server/config.yaml\n")
-	fmt.Printf("\nOr use 'aws-vscode connect %s' to setup port forwarding\n", instanceID)
+	out.Blank()
+	out.Info("VSCode Server will be available at: http://localhost:8080")
+	out.Status("Please wait 2-3 minutes for VSCode Server to complete installation")
+
+	out.Blank()
+	out.Subheader("Next Steps:")
+	out.List("To get the password, SSH into the instance and run:")
+	out.Print("  cat ~/.config/code-server/config.yaml")
+	out.Blank()
+	out.List(fmt.Sprintf("Or use 'aws-vscode connect %s' to setup port forwarding", instanceID))
+	out.Blank()
 
 	return nil
 }
