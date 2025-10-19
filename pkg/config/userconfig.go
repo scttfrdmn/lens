@@ -36,6 +36,21 @@ type UserConfig struct {
 	Jupyter *AppConfig `yaml:"jupyter,omitempty"`
 	RStudio *AppConfig `yaml:"rstudio,omitempty"`
 	VSCode  *AppConfig `yaml:"vscode,omitempty"`
+
+	// Notification hooks
+	Hooks *HooksConfig `yaml:"hooks,omitempty"`
+}
+
+// HooksConfig contains notification hook commands
+type HooksConfig struct {
+	OnLaunchStarted   string `yaml:"on_launch_started,omitempty"`
+	OnLaunchCompleted string `yaml:"on_launch_completed,omitempty"`
+	OnLaunchFailed    string `yaml:"on_launch_failed,omitempty"`
+	OnStopStarted     string `yaml:"on_stop_started,omitempty"`
+	OnStopCompleted   string `yaml:"on_stop_completed,omitempty"`
+	OnStopFailed      string `yaml:"on_stop_failed,omitempty"`
+	OnConnectStarted  string `yaml:"on_connect_started,omitempty"`
+	OnConnectFailed   string `yaml:"on_connect_failed,omitempty"`
 }
 
 // AppConfig contains app-specific configuration
