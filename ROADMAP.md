@@ -197,16 +197,20 @@ Make AWS IDE accessible to non-technical academic researchers with guided setup 
 
 ### Tasks
 
-**Interactive Launch Wizard** 🎯 HIGHEST PRIORITY
-- [ ] Add `wizard` command that guides users through setup
-  - [ ] "What type of analysis do you want to do?"
+**Interactive Launch Wizard** 🎯 HIGHEST PRIORITY ✅ COMPLETE
+- [x] Add `wizard` command that guides users through setup
+  - [x] "What type of analysis do you want to do?"
     - Data science (Python + R)
     - Statistical analysis (R-focused)
-    - Bioinformatics (conda + bio tools)
+    - Machine learning / Deep learning
     - Web development (VS Code)
-  - [ ] Plain language options (no technical jargon)
-  - [ ] Automatic "best practice" selections
-  - [ ] Show cost estimate before launching
+  - [x] Plain language options (no technical jargon)
+  - [x] Automatic "best practice" selections with recommendations
+  - [x] Show cost estimate before launching (hourly + monthly)
+  - [x] Implemented for all 3 apps (Jupyter, RStudio, VSCode)
+  - [x] Uses survey library for interactive prompts
+  - [x] Auto-stop configuration with idle timeout options
+  - [x] Optional instance naming
 - [ ] Add `quickstart` command for each app
   - [ ] `aws-jupyter quickstart` → instant launch with sensible defaults
   - [ ] `aws-rstudio quickstart` → instant R environment
