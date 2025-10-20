@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	version = "0.6.2" // App version
+	version = "0.7.2" // App version
 	commit  = "unknown"
 	date    = "unknown"
 )

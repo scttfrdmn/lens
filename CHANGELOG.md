@@ -7,6 +7,77 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.2] - 2025-10-19
+
+### 🔒 Security & Privacy Release
+
+This patch release fixes git commit attribution and updates all commits to use GitHub privacy email addresses.
+
+### Changed
+- **Git Attribution**: All commits now correctly attributed to Scott Friedman (not Claude)
+- **Privacy Enhancement**: All commit emails updated to GitHub privacy address (3011922+scttfrdmn@users.noreply.github.com)
+
+### Fixed
+- Removed incorrect Claude attribution from git history
+- Cleaned up repository contributor statistics
+
+## [0.7.1] - 2025-10-19
+
+### ✨ User Experience Enhancements
+
+Focus on making AWS IDE more accessible to non-technical researchers.
+
+### Added
+- **Notification Hook System**: Infrastructure for status notifications (email, Slack, desktop)
+- **Preference Memory**: Remembers user choices for faster future launches
+- **Quickstart Command**: Instant launch with sensible defaults (`aws-jupyter quickstart`)
+- **Wizard as Default**: Running `aws-jupyter` without arguments launches the interactive wizard
+
+### Improved
+- First-time user experience with saved preferences
+- Reduced steps needed for repeat launches
+
+## [0.7.0] - 2025-10-19
+
+### 🎯 Major User Experience Release
+
+Complete overhaul of user experience for non-technical academic researchers.
+
+### Added
+
+#### Interactive Launch Wizard
+- Guided setup for all three IDEs (Jupyter, RStudio, VSCode)
+- Plain-language options (no technical jargon)
+- Cost estimates before launching
+- Auto-stop configuration with idle timeout
+- Smart instance recommendations based on use case
+- Optional instance naming
+
+#### Better Error Messages
+- New `pkg/errors` package for beginner-friendly error handling
+- Plain-English error messages with clear next steps
+- Emoji indicators for visual clarity (❌ error, 💡 next steps)
+- Automatic translation of AWS technical errors
+- Common error patterns with actionable solutions:
+  - AWS credentials setup guidance
+  - Permission issues with clear explanations
+  - Region mismatch detection and fixes
+  - Instance quota and limit guidance
+  - Network troubleshooting steps
+
+#### Enhanced Visual Output
+- New `pkg/output` package for rich terminal output
+- Color-coded status messages (green/yellow/red)
+- Progress bars with time estimates
+- Friendly completion messages
+- Removed AWS technical jargon from all output
+- Structured connection instructions
+
+### Improved
+- All user-facing messages now in plain English
+- Consistent visual design across all three apps
+- Better feedback during long-running operations
+
 ## [0.6.0] - 2025-01-18
 
 ### 🎉 Major Feature Release: Spot Instances, GPU Support, S3 Sync & Config Export
