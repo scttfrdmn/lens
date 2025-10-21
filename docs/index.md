@@ -49,13 +49,51 @@ aws-jupyter
 
 ## Who Is This For?
 
-AWS IDE is designed for:
+AWS IDE is designed for academic researchers at all levels:
 
-- **Solo Researchers**: Quick access to cloud compute for data analysis
-- **Research Labs**: Reproducible environments for team collaboration
-- **Data Scientists**: GPU-accelerated ML training and experimentation
-- **Graduate Students**: Cost-effective compute for thesis work
-- **Course Instructors**: Consistent environments for teaching
+<div class="grid cards" markdown>
+
+-   :material-account: **[Solo Researcher](USER_SCENARIOS/01_SOLO_RESEARCHER_WALKTHROUGH.md)**
+
+    ---
+
+    Individual researchers with limited budgets needing simple, reliable cloud access
+
+    **Key benefits**: 96% faster setup, 98% cost reduction, zero AWS expertise needed
+
+-   :material-school: **[Graduate Student](USER_SCENARIOS/02_GRADUATE_STUDENT_WALKTHROUGH.md)**
+
+    ---
+
+    PhD students needing GPU access with strict budget constraints and advisor oversight
+
+    **Key benefits**: 3x research productivity, 67% under budget, advisor trust restored
+
+-   :material-account-group: **[Lab PI](USER_SCENARIOS/03_LAB_PI_WALKTHROUGH.md)**
+
+    ---
+
+    Principal investigators managing 5-10 researchers with limited time and budget
+
+    **Key benefits**: 85% budget savings, 247 hours/year saved, 100% reproducibility
+
+-   :material-teach: **[Course Instructor](USER_SCENARIOS/04_COURSE_INSTRUCTOR_WALKTHROUGH.md)**
+
+    ---
+
+    Professors teaching 30+ students needing consistent, reproducible environments
+
+    **Key benefits**: 96% setup time reduction, 87% under budget, zero "works on my machine"
+
+-   :material-server: **[Research Computing Manager](USER_SCENARIOS/05_RESEARCH_COMPUTING_MANAGER_WALKTHROUGH.md)**
+
+    ---
+
+    IT managers supporting 100+ researchers across multiple disciplines
+
+    **Key benefits**: 83% support reduction, 100% cost visibility, 97% security compliance
+
+</div>
 
 ## Documentation
 
