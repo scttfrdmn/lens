@@ -1,0 +1,164 @@
+site_name: AWS IDE Documentation
+site_url: https://scttfrdmn.github.io/aws-ide
+site_description: Cloud-based development environments for academic research
+site_author: Scott Friedman
+repo_url: https://github.com/scttfrdmn/aws-ide
+repo_name: scttfrdmn/aws-ide
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  
+  font:
+    text: Roboto
+    code: Roboto Mono
+  
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - search.share
+    - toc.follow
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+    - content.action.view
+  
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  - minify:
+      minify_html: true
+      minify_js: true
+      minify_css: true
+      htmlmin_opts:
+        remove_comments: true
+      cache_safe: true
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/scttfrdmn/aws-ide
+    - icon: fontawesome/solid/comments
+      link: https://github.com/scttfrdmn/aws-ide/discussions
+  version:
+    provider: mike
+    default: latest
+  analytics:
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/emoticon-happy-outline
+          name: This page was helpful
+          data: 1
+          note: Thanks for your feedback!
+        - icon: material/emoticon-sad-outline
+          name: This page could be improved
+          data: 0
+          note: Thanks for your feedback! Help us improve by opening an issue.
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quickstart.md
+      - AWS Setup: getting-started/aws-setup.md
+  - User Guides:
+      - aws-jupyter: user-guides/jupyter.md
+      - aws-rstudio: user-guides/rstudio.md
+      - aws-vscode: user-guides/vscode.md
+      - Environments: user-guides/environments.md
+      - Cost Management: user-guides/cost-management.md
+      - Troubleshooting: user-guides/troubleshooting.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - AWS Integration: architecture/aws-integration.md
+      - Security: architecture/security.md
+      - Monorepo Structure: architecture/monorepo.md
+  - Development:
+      - Contributing: development/contributing.md
+      - Development Setup: development/setup.md
+      - Testing: development/testing.md
+      - Release Process: development/releases.md
+  - Examples:
+      - Data Science Workflow: examples/data-science.md
+      - ML Training: examples/ml-training.md
+      - Bioinformatics: examples/bioinformatics.md
+  - About:
+      - Roadmap: https://github.com/scttfrdmn/aws-ide/blob/main/ROADMAP.md
+      - Changelog: https://github.com/scttfrdmn/aws-ide/blob/main/CHANGELOG.md
+      - License: https://github.com/scttfrdmn/aws-ide/blob/main/LICENSE
+
+copyright: Copyright &copy; 2025 Scott Friedman
