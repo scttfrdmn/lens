@@ -1,0 +1,102 @@
+name: 📚 Documentation
+description: Report issues or suggest improvements to documentation
+title: "[Docs]: "
+labels: ["documentation", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help us improve our documentation! Report issues or suggest enhancements.
+
+  - type: dropdown
+    id: doc_type
+    attributes:
+      label: Documentation Type
+      description: What kind of documentation needs attention?
+      options:
+        - Getting Started
+        - User Guide
+        - Command Reference
+        - Architecture / Design
+        - API Documentation
+        - Contributing Guide
+        - Examples / Tutorials
+        - README
+        - CHANGELOG
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      description: What's the problem with the documentation?
+      options:
+        - Missing Documentation
+        - Incorrect / Outdated Information
+        - Unclear / Confusing
+        - Broken Links
+        - Typo / Grammar
+        - Missing Examples
+        - Needs Visuals (diagrams/screenshots)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: Where is the documentation issue? (file path, URL, section name)
+      placeholder: "docs/user-guides/launch.md, line 42"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the documentation issue
+      placeholder: |
+        The documentation says X, but actually Y happens...
+        OR
+        There's no documentation for...
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Improvement
+      description: How should the documentation be improved?
+      placeholder: |
+        Add a section explaining...
+        Update the example to show...
+        Clarify that...
+
+  - type: dropdown
+    id: audience
+    attributes:
+      label: Target Audience
+      description: Who would benefit from this documentation improvement?
+      multiple: true
+      options:
+        - New Users (Getting Started)
+        - Researchers (using the tools)
+        - Administrators (managing infrastructure)
+        - Contributors (developing)
+        - All Users
+
+  - type: checkboxes
+    id: volunteer
+    attributes:
+      label: Contribution
+      options:
+        - label: I'm willing to submit a PR to fix this documentation issue
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true

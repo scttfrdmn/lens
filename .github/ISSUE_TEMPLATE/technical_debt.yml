@@ -1,0 +1,135 @@
+name: 🔧 Technical Debt
+description: Propose code improvements, refactoring, or technical enhancements
+title: "[Tech Debt]: "
+labels: ["technical-debt", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to propose improvements to code quality, architecture, or technical infrastructure.
+
+  - type: dropdown
+    id: code_area
+    attributes:
+      label: Code Area
+      description: Which part of the codebase needs improvement?
+      multiple: true
+      options:
+        - apps/jupyter
+        - apps/rstudio
+        - apps/vscode
+        - pkg/aws (AWS integrations)
+        - pkg/cli (CLI utilities)
+        - pkg/config (Configuration)
+        - pkg/errors (Error handling)
+        - pkg/output (Output formatting)
+        - pkg/readiness (Service polling)
+        - Tests
+        - Build/CI
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type of Improvement
+      description: What kind of technical debt is this?
+      options:
+        - Code Refactoring
+        - Performance Optimization
+        - Error Handling
+        - Test Coverage
+        - Code Duplication
+        - Design Patterns
+        - Dependencies Update
+        - Security Hardening
+        - Logging/Observability
+        - Documentation (code comments)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_state
+    attributes:
+      label: Current State
+      description: Describe the current implementation and why it needs improvement
+      placeholder: |
+        Currently, [describe the code/pattern]...
+        
+        Issues with current approach:
+        - [issue 1]
+        - [issue 2]
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_improvement
+    attributes:
+      label: Proposed Improvement
+      description: Describe the refactoring or improvement you're proposing
+      placeholder: |
+        Refactor to [approach]...
+        
+        Benefits:
+        - [benefit 1]
+        - [benefit 2]
+        
+        Example:
+        \`\`\`go
+        // Proposed code structure
+        \`\`\`
+    validations:
+      required: true
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      description: What's the impact of NOT addressing this?
+      options:
+        - Critical (security/stability risk)
+        - High (maintainability issues, hard to extend)
+        - Medium (code quality, developer experience)
+        - Low (cosmetic, minor improvements)
+    validations:
+      required: true
+
+  - type: textarea
+    id: testing
+    attributes:
+      label: Testing Strategy
+      description: How would you test this refactoring?
+      placeholder: |
+        - Existing tests should pass
+        - Add new tests for [...]
+        - Manual testing: [...]
+
+  - type: checkboxes
+    id: breaking_change
+    attributes:
+      label: Breaking Change
+      description: Would this refactoring introduce breaking changes?
+      options:
+        - label: This would be a breaking change requiring major version bump
+        - label: This can be done in a backward-compatible way
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other information that would help evaluate this proposal
+      placeholder: |
+        Related issues: #123
+        Background: This has been causing...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I'm willing to contribute a PR for this improvement

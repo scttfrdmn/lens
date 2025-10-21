@@ -1,24 +1,76 @@
 name: ✨ Feature Request
-description: Suggest an idea or enhancement for aws-jupyter
+description: Suggest a new feature or enhancement for AWS IDE
 title: "[Feature]: "
-labels: ["enhancement", "needs-triage"]
+labels: ["enhancement", "triage"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for suggesting a new feature! Please provide as much detail as possible to help us understand your needs.
+        Thanks for suggesting a new feature! Please provide as much detail as possible to help us understand your use case.
+
+  - type: dropdown
+    id: persona
+    attributes:
+      label: Who is this feature for?
+      description: Select the primary user persona(s) who would benefit
+      multiple: true
+      options:
+        - Solo Researcher
+        - Research Lab (PI + Team)
+        - Data Scientist
+        - Graduate Student
+        - Course Instructor/TA
+        - Workshop Facilitator
+        - IT Administrator
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: app
+    attributes:
+      label: Which app(s) would this affect?
+      description: Select all that apply
+      multiple: true
+      options:
+        - aws-jupyter
+        - aws-rstudio
+        - aws-vscode
+        - All apps
+        - Shared infrastructure (pkg/)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: use_case
+    attributes:
+      label: Research Use Case
+      description: What type of research work would this support?
+      multiple: true
+      options:
+        - Data Analysis
+        - Machine Learning / AI
+        - Bioinformatics / Genomics
+        - Statistical Modeling
+        - Scientific Computing
+        - Data Visualization
+        - Collaborative Research
+        - Teaching / Workshops
+        - Cost Optimization
+        - Reproducible Research
+        - Other
+    validations:
+      required: true
 
   - type: textarea
     id: problem
     attributes:
-      label: Problem or Use Case
-      description: What problem would this feature solve? What use case would it enable?
+      label: Problem Statement
+      description: Describe the problem or pain point this feature would address
       placeholder: |
-        Describe the problem you're trying to solve or the use case you want to enable.
-        Examples:
-        - "I want to launch instances with custom AMIs"
-        - "I need to connect to instances using different SSH ports"
-        - "I want to automatically install additional software packages"
+        As a [persona], I want to [goal] so that I can [benefit].
+        
+        Currently, [describe the challenge or limitation]...
     validations:
       required: true
 
@@ -26,109 +78,82 @@ body:
     id: solution
     attributes:
       label: Proposed Solution
-      description: What would you like to see implemented?
+      description: Describe how you envision this feature working
       placeholder: |
-        Describe your ideal solution. How would you like this feature to work?
-        Examples:
-        - "Add a --custom-ami flag to the launch command"
-        - "Add ssh_port configuration to environment files"
-        - "Add a post_install_script section to environments"
+        Add a new command/flag/feature that...
+        
+        Example usage:
+        \`\`\`bash
+        aws-jupyter launch --new-feature ...
+        \`\`\`
+        
+        This would allow users to...
     validations:
       required: true
 
   - type: textarea
     id: alternatives
     attributes:
-      label: Alternative Solutions
-      description: Have you considered any alternative approaches?
+      label: Alternatives Considered
+      description: Have you considered any alternative approaches or workarounds?
       placeholder: |
-        Describe any alternative solutions or workarounds you've considered.
-        This helps us understand the broader context and find the best approach.
-    validations:
-      required: false
+        Currently I work around this by...
+        OR
+        I haven't found a good workaround
+
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow Impact
+      description: How would this feature change your typical workflow?
+      placeholder: |
+        **Current Workflow:**
+        1. [step]
+        2. [step]
+        3. [step]
+        
+        **With This Feature:**
+        1. [simplified step]
+        2. [benefit]
 
   - type: dropdown
     id: priority
     attributes:
       label: Priority
-      description: How important is this feature to you?
+      description: How important is this feature to your work?
       options:
-        - "Critical - Blocking my use of aws-jupyter"
-        - "High - Would significantly improve my workflow"
-        - "Medium - Would be nice to have"
-        - "Low - Minor improvement"
+        - Critical (blocking important work)
+        - High (significant impact on productivity)
+        - Medium (nice to have, noticeable improvement)
+        - Low (minor convenience)
     validations:
       required: true
 
-  - type: dropdown
-    id: area
+  - type: checkboxes
+    id: breaking_change
     attributes:
-      label: Area of Impact
-      description: Which part of aws-jupyter would this feature affect?
+      label: Breaking Change
+      description: Would this feature require breaking changes to existing functionality?
       options:
-        - "CLI Commands (launch, list, connect, etc.)"
-        - "Environment Configuration"
-        - "AWS Integration (EC2, networking, etc.)"
-        - "SSH Tunneling & Connectivity"
-        - "Instance Management"
-        - "Documentation"
-        - "Development/Testing"
-        - "Other (please specify in additional context)"
-    validations:
-      required: true
-
-  - type: textarea
-    id: example
-    attributes:
-      label: Example Usage
-      description: How would users interact with this feature?
-      placeholder: |
-        Show examples of how this feature would be used:
-
-        ```bash
-        # Example command usage
-        aws-jupyter launch --custom-ami ami-12345 --env my-env
-
-        # Example configuration
-        # environments/my-env.yaml
-        custom_ami: ami-12345
-        ssh_port: 2222
-        ```
-      render: markdown
-    validations:
-      required: false
+        - label: This feature would require breaking changes
+        - label: I'm willing to migrate my existing setup if needed
 
   - type: textarea
     id: context
     attributes:
       label: Additional Context
-      description: Any other information that would help us understand this request
+      description: Any other information, examples, or screenshots that would help explain this feature
       placeholder: |
-        - Links to similar features in other tools
-        - Specific AWS services or features this relates to
-        - Any constraints or requirements to consider
-        - Screenshots or mockups (if applicable)
-    validations:
-      required: false
+        Related issues/PRs: #123
+        Example from other tools: [tool name]
+        Screenshots/mockups: [attach images]
 
   - type: checkboxes
-    id: contribution
+    id: checklist
     attributes:
-      label: Contribution
+      label: Pre-submission Checklist
       options:
-        - label: I would be willing to help implement this feature
-          required: false
-        - label: I would be willing to help test this feature
-          required: false
-        - label: I would be willing to help document this feature
-          required: false
-
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Checklist
-      options:
-        - label: I have searched existing issues to avoid duplicates
+        - label: I have searched existing issues to ensure this feature hasn't been requested before
           required: true
-        - label: I have checked the project roadmap to see if this is already planned
+        - label: I have checked the roadmap to see if this is already planned
           required: true

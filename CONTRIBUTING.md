@@ -1,293 +1,330 @@
-# Contributing to aws-jupyter
+# Contributing to AWS IDE
 
-🎉 **Thank you for your interest in contributing to aws-jupyter!**
+Thank you for your interest in contributing to AWS IDE! This document provides guidelines and instructions for contributing to the project.
 
-This project is currently in active development, and we welcome contributions of all kinds - from bug reports and feature requests to code contributions and documentation improvements.
+## Table of Contents
 
-## 📋 Table of Contents
-
-- [Quick Start](#quick-start)
+- [Code of Conduct](#code-of-conduct)
+- [Getting Started](#getting-started)
 - [Development Setup](#development-setup)
-- [Project Structure](#project-structure)
-- [Contributing Workflow](#contributing-workflow)
-- [Code Standards](#code-standards)
+- [Development Workflow](#development-workflow)
+- [Pull Request Process](#pull-request-process)
+- [Coding Standards](#coding-standards)
 - [Testing](#testing)
-- [Submitting Changes](#submitting-changes)
-- [Getting Help](#getting-help)
+- [Documentation](#documentation)
+- [Community](#community)
 
-## 🚀 Quick Start
+## Code of Conduct
 
-1. **Fork the repository** on GitHub
-2. **Clone your fork**: `git clone git@github.com:YOUR_USERNAME/aws-jupyter.git`
-3. **Install dependencies**: `go mod tidy`
-4. **Run tests**: `go test ./...`
-5. **Build the project**: `go build -o aws-jupyter cmd/aws-jupyter/main.go`
+This project follows a professional and inclusive code of conduct. We expect all contributors to:
 
-## 🛠 Development Setup
+- Be respectful and welcoming to all participants
+- Focus on constructive feedback and collaboration
+- Respect differing viewpoints and experiences
+- Accept responsibility and learn from mistakes
+- Focus on what is best for the community and research users
+
+## Getting Started
 
 ### Prerequisites
 
-- **Go 1.21+** - [Download here](https://golang.org/dl/)
-- **Git** - Version control
-- **AWS CLI** (optional) - For testing AWS integration
-- **Pre-commit** (optional) - `pip install pre-commit && pre-commit install`
+Before you begin, ensure you have the following installed:
 
-### Environment Setup
+- **Go 1.21 or later** - [Install Go](https://golang.org/doc/install)
+- **Make** - For build automation
+- **Git** - For version control
+- **AWS CLI** - For AWS integration testing (optional)
+- **golangci-lint** - For code linting: `go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest`
 
-```bash
-# Clone the repository
-git clone git@github.com:scttfrdmn/aws-jupyter.git
-cd aws-jupyter
+### Fork and Clone
 
-# Install dependencies
-go mod tidy
+1. Fork the repository on GitHub
+2. Clone your fork locally:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/aws-ide.git
+   cd aws-ide
+   ```
+3. Add the upstream repository:
+   ```bash
+   git remote add upstream https://github.com/scttfrdmn/aws-ide.git
+   ```
 
-# Install development tools (optional but recommended)
-go install github.com/fzipp/gocyclo/cmd/gocyclo@latest
-go install github.com/kisielk/errcheck@latest
-go install github.com/client9/misspell/cmd/misspell@latest
+## Development Setup
 
-# Install pre-commit hooks (optional)
-pip install pre-commit
-pre-commit install
+### Building the Project
 
-# Build and test
-go build -o aws-jupyter cmd/aws-jupyter/main.go
-go test ./...
-```
-
-## 📁 Project Structure
-
-```
-aws-jupyter/
-├── cmd/aws-jupyter/        # Main CLI entry point
-├── internal/
-│   ├── aws/                # AWS EC2 client and operations
-│   ├── cli/                # CLI commands (launch, list, etc.)
-│   └── config/             # Configuration and state management
-├── environments/           # Built-in environment templates
-├── docs/                   # Documentation
-├── .github/                # GitHub templates and workflows
-└── tests/                  # Integration tests (planned)
-```
-
-## 🔄 Contributing Workflow
-
-### 1. Choose What to Work On
-
-- **Check existing issues** - Look for `good first issue` or `help wanted` labels
-- **Review the roadmap** - See what features are planned in the README
-- **Propose new features** - Open an issue to discuss before implementing
-
-### 2. Development Process
+The project uses a monorepo structure with three apps and shared infrastructure:
 
 ```bash
-# Create a feature branch
-git checkout -b feature/your-feature-name
+# Build all apps
+make build
 
-# Make your changes
-# Write tests for new functionality
-# Update documentation as needed
-
-# Test your changes
-go test ./...
-go vet ./...
-gofmt -w .
-
-# Commit with conventional commits
-git commit -m "feat: add SSH key pair management"
-
-# Push and create pull request
-git push origin feature/your-feature-name
+# Build specific app
+cd apps/jupyter && go build -o ../../bin/aws-jupyter cmd/aws-jupyter/main.go
+cd apps/rstudio && go build -o ../../bin/aws-rstudio cmd/aws-rstudio/main.go
+cd apps/vscode && go build -o ../../bin/aws-vscode cmd/aws-vscode/main.go
 ```
-
-### 3. Areas Needing Help
-
-**🔥 High Priority:**
-- SSH key pair management (`internal/aws/`)
-- Security group setup (`internal/aws/`)
-- User data script generation (`internal/cli/`)
-- EC2 instance launching (`internal/aws/`)
-
-**📚 Documentation:**
-- AWS authentication guide (`docs/AWS_AUTHENTICATION.md`)
-- Usage examples and tutorials
-- API documentation
-
-**🧪 Testing:**
-- Integration tests for AWS operations
-- End-to-end testing scenarios
-- Mock AWS responses for unit tests
-
-## ✅ Code Standards
-
-We maintain **A+ Go Report Card** standards:
-
-### Code Quality Requirements
-
-- **Formatting**: `gofmt -w .` (enforced by pre-commit)
-- **Linting**: All `go vet` issues must be resolved
-- **Complexity**: Functions should have cyclomatic complexity ≤15
-- **Error Handling**: All errors must be properly handled
-- **Testing**: New code should include unit tests
-
-### Code Style Guidelines
-
-```go
-// ✅ Good: Clear function names and error handling
-func CreateKeyPair(ctx context.Context, name string) (*ec2.KeyPair, error) {
-    if name == "" {
-        return nil, fmt.Errorf("key pair name cannot be empty")
-    }
-
-    result, err := e.client.CreateKeyPair(ctx, &ec2.CreateKeyPairInput{
-        KeyName: aws.String(name),
-    })
-    if err != nil {
-        return nil, fmt.Errorf("failed to create key pair: %w", err)
-    }
-
-    return result.KeyPair, nil
-}
-
-// ❌ Avoid: Unchecked errors, unclear naming
-func CreateKey(name string) *ec2.KeyPair {
-    result, _ := client.CreateKeyPair(nil, &ec2.CreateKeyPairInput{
-        KeyName: &name,
-    })
-    return result.KeyPair
-}
-```
-
-### Commit Messages
-
-We use [Conventional Commits](https://www.conventionalcommits.org/):
-
-```bash
-feat: add SSH key pair management
-fix: resolve authentication timeout issue
-docs: update AWS authentication guide
-test: add unit tests for environment loading
-refactor: simplify EC2 client creation
-```
-
-## 🧪 Testing
 
 ### Running Tests
 
 ```bash
 # Run all tests
-go test ./...
+make test
 
-# Run tests with coverage
-go test ./... -cover
+# Run unit tests only
+make test-unit
 
-# Run specific package tests
-go test ./internal/cli -v
+# Run integration tests (requires LocalStack)
+make test-integration
 
-# Run quality checks
-go vet ./...
-gocyclo -over 15 .
-errcheck ./...
+# Run linting
+make lint
 ```
 
-### Test Coverage Requirements
+### Project Structure
 
-- **Core packages** (`internal/cli`, `internal/config`): >70% coverage
-- **AWS operations** (`internal/aws`): Best effort (limited by AWS mocking)
-- **New functionality**: Should include comprehensive unit tests
+```
+aws-ide/
+├── apps/
+│   ├── jupyter/       # Jupyter Lab launcher
+│   ├── rstudio/       # RStudio Server launcher
+│   └── vscode/        # VSCode Server launcher
+├── pkg/               # Shared infrastructure library
+│   ├── aws/          # AWS integrations
+│   ├── cli/          # CLI utilities
+│   ├── config/       # Configuration management
+│   ├── errors/       # Error handling
+│   ├── output/       # Terminal output formatting
+│   ├── readiness/    # Service health checks
+│   └── version.go    # Platform version
+├── docs/              # Documentation
+└── .github/           # GitHub workflows and templates
+```
 
-### Writing Tests
+## Development Workflow
+
+### Creating a Branch
+
+1. Ensure your main branch is up-to-date:
+   ```bash
+   git checkout main
+   git pull upstream main
+   ```
+
+2. Create a feature branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   # or
+   git checkout -b fix/your-bug-fix-name
+   ```
+
+### Making Changes
+
+1. Make your changes in logical, focused commits
+2. Write clear commit messages following [Conventional Commits](https://www.conventionalcommits.org/):
+   ```
+   feat: add support for custom AMIs
+   fix: resolve session manager connection timeout
+   docs: update launch command documentation
+   test: add unit tests for config module
+   refactor: simplify error handling in pkg/aws
+   chore: bump version to 0.7.3
+   ```
+
+3. Keep commits small and focused on a single change
+4. Test your changes locally before pushing
+
+### Commit Message Format
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Types:**
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `test`: Adding or updating tests
+- `refactor`: Code refactoring
+- `perf`: Performance improvements
+- `chore`: Build process or auxiliary tool changes
+
+**Examples:**
+```
+feat(jupyter): add GPU instance type selection
+
+Add support for selecting GPU instance types (p3, g4dn, etc.)
+in the interactive wizard for Jupyter notebooks.
+
+Closes #123
+```
+
+## Pull Request Process
+
+### Before Submitting
+
+1. **Run tests and linting:**
+   ```bash
+   make test
+   make lint
+   ```
+
+2. **Update documentation:**
+   - Add/update relevant documentation in `docs/`
+   - Update CHANGELOG.md with your changes
+   - Update README if adding new features
+
+3. **Self-review your code:**
+   - Remove debug statements
+   - Check for proper error handling
+   - Ensure code follows project conventions
+   - Add comments for complex logic
+
+### Submitting a Pull Request
+
+1. Push your changes to your fork:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+2. Open a Pull Request on GitHub
+
+3. Fill out the PR template completely:
+   - Describe your changes
+   - Link related issues
+   - Check all applicable boxes
+   - Add screenshots/demos if relevant
+
+4. Wait for review and address feedback
+
+### PR Review Process
+
+- Maintainers will review your PR within 3-5 business days
+- Address review feedback promptly
+- Keep the PR focused and avoid scope creep
+- Be responsive to questions and suggestions
+- Once approved, a maintainer will merge your PR
+
+## Coding Standards
+
+### Go Style Guidelines
+
+- Follow standard Go conventions and idioms
+- Run `gofmt` and `goimports` on your code
+- Use meaningful variable and function names
+- Write clear, self-documenting code
+- Add comments for exported functions and complex logic
+- Keep functions small and focused
+- Handle errors explicitly, don't ignore them
+
+### Error Handling
+
+Use the `pkg/errors` package for user-friendly error messages:
 
 ```go
-func TestCreateKeyPair(t *testing.T) {
-    // Test data setup
-    ctx := context.Background()
-    keyName := "test-key-" + uuid.New().String()
+import "github.com/scttfrdmn/aws-ide/pkg/errors"
 
-    // Test execution
-    keyPair, err := client.CreateKeyPair(ctx, keyName)
+// Create friendly error
+err := errors.NewFriendlyError(
+    "Cannot connect to AWS",
+    "Your AWS credentials are not configured or have expired.",
+    []string{
+        "Run 'aws configure' to set up your credentials",
+        "Check that your AWS credentials are valid",
+        "Ensure your IAM user has the necessary permissions",
+    },
+)
+```
 
-    // Assertions
-    if err != nil {
-        t.Fatalf("CreateKeyPair failed: %v", err)
+### Testing
+
+- Write unit tests for new functions
+- Aim for meaningful test coverage, not arbitrary percentages
+- Test both happy paths and error conditions
+- Use table-driven tests for multiple test cases
+- Mock external dependencies (AWS API calls)
+
+Example:
+```go
+func TestFormatDuration(t *testing.T) {
+    tests := []struct {
+        name     string
+        duration time.Duration
+        want     string
+    }{
+        {"seconds", 45 * time.Second, "45s"},
+        {"minutes", 3 * time.Minute, "3m0s"},
     }
-    if keyPair.KeyName == nil || *keyPair.KeyName != keyName {
-        t.Errorf("Expected key name %s, got %v", keyName, keyPair.KeyName)
+    
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            got := formatDuration(tt.duration)
+            if got != tt.want {
+                t.Errorf("got %v, want %v", got, tt.want)
+            }
+        })
     }
 }
 ```
 
-## 📥 Submitting Changes
+## Documentation
 
-### Pull Request Process
+### Code Documentation
 
-1. **Ensure tests pass** - All CI checks must be green
-2. **Update documentation** - Include relevant docs updates
-3. **Add changelog entry** - Update `CHANGELOG.md` if needed
-4. **Request review** - Tag maintainers for review
-5. **Address feedback** - Respond to review comments promptly
+- Add godoc comments for exported functions
+- Include usage examples in documentation
+- Document parameters and return values
+- Explain non-obvious behavior
 
-### Pull Request Template
+### User Documentation
 
-When you create a PR, please include:
+- Update user guides for new features
+- Add examples and tutorials
+- Include screenshots for UI changes
+- Keep language clear and accessible for researchers
 
-- **What changed** - Brief description of your changes
-- **Why** - Context and motivation for the change
-- **Testing** - How you tested your changes
-- **Documentation** - Any docs updates needed
-- **Breaking changes** - Note any backwards compatibility issues
+### Documentation Structure
 
-## 🤝 Getting Help
+```
+docs/
+├── getting-started/
+├── user-guides/
+├── architecture/
+├── development/
+└── examples/
+```
 
-### Communication Channels
+## Community
 
-- **GitHub Issues** - Bug reports, feature requests, questions
-- **GitHub Discussions** - General questions and community chat
-- **Pull Request Reviews** - Code-specific questions and feedback
+### Getting Help
 
-### Maintainer Response Times
+- **GitHub Discussions:** Ask questions and share ideas
+- **GitHub Issues:** Report bugs and request features
+- **Documentation:** Check docs for answers
 
-- **Issues**: We aim to respond within 2-3 business days
-- **Pull Requests**: Initial review within 3-5 business days
-- **Security Issues**: Please email privately for faster response
+### Communication
 
-### Development Questions
+- Be patient and respectful
+- Provide context and details
+- Search before asking duplicate questions
+- Help others when you can
 
-Common questions and answers:
+## Recognition
 
-**Q: How do I test AWS operations without real AWS resources?**
-A: We're working on AWS mocking. For now, use `--dry-run` mode and unit test the logic around AWS calls.
+Contributors will be recognized in:
+- CHANGELOG.md for significant contributions
+- GitHub contributors page
+- Release notes for major features
 
-**Q: What AWS permissions does aws-jupyter need?**
-A: See the [AWS Authentication Guide](docs/AWS_AUTHENTICATION.md) for detailed permission requirements.
+## Questions?
 
-**Q: How do I add a new CLI command?**
-A: Look at existing commands in `internal/cli/` for patterns. Each command needs a `New*Cmd()` function and corresponding tests.
+If you have questions about contributing, please:
+1. Check this guide and project documentation
+2. Search existing GitHub Discussions
+3. Open a new Discussion in Q&A category
 
-## 📝 Development Notes
-
-### Current Implementation Status
-
-- ✅ **CLI Framework**: Complete with all command structures
-- ✅ **Environment System**: 6 built-in environments, custom environment support
-- ✅ **AWS Authentication**: Full credential chain support
-- 🚧 **AWS Operations**: Key pair and security group management in progress
-- ❌ **Instance Management**: Launch, stop, terminate not yet implemented
-- ❌ **SSH Tunneling**: Port forwarding not yet implemented
-
-### Architecture Decisions
-
-- **No external dependencies** for core functionality where possible
-- **AWS SDK v2** for all AWS operations
-- **Cobra** for CLI framework (industry standard)
-- **Local state management** using JSON files in `~/.aws-jupyter/`
-- **YAML configuration** for environments (human-readable)
-
----
-
-## 💡 Thank You!
-
-Your contributions make aws-jupyter better for everyone. Whether you're fixing typos, adding features, or helping other contributors, your efforts are appreciated! 🙏
-
-**Questions?** Don't hesitate to open an issue or start a discussion. We're here to help!
+Thank you for contributing to AWS IDE! Your efforts help make cloud-based research tools more accessible to the academic community.

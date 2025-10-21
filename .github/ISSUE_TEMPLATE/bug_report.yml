@@ -1,64 +1,54 @@
 name: 🐛 Bug Report
-description: Report a bug or unexpected behavior
+description: Report a bug or unexpected behavior in AWS IDE
 title: "[Bug]: "
-labels: ["bug", "needs-triage"]
+labels: ["bug", "triage"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to report a bug! Please fill out the information below to help us investigate.
+        Thanks for taking the time to report this bug! Please fill out the form below to help us understand and fix the issue.
 
-  - type: textarea
-    id: description
+  - type: dropdown
+    id: app
     attributes:
-      label: Bug Description
-      description: A clear and concise description of what the bug is.
-      placeholder: Describe what happened and what you expected to happen.
+      label: Which app is affected?
+      description: Select the AWS IDE application where you encountered the bug
+      options:
+        - aws-jupyter (Jupyter Lab)
+        - aws-rstudio (RStudio Server)
+        - aws-vscode (VSCode Server)
+        - Multiple apps
+        - Not sure
     validations:
       required: true
 
-  - type: textarea
-    id: reproduction
+  - type: dropdown
+    id: component
     attributes:
-      label: Steps to Reproduce
-      description: Steps to reproduce the behavior
-      placeholder: |
-        1. Run command '...'
-        2. See error '...'
-        3. Expected '...'
-      value: |
-        1.
-        2.
-        3.
+      label: Component
+      description: Which part of the app is affected?
+      options:
+        - Launch (starting instances)
+        - Connect (accessing IDE)
+        - List/Status (viewing instances)
+        - Stop/Start (managing instances)
+        - Terminate (removing instances)
+        - Wizard (interactive setup)
+        - Environments (predefined configs)
+        - Configuration (settings)
+        - SSH/Session Manager
+        - Error Messages
+        - Documentation
+        - Other
     validations:
       required: true
-
-  - type: textarea
-    id: command
-    attributes:
-      label: Command Used
-      description: The exact aws-jupyter command that caused the issue
-      placeholder: "aws-jupyter launch --env data-science --profile myprofile"
-      render: bash
-    validations:
-      required: true
-
-  - type: textarea
-    id: output
-    attributes:
-      label: Command Output
-      description: Complete output from the command (including error messages)
-      placeholder: Paste the full output here
-      render: text
-    validations:
-      required: false
 
   - type: input
     id: version
     attributes:
-      label: aws-jupyter Version
-      description: Output of `aws-jupyter --version`
-      placeholder: "v0.1.0"
+      label: Version
+      description: "Run \`aws-jupyter --version\` (or aws-rstudio/aws-vscode) and paste the output"
+      placeholder: "v0.7.2 (platform: v1.0.0, commit: abc1234, date: 2025-10-19)"
     validations:
       required: true
 
@@ -66,62 +56,124 @@ body:
     id: os
     attributes:
       label: Operating System
-      description: What operating system are you using?
+      description: What OS are you running AWS IDE on?
       options:
+        - macOS (Apple Silicon/M-series)
         - macOS (Intel)
-        - macOS (Apple Silicon)
-        - Linux (x64)
-        - Linux (ARM64)
-        - Windows (x64)
-        - Windows (ARM64)
-        - Other (please specify in additional context)
+        - Linux (Ubuntu/Debian)
+        - Linux (RHEL/CentOS/Fedora)
+        - Linux (Amazon Linux)
+        - Linux (Other)
+        - Windows (WSL)
+        - Windows (Native)
+        - Other
     validations:
       required: true
 
   - type: input
-    id: go-version
+    id: os_version
     attributes:
-      label: Go Version
-      description: Output of `go version` (if building from source)
-      placeholder: "go version go1.21.0 darwin/arm64"
-    validations:
-      required: false
+      label: OS Version
+      description: "Specific OS version (e.g., macOS 14.2, Ubuntu 24.04, Windows 11)"
+      placeholder: "macOS 14.2"
 
   - type: dropdown
-    id: aws-auth
+    id: region
     attributes:
-      label: AWS Authentication Method
-      description: How are you authenticating with AWS?
+      label: AWS Region
+      description: Which AWS region are you using?
       options:
-        - AWS Profile (aws configure)
-        - Environment Variables
-        - AWS SSO
-        - IAM Role (EC2/ECS/Lambda)
-        - Other (please specify)
+        - us-east-1 (N. Virginia)
+        - us-east-2 (Ohio)
+        - us-west-1 (N. California)
+        - us-west-2 (Oregon)
+        - eu-west-1 (Ireland)
+        - eu-central-1 (Frankfurt)
+        - ap-southeast-1 (Singapore)
+        - ap-northeast-1 (Tokyo)
+        - Other
     validations:
-      required: false
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: Clear and concise description of what the bug is
+      placeholder: When I try to launch a Jupyter instance with the wizard, it fails at the "waiting for service readiness" step...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the behavior
+      placeholder: |
+        1. Run \`aws-jupyter\`
+        2. Select "Data science with Python"
+        3. Choose t3.medium instance
+        4. Click through wizard...
+        5. Error occurs at...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: The instance should launch successfully and provide a connection URL
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: The command hung for 10 minutes, then returned an error
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs
+      description: |
+        Include any error messages or relevant output
+        **Important:** Redact any sensitive information (account IDs, IP addresses, credentials, secrets)
+      placeholder: |
+        \`\`\`
+        Error: timeout waiting for service readiness
+        Context: polling http://localhost:8888 via SSM
+        \`\`\`
+      render: shell
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Configuration
+      description: |
+        Any relevant configuration settings (sanitized for security)
+        **Important:** Remove account IDs, credentials, and other sensitive data
+      placeholder: |
+        Instance type: t3.medium
+        Environment: minimal-python
+        Use Session Manager: true
+        Auto-stop enabled: true
 
   - type: textarea
     id: context
     attributes:
       label: Additional Context
-      description: Add any other context about the problem here
-      placeholder: |
-        - AWS region you're using
-        - Any relevant AWS permissions/policies
-        - Environment configuration being used
-        - Any workarounds you've found
-    validations:
-      required: false
+      description: Any other context, screenshots, or information about the problem
+      placeholder: This started happening after upgrading to v0.7.2
 
   - type: checkboxes
-    id: terms
+    id: checklist
     attributes:
-      label: Checklist
+      label: Pre-submission Checklist
       options:
-        - label: I have searched existing issues to avoid duplicates
+        - label: I have searched existing issues to ensure this bug hasn't been reported before
           required: true
-        - label: I am using the latest version of aws-jupyter
+        - label: I have redacted sensitive information (account IDs, credentials, IP addresses)
           required: true
-        - label: I have verified my AWS credentials are working (`aws sts get-caller-identity`)
-          required: false
+        - label: I have included the version information
+          required: true

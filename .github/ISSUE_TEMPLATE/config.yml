@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Q&A and Discussions
+    url: https://github.com/scttfrdmn/aws-ide/discussions/categories/q-a
+    about: Ask questions and discuss ideas with the community
+  - name: 💡 Ideas and Feature Brainstorming
+    url: https://github.com/scttfrdmn/aws-ide/discussions/categories/ideas
+    about: Share and discuss feature ideas before creating formal requests
+  - name: 📚 Documentation
+    url: https://github.com/scttfrdmn/aws-ide
+    about: View project documentation and guides
+  - name: 🔒 Security Issues
+    url: https://github.com/scttfrdmn/aws-ide/security/advisories/new
+    about: Report security vulnerabilities privately

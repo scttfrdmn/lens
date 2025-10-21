@@ -1,0 +1,320 @@
+# AWS IDE Label Configuration
+# Organized hierarchically: Type -> Priority -> Area -> Persona -> Use Case -> Status -> Resolution
+
+# ============================================================================
+# TYPE LABELS - What kind of issue/PR is this?
+# ============================================================================
+- name: bug
+  description: Something isn't working as expected
+  color: "d73a4a"
+
+- name: enhancement
+  description: New feature or capability request
+  color: "a2eeef"
+
+- name: documentation
+  description: Improvements or additions to documentation
+  color: "0075ca"
+
+- name: technical-debt
+  description: Code quality, refactoring, or architectural improvements
+  color: "fbca04"
+
+- name: question
+  description: Further information is requested
+  color: "d876e3"
+
+# ============================================================================
+# PRIORITY LABELS - How urgent is this?
+# ============================================================================
+- name: "priority: critical"
+  description: Urgent issue blocking important functionality or security
+  color: "b60205"
+
+- name: "priority: high"
+  description: Important issue affecting many users or key features
+  color: "d93f0b"
+
+- name: "priority: medium"
+  description: Normal priority issue
+  color: "fbca04"
+
+- name: "priority: low"
+  description: Low priority issue or nice-to-have
+  color: "0e8a16"
+
+# ============================================================================
+# AREA LABELS - Which part of the codebase?
+# ============================================================================
+- name: "area: aws-jupyter"
+  description: Issues specific to Jupyter Lab launcher
+  color: "5319e7"
+
+- name: "area: aws-rstudio"
+  description: Issues specific to RStudio Server launcher
+  color: "5319e7"
+
+- name: "area: aws-vscode"
+  description: Issues specific to VSCode Server launcher
+  color: "5319e7"
+
+- name: "area: pkg"
+  description: Shared infrastructure library (pkg/)
+  color: "1d76db"
+
+- name: "area: aws"
+  description: AWS integration and API interactions
+  color: "ff9900"
+
+- name: "area: cli"
+  description: Command-line interface and user experience
+  color: "1d76db"
+
+- name: "area: config"
+  description: Configuration management
+  color: "1d76db"
+
+- name: "area: errors"
+  description: Error handling and messaging
+  color: "1d76db"
+
+- name: "area: output"
+  description: Terminal output and visual formatting
+  color: "1d76db"
+
+- name: "area: wizard"
+  description: Interactive launch wizard
+  color: "1d76db"
+
+- name: "area: environments"
+  description: Predefined environment configurations
+  color: "1d76db"
+
+- name: "area: readiness"
+  description: Service polling and health checks
+  color: "1d76db"
+
+- name: "area: tests"
+  description: Testing infrastructure and test coverage
+  color: "0e8a16"
+
+- name: "area: build"
+  description: Build system, CI/CD, and release process
+  color: "0e8a16"
+
+- name: "area: docs"
+  description: Documentation and examples
+  color: "0075ca"
+
+# ============================================================================
+# PERSONA LABELS - Who is the user?
+# ============================================================================
+- name: "persona: solo-researcher"
+  description: Individual researcher using AWS IDE
+  color: "c5def5"
+
+- name: "persona: research-lab"
+  description: Research lab or group (PI + team members)
+  color: "c5def5"
+
+- name: "persona: data-scientist"
+  description: Data science professional or practitioner
+  color: "c5def5"
+
+- name: "persona: graduate-student"
+  description: Graduate student or postdoc
+  color: "c5def5"
+
+- name: "persona: instructor"
+  description: Course instructor or teaching assistant
+  color: "c5def5"
+
+- name: "persona: workshop-facilitator"
+  description: Workshop or training facilitator
+  color: "c5def5"
+
+- name: "persona: it-admin"
+  description: IT administrator or systems manager
+  color: "c5def5"
+
+# ============================================================================
+# USE CASE LABELS - What's the research scenario?
+# ============================================================================
+- name: "use-case: data-analysis"
+  description: General data analysis workflows
+  color: "bfd4f2"
+
+- name: "use-case: machine-learning"
+  description: ML model training and deployment
+  color: "bfd4f2"
+
+- name: "use-case: bioinformatics"
+  description: Genomics, proteomics, computational biology
+  color: "bfd4f2"
+
+- name: "use-case: statistics"
+  description: Statistical modeling and analysis
+  color: "bfd4f2"
+
+- name: "use-case: scientific-computing"
+  description: Numerical computing and simulations
+  color: "bfd4f2"
+
+- name: "use-case: visualization"
+  description: Data visualization and plotting
+  color: "bfd4f2"
+
+- name: "use-case: collaboration"
+  description: Team collaboration and shared workspaces
+  color: "bfd4f2"
+
+- name: "use-case: teaching"
+  description: Educational use (courses, workshops)
+  color: "bfd4f2"
+
+- name: "use-case: cost-optimization"
+  description: Cost management and budget tracking
+  color: "bfd4f2"
+
+- name: "use-case: reproducibility"
+  description: Reproducible research environments
+  color: "bfd4f2"
+
+# ============================================================================
+# STATUS LABELS - What's the workflow state?
+# ============================================================================
+- name: triage
+  description: Needs initial review and categorization
+  color: "ededed"
+
+- name: needs-info
+  description: Waiting for more information from reporter
+  color: "d4c5f9"
+
+- name: blocked
+  description: Cannot proceed due to external dependency
+  color: "b60205"
+
+- name: ready
+  description: Ready to be worked on
+  color: "0e8a16"
+
+- name: in-progress
+  description: Currently being worked on
+  color: "fbca04"
+
+- name: in-review
+  description: Under review (PR or design)
+  color: "0052cc"
+
+- name: awaiting-merge
+  description: Approved and waiting to be merged
+  color: "0e8a16"
+
+# ============================================================================
+# RESOLUTION LABELS - How was this closed?
+# ============================================================================
+- name: duplicate
+  description: This issue or PR already exists
+  color: "cfd3d7"
+
+- name: wontfix
+  description: This will not be worked on
+  color: "ffffff"
+
+- name: invalid
+  description: This doesn't seem right or is not applicable
+  color: "e4e669"
+
+- name: works-as-designed
+  description: Current behavior is intentional
+  color: "ffffff"
+
+# ============================================================================
+# SPECIAL LABELS - Community and contributor support
+# ============================================================================
+- name: "good first issue"
+  description: Good for newcomers to the project
+  color: "7057ff"
+
+- name: "help wanted"
+  description: Extra attention is needed from community
+  color: "008672"
+
+- name: breaking-change
+  description: Introduces breaking changes to API or behavior
+  color: "b60205"
+
+- name: security
+  description: Security-related issue or vulnerability
+  color: "b60205"
+
+- name: performance
+  description: Performance optimization or improvement
+  color: "84b6eb"
+
+- name: dependencies
+  description: Pull requests that update a dependency file
+  color: "0366d6"
+
+# ============================================================================
+# PHASE LABELS - Roadmap alignment
+# ============================================================================
+- name: "phase: 0.7-ux"
+  description: v0.7.x User Experience improvements
+  color: "c2e0c6"
+
+- name: "phase: 0.8-tools"
+  description: v0.8.0 Additional Research Tools
+  color: "c2e0c6"
+
+- name: "phase: 0.9-reproducibility"
+  description: v0.9.0 Package Managers & Reproducible Environments
+  color: "c2e0c6"
+
+- name: "phase: 0.10-collaboration"
+  description: v0.10.0 Collaboration Features
+  color: "c2e0c6"
+
+- name: "phase: 0.11-costs"
+  description: v0.11.0 Cost Management for Labs
+  color: "c2e0c6"
+
+- name: "phase: 1.0-production"
+  description: v1.0.0 Production Ready for Academia
+  color: "0e8a16"
+
+# ============================================================================
+# AWS-SPECIFIC LABELS - Cloud platform features
+# ============================================================================
+- name: "aws: ec2"
+  description: EC2 instance management
+  color: "ff9900"
+
+- name: "aws: ssm"
+  description: Systems Manager integration
+  color: "ff9900"
+
+- name: "aws: iam"
+  description: IAM roles and permissions
+  color: "ff9900"
+
+- name: "aws: vpc"
+  description: VPC networking and subnets
+  color: "ff9900"
+
+- name: "aws: ami"
+  description: AMI selection and management
+  color: "ff9900"
+
+- name: "aws: spot"
+  description: Spot instance support
+  color: "ff9900"
+
+- name: "aws: s3"
+  description: S3 data sync and storage
+  color: "ff9900"
+
+- name: "aws: gpu"
+  description: GPU instance types and CUDA
+  color: "ff9900"
