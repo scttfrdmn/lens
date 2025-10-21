@@ -258,31 +258,35 @@
   color: "0366d6"
 
 # ============================================================================
-# PHASE LABELS - Roadmap alignment
+# PHASE LABELS - Roadmap alignment (see ROADMAP.md for details)
 # ============================================================================
 - name: "phase: 0.7-ux"
-  description: v0.7.x User Experience improvements
+  description: "v0.7.0 - User Experience & Accessibility (wizard, plain-English, cost preview)"
   color: "c2e0c6"
 
 - name: "phase: 0.8-tools"
-  description: v0.8.0 Additional Research Tools
+  description: "v0.8.0 - Additional Research Tools (Streamlit, Zeppelin, NICE DCV, Q Developer)"
   color: "c2e0c6"
 
 - name: "phase: 0.9-reproducibility"
-  description: v0.9.0 Package Managers & Reproducible Environments
+  description: "v0.9.0 - Package Managers & Reproducible Environments (conda, BioConda, env export/import)"
   color: "c2e0c6"
 
 - name: "phase: 0.10-collaboration"
-  description: v0.10.0 Collaboration Features
+  description: "v0.10.0 - Collaboration Features (instance sharing, team workspaces, S3 sync)"
   color: "c2e0c6"
 
-- name: "phase: 0.11-costs"
-  description: v0.11.0 Cost Management for Labs
+- name: "phase: 0.11-cost-mgmt"
+  description: "v0.11.0 - Cost Management for Labs (budget alerts, cost reporting, optimization)"
   color: "c2e0c6"
 
 - name: "phase: 1.0-production"
-  description: v1.0.0 Production Ready for Academia
+  description: "v1.0.0 - Production Ready for Academia (polish, stability, documentation)"
   color: "0e8a16"
+
+- name: "phase: backlog"
+  description: "Backlog - Future consideration beyond v1.0.0"
+  color: "ededed"
 
 # ============================================================================
 # AWS-SPECIFIC LABELS - Cloud platform features

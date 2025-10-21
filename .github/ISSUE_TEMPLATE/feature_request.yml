@@ -12,17 +12,35 @@ body:
     id: persona
     attributes:
       label: Who is this feature for?
-      description: Select the primary user persona(s) who would benefit
+      description: |
+        Select the primary user persona(s) who would benefit from this feature.
+        See [Persona Walkthroughs](https://github.com/scttfrdmn/aws-ide/tree/main/docs/USER_SCENARIOS) for detailed descriptions.
       multiple: true
       options:
-        - Solo Researcher
-        - Research Lab (PI + Team)
-        - Data Scientist
-        - Graduate Student
-        - Course Instructor/TA
-        - Workshop Facilitator
-        - IT Administrator
-        - Other
+        - Solo Researcher (individual, limited budget, simple needs)
+        - Graduate Student (PhD/Masters, advisor oversight, cost-sensitive)
+        - Lab PI (managing 5-10 researchers, budget oversight, reproducibility)
+        - Course Instructor (teaching 30+ students, consistent environments)
+        - Research Computing Manager (institutional, 100+ researchers, compliance)
+        - Other (please describe in Additional Context)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Roadmap Phase
+      description: |
+        Which development phase does this feature align with? See [ROADMAP.md](https://github.com/scttfrdmn/aws-ide/blob/main/ROADMAP.md) for phase details.
+      options:
+        - "v0.7.0 - User Experience & Accessibility"
+        - "v0.8.0 - Additional Research Tools"
+        - "v0.9.0 - Package Managers & Reproducible Environments"
+        - "v0.10.0 - Collaboration Features"
+        - "v0.11.0 - Cost Management for Labs"
+        - "v1.0.0 - Production Ready for Academia"
+        - "Backlog - Future Consideration"
+        - "Not Sure"
     validations:
       required: true
 
@@ -66,11 +84,21 @@ body:
     id: problem
     attributes:
       label: Problem Statement
-      description: Describe the problem or pain point this feature would address
+      description: |
+        Describe the problem or pain point this feature would address.
+        Use "As a [persona], I need [action] because [reason]" format.
+        See [USER_REQUIREMENTS.md](https://github.com/scttfrdmn/aws-ide/blob/main/docs/USER_REQUIREMENTS.md) for examples.
       placeholder: |
-        As a [persona], I want to [goal] so that I can [benefit].
-        
-        Currently, [describe the challenge or limitation]...
+        As a [Solo Researcher/Graduate Student/Lab PI/Instructor/Manager], I need to [action] because [reason].
+
+        **Current Pain Point:**
+        [Describe the current challenge or limitation with quantified impact if possible]
+
+        **Success Metric:**
+        [How will you measure if this feature solves the problem?]
+
+        **Related Persona Walkthrough:**
+        [Optional: Link to relevant USER_SCENARIOS walkthrough, e.g., "docs/USER_SCENARIOS/01_SOLO_RESEARCHER_WALKTHROUGH.md - Pain Point #2"]
     validations:
       required: true
 

@@ -19,6 +19,34 @@ Closes #
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] Security fix
 
+## Persona Impact Assessment ⚠️ REQUIRED
+
+<!-- Which researcher personas benefit from this change? Check all that apply -->
+<!-- See docs/USER_SCENARIOS/ for detailed persona descriptions -->
+
+- [ ] Solo Researcher (individual, limited budget, simple needs)
+- [ ] Graduate Student (PhD/Masters, advisor oversight, cost-sensitive)
+- [ ] Lab PI (managing 5-10 researchers, budget oversight, reproducibility)
+- [ ] Course Instructor (teaching 30+ students, consistent environments)
+- [ ] Research Computing Manager (institutional, 100+ researchers, compliance)
+- [ ] All Personas
+- [ ] None (internal/technical change only)
+
+**Impact Description:**
+<!-- REQUIRED: Describe how this change improves the experience for selected personas -->
+<!-- Example: "Solo Researchers can now preview costs before launching, addressing their #1 concern (budget anxiety)" -->
+
+
+**Related Persona Walkthrough(s):**
+<!-- Optional: Link to USER_SCENARIOS/ docs if this addresses a documented pain point -->
+<!-- Example: docs/USER_SCENARIOS/01_SOLO_RESEARCHER_WALKTHROUGH.md - Pain Point #3 -->
+
+
+**Related Requirements:**
+<!-- Optional: Link to USER_REQUIREMENTS.md if this implements a requirement -->
+<!-- Example: Implements REQ-2.1 (Cost Preview Before Launch) -->
+
+
 ## Research Use Case Impact
 
 <!-- Which research use cases does this affect? Check all that apply -->

@@ -9,6 +9,24 @@ body:
         Thanks for taking the time to report this bug! Please fill out the form below to help us understand and fix the issue.
 
   - type: dropdown
+    id: persona
+    attributes:
+      label: Your Role (optional)
+      description: |
+        Helps us understand context and prioritize fixes that affect specific user groups.
+        See [Persona Walkthroughs](https://github.com/scttfrdmn/aws-ide/tree/main/docs/USER_SCENARIOS) for descriptions.
+      options:
+        - Solo Researcher
+        - Graduate Student
+        - Lab PI / Principal Investigator
+        - Course Instructor
+        - Research Computing Manager / IT Staff
+        - Other
+        - Prefer not to say
+    validations:
+      required: false
+
+  - type: dropdown
     id: app
     attributes:
       label: Which app is affected?
