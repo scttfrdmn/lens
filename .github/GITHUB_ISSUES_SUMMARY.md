@@ -93,9 +93,9 @@ Even with the wizard, users must answer 6-8 questions before launch. For users w
 
 **Proposed Solution:**
 Add `quickstart` command to all three apps:
-- `aws-jupyter quickstart` → t4g.medium, data-science-python env, auto-stop 2hrs
-- `aws-rstudio quickstart` → t4g.medium, tidyverse env, auto-stop 2hrs
-- `aws-vscode quickstart` → t4g.medium, general-dev env, auto-stop 2hrs
+- `ide-jupyter quickstart` → t4g.medium, data-science-python env, auto-stop 2hrs
+- `ide-rstudio quickstart` → t4g.medium, tidyverse env, auto-stop 2hrs
+- `ide-vscode quickstart` → t4g.medium, general-dev env, auto-stop 2hrs
 ```
 
 ---
@@ -111,20 +111,20 @@ Add `quickstart` command to all three apps:
 
 **Description:**
 ```
-As a Graduate Student with limited CLI experience, I need the wizard to launch automatically when I run `aws-jupyter`, because I don't know what subcommands are available.
+As a Graduate Student with limited CLI experience, I need the wizard to launch automatically when I run `ide-jupyter`, because I don't know what subcommands are available.
 
 **Current Pain Point:**
-Running `aws-jupyter` shows help text with command list. Non-technical users don't understand subcommands and get confused.
+Running `ide-jupyter` shows help text with command list. Non-technical users don't understand subcommands and get confused.
 
 **Success Metric:**
-✅ `aws-jupyter` (no args) launches wizard
+✅ `ide-jupyter` (no args) launches wizard
 ✅ 95% of first-time users successfully launch
 ✅ Power users can skip with `--no-wizard`
 
 **Proposed Solution:**
-- `aws-jupyter` → launches wizard
-- `aws-jupyter launch` → uses last settings or defaults
-- `aws-jupyter --no-wizard launch` → CLI mode
+- `ide-jupyter` → launches wizard
+- `ide-jupyter launch` → uses last settings or defaults
+- `ide-jupyter --no-wizard launch` → CLI mode
 - Update all three apps (jupyter, rstudio, vscode)
 ```
 
@@ -259,9 +259,9 @@ Launch takes 2-3 minutes. Users must keep terminal visible to see when ready, pr
 
 ## 🔬 v0.8.0 - Additional Research Tools (7 Issues)
 
-### Issue #7: Add Amazon Q Developer standalone app (aws-q-developer)
+### Issue #7: Add Amazon Q Developer standalone app (ide-q-developer)
 **Priority:** HIGH
-**Labels:** `enhancement`, `phase: 0.8-tools`, `area: aws-q-developer`, `persona: solo-researcher`, `persona: graduate-student`, `persona: instructor`
+**Labels:** `enhancement`, `phase: 0.8-tools`, `area: ide-q-developer`, `persona: solo-researcher`, `persona: graduate-student`, `persona: instructor`
 **Personas:** Solo Researcher, Graduate Student, Course Instructor
 **Requirements:** REQ-2.4 (AI-Assisted Development), REQ-3.6 (New Research Tools)
 **Pain Points:**
@@ -289,12 +289,12 @@ Create `apps/q-developer/` following monorepo pattern:
   - `data-analysis` - Data science with AI help
   - `learning` - Beginner-friendly with Q explanations
 - Leverage AWS native integration
-- CLI: `aws-q-developer launch --env research-coding`
+- CLI: `ide-q-developer launch --env research-coding`
 ```
 
 ---
 
-### Issue #8: Add Streamlit app for interactive data apps (aws-streamlit)
+### Issue #8: Add Streamlit app for interactive data apps (ide-streamlit)
 **Priority:** HIGH
 **Labels:** `enhancement`, `phase: 0.8-tools`, `area: streamlit`, `persona: solo-researcher`, `persona: lab-pi`, `persona: instructor`, `use-case: collaboration`, `use-case: teaching`
 **Personas:** Solo Researcher, Lab PI, Course Instructor
@@ -324,13 +324,13 @@ Create `apps/streamlit/` following monorepo pattern:
   - `ml-demo` - Machine learning demos (scikit-learn, TensorFlow)
   - `dashboard` - Analysis dashboards (pandas, streamlit-aggrid)
 - Auto-detect Streamlit scripts in project
-- CLI: `aws-streamlit launch --script my_app.py`
+- CLI: `ide-streamlit launch --script my_app.py`
 - Built-in tunnel for sharing (AWS SSM + public URL)
 ```
 
 ---
 
-### Issue #9: Add Apache Zeppelin for multi-language notebooks (aws-zeppelin)
+### Issue #9: Add Apache Zeppelin for multi-language notebooks (ide-zeppelin)
 **Priority:** MEDIUM
 **Labels:** `enhancement`, `phase: 0.8-tools`, `area: zeppelin`, `persona: lab-pi`, `persona: it-admin`, `use-case: bioinformatics`, `use-case: data-engineering`
 **Personas:** Lab PI, Research Computing Manager
@@ -359,12 +359,12 @@ Create `apps/zeppelin/` following monorepo pattern:
   - `sql-analytics` - Database analysis (PostgreSQL, MySQL connectors)
   - `spark` - Big data processing (PySpark, SparkR, Scala)
 - Pre-configure interpreters (Python, R, SQL, Scala)
-- CLI: `aws-zeppelin launch --env spark`
+- CLI: `ide-zeppelin launch --env spark`
 ```
 
 ---
 
-### Issue #10: Add NICE DCV Desktop for GUI research applications (aws-dcv-desktop)
+### Issue #10: Add NICE DCV Desktop for GUI research applications (ide-dcv-desktop)
 **Priority:** HIGH
 **Labels:** `enhancement`, `phase: 0.8-tools`, `area: dcv-desktop`, `aws: gpu`, `persona: lab-pi`, `persona: graduate-student`, `use-case: bioinformatics`, `use-case: machine-learning`, `use-case: visualization`
 **Personas:** Lab PI, Graduate Student, Solo Researcher
@@ -399,12 +399,12 @@ Create `apps/dcv-desktop/` following monorepo pattern:
   - `general-desktop` - Ubuntu desktop with research tools
   - `gpu-workstation` - CUDA, visualization, ML (GPU instances)
 - GPU instance type selection (p3, g4dn, g5)
-- CLI: `aws-dcv-desktop launch --env matlab-desktop --gpu`
+- CLI: `ide-dcv-desktop launch --env matlab-desktop --gpu`
 ```
 
 ---
 
-### Issue #11: Add Theia IDE for extensible cloud development (aws-theia)
+### Issue #11: Add Theia IDE for extensible cloud development (ide-theia)
 **Priority:** LOW
 **Labels:** `enhancement`, `phase: 0.8-tools`, `area: theia`, `persona: solo-researcher`, `persona: graduate-student`
 **Personas:** Solo Researcher, Graduate Student
@@ -433,12 +433,12 @@ Create `apps/theia/` following monorepo pattern:
   - `r-dev` - R package development (devtools, roxygen2)
   - `multi-lang` - Multiple languages (Python, R, Julia)
 - Pre-install popular extensions
-- CLI: `aws-theia launch --env python`
+- CLI: `ide-theia launch --env python`
 ```
 
 ---
 
-### Issue #12: Add Quarto for academic publishing (aws-quarto)
+### Issue #12: Add Quarto for academic publishing (ide-quarto)
 **Priority:** MEDIUM
 **Labels:** `enhancement`, `phase: 0.8-tools`, `area: quarto`, `persona: graduate-student`, `persona: lab-pi`, `persona: instructor`, `use-case: reproducibility`, `use-case: teaching`
 **Personas:** Graduate Student, Lab PI, Course Instructor
@@ -468,13 +468,13 @@ Create `apps/quarto/` following monorepo pattern:
   - `presentation` - Reveal.js slides with live code
   - `website` - Research group websites (Hugo/Jekyll integration)
 - Pre-configure LaTeX, bibliography management (BibTeX)
-- CLI: `aws-quarto launch --env academic-paper`
+- CLI: `ide-quarto launch --env academic-paper`
 - Support for .qmd, .Rmd, .ipynb source files
 ```
 
 ---
 
-### Issue #13: Add Observable Framework for data visualization (aws-observable)
+### Issue #13: Add Observable Framework for data visualization (ide-observable)
 **Priority:** LOW
 **Labels:** `enhancement`, `phase: 0.8-tools`, `area: observable`, `persona: solo-researcher`, `use-case: visualization`, `use-case: collaboration`
 **Personas:** Solo Researcher, Lab PI
@@ -502,7 +502,7 @@ Create `apps/observable/` following monorepo pattern:
   - `data-viz` - D3.js visualizations with examples
   - `interactive` - Interactive analysis dashboards
 - Pre-configure D3.js, Vega-Lite, Plot libraries
-- CLI: `aws-observable launch --env data-viz`
+- CLI: `ide-observable launch --env data-viz`
 - Export to static HTML for publication
 ```
 
@@ -529,15 +529,15 @@ Pre-built environments don't include all needed packages. Manual conda install i
 
 **Success Metric:**
 ✅ `environment.yml` → working environment in <10 minutes
-✅ `aws-jupyter env export` captures exact environment
+✅ `ide-jupyter env export` captures exact environment
 ✅ Package caching speeds up repeated launches by 80%
 
 **Proposed Solution:**
 - Support `environment.yml` files in launch wizard
 - Auto-detect environment.yml in project directory
 - New commands:
-  - `aws-jupyter env export > environment.yml`
-  - `aws-jupyter launch --env-file environment.yml`
+  - `ide-jupyter env export > environment.yml`
+  - `ide-jupyter launch --env-file environment.yml`
 - Package caching in S3 for faster rebuilds
 - Support conda-forge and bioconda channels
 ```
@@ -656,11 +656,11 @@ No easy way to capture complete environment (packages, versions, system deps). "
 
 **Proposed Solution:**
 New commands for all apps:
-- `aws-jupyter env export > my-analysis-env.yml`
+- `ide-jupyter env export > my-analysis-env.yml`
   - Includes conda packages with exact versions
   - Includes system packages (apt/yum)
   - Includes custom configuration
-- `aws-jupyter launch --import-env my-analysis-env.yml`
+- `ide-jupyter launch --import-env my-analysis-env.yml`
   - Recreates exact environment
   - Validates all packages available
   - Warns if versions unavailable
@@ -741,8 +741,8 @@ GitHub repository for community environments:
 - Directory structure: `biology/genomics/GATK-pipeline.yml`
 - Metadata: description, author, domain, tools included
 - CLI integration:
-  - `aws-jupyter env search genomics` → lists community environments
-  - `aws-jupyter env install community/biology/genomics/GATK-pipeline`
+  - `ide-jupyter env search genomics` → lists community environments
+  - `ide-jupyter env install community/biology/genomics/GATK-pipeline`
 - Upvote/star system on GitHub
 - Testing: Community environments tested in CI/CD
 - Documentation: Each environment includes README with use cases
@@ -777,14 +777,14 @@ No way to share access to running instance. Researchers must share AWS credentia
 
 **Proposed Solution:**
 New commands for all apps:
-- `aws-jupyter share --instance i-abc123 --access read-only --expires 24h`
+- `ide-jupyter share --instance i-abc123 --access read-only --expires 24h`
   - Generates URL: `https://share.aws-ide.io/abc123-token`
   - Creates temporary IAM policy with SSM Session Manager access
   - Recipient clicks URL → authenticated via Session Manager → read-only terminal
-- `aws-jupyter share --access full --expires 1h`
+- `ide-jupyter share --access full --expires 1h`
   - Full read-write access to notebooks
   - Jupyter token included in URL
-- `aws-jupyter share revoke --token abc123`
+- `ide-jupyter share revoke --token abc123`
   - Immediately revokes access
 - Access logs: who accessed, when, what actions
 - Email invitation option: `--email colleague@university.edu`
@@ -834,7 +834,7 @@ lab:
         can_override: true  # can override for special cases
 ```
 - PI sets lab config, members inherit
-- New command: `aws-jupyter config init-lab`
+- New command: `ide-jupyter config init-lab`
 - Members see: "Using Chen Lab defaults (override with --no-lab-config)"
 ```
 
@@ -878,11 +878,11 @@ backup:
 ```
 - Automatic sync runs in background
 - On instance stop/terminate: final sync before shutdown
-- Restore on launch: `aws-jupyter launch --restore-from s3://...`
+- Restore on launch: `ide-jupyter launch --restore-from s3://...`
 - CLI commands:
-  - `aws-jupyter backup now` - force immediate backup
-  - `aws-jupyter backup list` - show backup history
-  - `aws-jupyter backup restore --date 2025-10-15` - restore from date
+  - `ide-jupyter backup now` - force immediate backup
+  - `ide-jupyter backup list` - show backup history
+  - `ide-jupyter backup restore --date 2025-10-15` - restore from date
 - Bandwidth optimization: rsync-style incremental sync
 - Encryption: S3 server-side encryption by default
 ```
@@ -929,7 +929,7 @@ Create `apps/jupyterhub/` following monorepo pattern:
   - Monitor user activity
   - Restart individual user servers
   - View resource usage
-- CLI: `aws-jupyterhub launch --users 30 --instance-type r6g.4xlarge`
+- CLI: `ide-jupyterhub launch --users 30 --instance-type r6g.4xlarge`
 - User management: CSV upload of student emails
 ```
 
@@ -1033,8 +1033,8 @@ budget:
 - Auto-stop behavior:
   - At 100%: send warning email, 24hr grace period
   - After grace period: stop all running instances
-  - PI override: `aws-jupyter config budget override --reason "grant deadline"`
-- CLI: `aws-jupyter costs budget-status`
+  - PI override: `ide-jupyter config budget override --reason "grant deadline"`
+- CLI: `ide-jupyter costs budget-status`
 ```
 
 ---
@@ -1065,20 +1065,20 @@ AWS Cost Explorer is too complex for academic users. Need reports formatted for 
 Cost reporting commands:
 ```bash
 # Generate grant report
-aws-jupyter costs report \
+ide-jupyter costs report \
   --start-date 2024-09-01 \
   --end-date 2025-08-31 \
   --format pdf \
   --output grant-renewal-2025.pdf
 
 # Per-project breakdown
-aws-jupyter costs report \
+ide-jupyter costs report \
   --project project-alpha \
   --breakdown researcher \
   --format csv
 
 # Lab summary for PI
-aws-jupyter costs summary --monthly
+ide-jupyter costs summary --monthly
 ```
 
 Report includes:
@@ -1092,7 +1092,7 @@ Report includes:
 
 Tagging system for projects:
 ```bash
-aws-jupyter launch --project project-alpha --grant NSF-12345
+ide-jupyter launch --project project-alpha --grant NSF-12345
 ```
 - Tags propagate to EC2 instances
 - AWS Cost Allocation Tags for reporting
@@ -1125,7 +1125,7 @@ Researchers don't know about Spot instances, right-sizing, or Reserved Instances
 **Proposed Solution:**
 Usage analysis command:
 ```bash
-aws-jupyter costs analyze
+ide-jupyter costs analyze
 ```
 
 Output:
@@ -1136,13 +1136,13 @@ Output:
    - Your workloads are 95% interruptible
    - Current: t4g.xlarge On-Demand ($0.134/hr)
    - Recommendation: t4g.xlarge Spot ($0.040/hr)
-   - Action: `aws-jupyter config set default.spot_instances true`
+   - Action: `ide-jupyter config set default.spot_instances true`
 
 2. 💡 MEDIUM IMPACT: Right-sizing (Est. savings: $80/month, 16%)
    - Alice's instance idle 80% of the time
    - Current: t4g.xlarge (4 vCPU, 16GB)
    - Recommendation: t4g.large (2 vCPU, 8GB)
-   - Action: `aws-jupyter resize --instance i-abc123 --type t4g.large`
+   - Action: `ide-jupyter resize --instance i-abc123 --type t4g.large`
 
 3. 💵 LOW IMPACT: Reserved Instances (Est. savings: $45/month, 9%)
    - Bob runs 24/7 for 3+ months
@@ -1153,7 +1153,7 @@ Output:
 4. ⏱️ AUTO-STOP: Instance left running (Cost: $67 wasted this month)
    - 3 instances running >12hrs with no activity
    - Recommendation: Enable auto-stop after 2hr idle
-   - Action: `aws-jupyter config set auto_stop.enabled true`
+   - Action: `ide-jupyter config set auto_stop.enabled true`
 
 Total Potential Savings: $465/month (93% of current spend)
 ```
@@ -1163,7 +1163,7 @@ Analysis includes:
 - Idle time detection (right-sizing recommendations)
 - Reserved Instance ROI calculation
 - Auto-stop opportunities
-- One-click accept: `aws-jupyter costs optimize --accept-all`
+- One-click accept: `ide-jupyter costs optimize --accept-all`
 ```
 
 ---
@@ -1192,7 +1192,7 @@ Academic research has seasonal patterns (summer intensive work, winter break lul
 **Proposed Solution:**
 Cost forecasting command:
 ```bash
-aws-jupyter costs forecast --months 6
+ide-jupyter costs forecast --months 6
 ```
 
 Output:
