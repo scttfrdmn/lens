@@ -2,6 +2,19 @@
 
 This document outlines the future development plans for the Lens project. The project follows semantic versioning and is organized into phases.
 
+## ⚠️ Version Number Clarification
+
+**Important**: Roadmap phase numbers (v0.7.0, v0.8.0, etc.) represent feature planning phases and may not match actual release version numbers due to development priorities and release timing.
+
+**Current Status**:
+- v0.8.0 release = Rebranding (AWS IDE → Lens)
+- v0.9.0 release = Completed v0.7.0 roadmap goals (User Experience)
+- v0.10.0 planned = Will address v0.8.0 roadmap goals (Additional Tools)
+
+We maintain flexibility to ship features when ready, not strictly by roadmap order.
+
+---
+
 ## 📊 Current Status: Production-Ready Platform
 
 **Project Evolution:**
@@ -186,11 +199,13 @@ Establish comprehensive testing infrastructure with unit, integration, and E2E t
 
 ---
 
-## ✨ v0.7.0 - User Experience & Accessibility
+## ✨ v0.7.0 Roadmap Phase - User Experience & Accessibility
 
-**Status:** ✅ Complete
+**Status:** ✅ Complete (Shipped in v0.9.0 Release)
 **Completion Date:** October 2025
 **Priority:** 🔥 CRITICAL - Non-technical researchers need this
+
+**Note**: This roadmap phase was completed and released as v0.9.0 (after v0.8.0 rebranding release).
 
 ### Goals
 Make Lens accessible to non-technical academic researchers with guided setup and plain-language interactions.
@@ -277,9 +292,9 @@ Make Lens accessible to non-technical academic researchers with guided setup and
 
 ---
 
-## 🔬 v0.8.0 - Additional Research Tools
+## 🔬 v0.10.0 - Additional Research Tools (was v0.8.0 roadmap phase)
 
-**Status:** Planned
+**Status:** Next - Planned for v0.10.0 Release
 **Target:** 2-3 months
 **Priority:** 🔥 HIGH - Researchers need variety of tools
 
@@ -387,10 +402,10 @@ Expand beyond Jupyter/RStudio/VSCode to support additional research and analysis
 
 ---
 
-## 📦 v0.9.0 - Package Managers & Reproducible Environments
+## 📦 v0.11.0 - Package Managers & Reproducible Environments (was v0.9.0 roadmap phase)
 
-**Status:** Planned
-**Target:** 2-3 months
+**Status:** Planned for v0.11.0 Release
+**Target:** 3-4 months
 **Priority:** MEDIUM-HIGH - Reproducibility is critical for research
 
 ### Goals
@@ -468,10 +483,10 @@ Make it easy for researchers to create reproducible, domain-specific environment
 
 ---
 
-## 🤝 v0.10.0 - Collaboration Features
+## 🤝 v0.12.0 - Collaboration Features (was v0.10.0 roadmap phase)
 
-**Status:** Planned
-**Target:** 2-3 months
+**Status:** Planned for v0.12.0 Release
+**Target:** 4-5 months
 **Priority:** MEDIUM - Academic research is collaborative
 
 ### Goals
@@ -531,10 +546,10 @@ Enable research teams to collaborate effectively using shared cloud resources.
 
 ---
 
-## 💰 v0.11.0 - Cost Management for Labs
+## 💰 v0.13.0 - Cost Management for Labs (was v0.11.0 roadmap phase)
 
-**Status:** Planned
-**Target:** 1-2 months
+**Status:** Planned for v0.13.0 Release
+**Target:** 5-6 months
 **Priority:** MEDIUM - Academic budgets are tight
 
 ### Goals
@@ -766,10 +781,13 @@ We follow [Semantic Versioning 2.0.0](https://semver.org/):
 ## 📝 Last Updated
 
 - **Date:** October 2025
-- **Version:** v0.9.0 (User Experience & Accessibility - Complete)
-- **Next Focus:** v0.8.0 roadmap - Additional Research Tools (Streamlit, Q Developer, NICE DCV, Zeppelin)
+- **Current Release:** v0.9.0 (completed v0.7.0 roadmap phase - User Experience & Accessibility)
+- **Next Release:** v0.10.0 (will address v0.8.0 roadmap phase - Additional Research Tools)
+- **Next Focus:** Streamlit, Q Developer, NICE DCV, Zeppelin
 - **Next Review:** December 2025
 - **Project Status:** Production-ready platform with 3 IDE types, excellent UX for academic researchers
+
+**Version Alignment Note**: Roadmap phases are planning documents. Actual releases may ship features from different phases based on priorities and readiness.
 
 ---
 

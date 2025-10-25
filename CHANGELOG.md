@@ -9,9 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.9.0] - 2025-10-25
 
-### 🎯 User Experience & Accessibility (v0.7.0 Roadmap Completion)
+### 🎯 User Experience & Accessibility (Completes v0.7.0 Roadmap Phase)
 
-This release completes the v0.7.0 roadmap goals, making Lens accessible to non-technical academic researchers with significant UX improvements.
+This release completes the v0.7.0 roadmap phase goals, making Lens accessible to non-technical academic researchers with significant UX improvements.
+
+**Note**: This is v0.9.0 release (after v0.8.0 rebranding). Roadmap phase numbers are planning phases and may not match release version numbers.
 
 ### Added
 
@@ -85,11 +87,13 @@ This release completes the v0.7.0 roadmap goals, making Lens accessible to non-t
 
 ### What's Next
 
-The v0.8.0 roadmap (Additional Research Tools) is now the next focus:
+**v0.10.0** will address the v0.8.0 roadmap phase (Additional Research Tools):
 - Streamlit for interactive data apps
 - Amazon Q Developer standalone IDE
 - NICE DCV Desktop for GUI applications
 - Apache Zeppelin for multi-language notebooks
+
+See ROADMAP.md for full version alignment details.
 
 ## [0.8.0] - 2025-10-25
 
