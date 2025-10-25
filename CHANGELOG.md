@@ -7,6 +7,70 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2025-10-25
+
+### 🎨 Major Rebranding: AWS IDE → Lens
+
+This release represents a complete rebranding of the project from "AWS IDE" to **Lens** (lenside.io), with new binary names, unified configuration, and updated documentation throughout.
+
+### Breaking Changes
+
+**Binary Names Changed:**
+- `aws-jupyter` → `lens-jupyter`
+- `aws-rstudio` → `lens-rstudio`
+- `aws-vscode` → `lens-vscode`
+
+**Configuration Directory:**
+- Old: `~/.aws-jupyter`, `~/.aws-rstudio`, `~/.aws-vscode` (separate dirs)
+- New: `~/.lens` (unified directory for all tools)
+
+**Repository:**
+- Old: `github.com/scttfrdmn/aws-ide`
+- New: `github.com/scttfrdmn/lens`
+
+### Added
+- **Automatic Legacy Migration**: First run automatically migrates config from old `~/.aws-*` directories to `~/.lens/`
+  - Migrates `state.json` and `environments/` directory
+  - Non-destructive (preserves old directories)
+  - Logs migration activity
+- **Unified Configuration**: Single `~/.lens/` directory shared by all three tools
+  - Simplified user experience
+  - Easier to backup and manage
+  - Consistent key storage: `~/.lens/keys/`
+
+### Changed
+- **Project Name**: AWS IDE → Lens
+- **Go Module Path**: `github.com/scttfrdmn/aws-ide` → `github.com/scttfrdmn/lens`
+- **All Documentation**: Updated 50+ markdown files with new branding
+  - README.md, ROADMAP.md, USER_REQUIREMENTS.md
+  - All 5 persona walkthroughs
+  - Design principles, contributing guide
+- **All Code References**: 200+ string references updated
+- **Help Text**: All CLI help now references "lens-*" commands
+- **Error Messages**: Now reference "Lens" instead of "AWS IDE"
+
+### Technical Details
+
+**Phases Completed:**
+1. ✅ Go module path updated (77 import statements)
+2. ✅ Binary directories renamed (3 cmd directories)
+3. ✅ Configuration paths unified with migration
+4. ✅ All code references updated (200+ changes)
+5. ✅ Documentation updated (50+ files)
+6. ✅ CI/CD workflows updated
+7. ✅ All tests updated and passing
+8. ✅ Repository renamed on GitHub
+
+**Files Changed**: 164 files modified across all phases
+
+**Migration Support**: Users with existing installations will have their config automatically migrated on first run of any lens-* binary.
+
+**GitHub Redirects**: Old URLs (aws-ide) automatically redirect to new repository (lens)
+
+### Related
+- Closes [#8](https://github.com/scttfrdmn/lens/issues/8) - Lens rebranding
+- Documentation: `.github/LENS_REBRANDING_PLAN.md`
+
 ## [0.7.3] - 2025-10-25
 
 ### 🐛 Critical Bug Fix
