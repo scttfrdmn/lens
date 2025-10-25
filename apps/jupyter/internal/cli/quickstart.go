@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/scttfrdmn/aws-ide/pkg/output"
+	"github.com/scttfrdmn/lens/pkg/output"
 	"github.com/spf13/cobra"
 )
 
-// NewQuickstartCmd creates the quickstart command for aws-jupyter
+// NewQuickstartCmd creates the quickstart command for lens-jupyter
 func NewQuickstartCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "quickstart",
@@ -27,13 +27,13 @@ Smart defaults used:
 
 You can always customize these later with the 'wizard' or 'launch' commands.`,
 		Example: `  # Launch with smart defaults
-  aws-jupyter quickstart
+  lens-jupyter quickstart
 
   # Launch and connect immediately
-  aws-jupyter quickstart && aws-jupyter connect
+  lens-jupyter quickstart && lens-jupyter connect
 
   # Launch in a specific region
-  aws-jupyter quickstart --region us-west-2`,
+  lens-jupyter quickstart --region us-west-2`,
 		RunE: runQuickstart,
 	}
 
@@ -122,8 +122,8 @@ func runQuickstart(cmd *cobra.Command, args []string) error {
 	out.Blank()
 	out.Info("💡 Next steps:")
 	out.List("Wait 2-3 minutes for Jupyter to finish installing")
-	out.List("Connect with: aws-jupyter connect " + defaults["name"])
-	out.List("When done, stop it to save money: aws-jupyter stop " + defaults["name"])
+	out.List("Connect with: lens-jupyter connect " + defaults["name"])
+	out.List("When done, stop it to save money: lens-jupyter stop " + defaults["name"])
 	out.List("Or just leave it - auto-stop will shut it down after 2 hours")
 	out.Blank()
 

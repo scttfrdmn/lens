@@ -11,8 +11,8 @@ import (
 
 const (
 	createdByUser       = "user"
-	createdByAwsJupyter = "aws-jupyter"
-	defaultSGName       = "aws-jupyter"
+	createdByAwsJupyter = "lens-jupyter"
+	defaultSGName       = "lens-jupyter"
 
 	// Port numbers
 	portSSH     = 22
@@ -22,7 +22,7 @@ const (
 // SecurityGroupStrategy defines the strategy for security group management
 type SecurityGroupStrategy struct {
 	PreferExisting bool
-	DefaultName    string // "aws-jupyter"
+	DefaultName    string // "lens-jupyter"
 	UserSpecified  string
 	VpcID          string
 	ForceCreate    bool
@@ -92,13 +92,13 @@ func (e *EC2Client) SecurityGroupExists(ctx context.Context, name string) (bool,
 
 // CreateSecurityGroup creates a new security group with appropriate access rules
 func (e *EC2Client) CreateSecurityGroup(ctx context.Context, name, vpcID string) (*SecurityGroupInfo, error) {
-	isSessionManager := (name == "aws-jupyter-session-manager")
+	isSessionManager := (name == "lens-jupyter-session-manager")
 
 	var description string
 	var rules []types.IpPermission
 
 	if isSessionManager {
-		description = "aws-jupyter security group - Session Manager and Jupyter Lab access"
+		description = "lens-jupyter security group - Session Manager and Jupyter Lab access"
 		// For Session Manager, we only need Jupyter access (no SSH)
 		rules = []types.IpPermission{
 			{
@@ -114,7 +114,7 @@ func (e *EC2Client) CreateSecurityGroup(ctx context.Context, name, vpcID string)
 			},
 		}
 	} else {
-		description = "aws-jupyter security group - SSH and Jupyter Lab access"
+		description = "lens-jupyter security group - SSH and Jupyter Lab access"
 
 		// Get current public IP for restricted SSH access
 		publicIP, err := e.getCurrentPublicIP()
@@ -163,7 +163,7 @@ func (e *EC2Client) CreateSecurityGroup(ctx context.Context, name, vpcID string)
 				ResourceType: types.ResourceTypeSecurityGroup,
 				Tags: []types.Tag{
 					{Key: aws.String("Name"), Value: aws.String(name)},
-					{Key: aws.String("CreatedBy"), Value: aws.String("aws-jupyter-cli")},
+					{Key: aws.String("CreatedBy"), Value: aws.String("lens-jupyter-cli")},
 					{Key: aws.String("Purpose"), Value: aws.String("jupyter-lab-access")},
 				},
 			},
@@ -314,7 +314,7 @@ func (e *EC2Client) validateSecurityGroupRules(ctx context.Context, sgID string)
 	return nil
 }
 
-// IsAwsJupyterSecurityGroup checks if a security group name follows aws-jupyter naming convention
+// IsAwsJupyterSecurityGroup checks if a security group name follows lens-jupyter naming convention
 func IsAwsJupyterSecurityGroup(name string) bool {
 	return name == defaultSGName
 }

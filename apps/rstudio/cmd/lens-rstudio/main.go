@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/scttfrdmn/aws-ide/apps/vscode/internal/cli"
-	"github.com/scttfrdmn/aws-ide/pkg"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/apps/rstudio/internal/cli"
+	"github.com/scttfrdmn/lens/pkg"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 )
 
@@ -17,30 +17,34 @@ var (
 )
 
 func main() {
+	// Migrate from legacy config directories if needed
+	if err := config.MigrateFromLegacy(); err != nil {
+		fmt.Fprintf(os.Stderr, "Warning: Failed to migrate legacy config: %v\n", err)
+		// Continue anyway - don't block if migration fails
+	}
+
 	if err := config.EnsureConfigDir(); err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to create config directory: %v\n", err)
 		os.Exit(1)
 	}
 
 	rootCmd := &cobra.Command{
-		Use:   "aws-vscode",
-		Short: "VSCode Server on AWS Graviton with Session Manager & advanced networking",
-		Long: `aws-vscode is a powerful CLI tool for launching VSCode Server (code-server) instances
+		Use:   "lens-rstudio",
+		Short: "Secure RStudio Server on AWS Graviton with Session Manager & advanced networking",
+		Long: `lens-rstudio is a powerful CLI tool for launching secure RStudio Server instances
 on AWS EC2 Graviton processors with professional-grade security and networking.
 
 Features:
-• Full VSCode experience in your browser
 • Session Manager & SSH connection methods
 • Private subnet support with NAT Gateway
 • Smart security groups and key management
-• Built-in environments for web, Python, Go, and fullstack development
+• Built-in environments for data science, statistical computing, and research
 • Cost-aware infrastructure with reuse strategies
-• Automatic extension installation
 
 Quick Start:
-• Just run 'aws-vscode' to launch the interactive setup wizard
-• Or use 'aws-vscode quickstart' for instant launch with defaults
-• Run 'aws-vscode --help' to see all available commands`,
+• Just run 'lens-rstudio' to launch the interactive setup wizard
+• Or use 'lens-rstudio quickstart' for instant launch with defaults
+• Run 'lens-rstudio --help' to see all available commands`,
 		Version: fmt.Sprintf("v%s (platform: v%s, commit: %s, date: %s)", version, pkg.Version, commit, date),
 		Run: func(cmd *cobra.Command, args []string) {
 			// When no subcommand is provided, run the wizard by default
@@ -61,13 +65,14 @@ Quick Start:
 	rootCmd.AddCommand(cli.NewStopCmd())
 	rootCmd.AddCommand(cli.NewStartCmd())
 	rootCmd.AddCommand(cli.NewTerminateCmd())
-	rootCmd.AddCommand(cli.NewStatusCmd())
-	rootCmd.AddCommand(cli.NewEnvCmd())
-	rootCmd.AddCommand(cli.NewKeyCmd())
 	rootCmd.AddCommand(cli.NewCreateAMICmd())
-	rootCmd.AddCommand(cli.NewDeleteAMICmd())
 	rootCmd.AddCommand(cli.NewListAMIsCmd())
+	rootCmd.AddCommand(cli.NewDeleteAMICmd())
+	rootCmd.AddCommand(cli.NewEnvCmd())
+	rootCmd.AddCommand(cli.NewStatusCmd())
 	rootCmd.AddCommand(cli.NewGenerateCmd())
+	rootCmd.AddCommand(cli.NewKeyCmd())
+	rootCmd.AddCommand(cli.NewExportConfigCmd())
 	rootCmd.AddCommand(cli.NewConfigCmd())
 	rootCmd.AddCommand(cli.NewCostsCmd())
 

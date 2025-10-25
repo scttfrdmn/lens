@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/scttfrdmn/aws-ide/pkg/e2etest"
+	"github.com/scttfrdmn/lens/pkg/e2etest"
 )
 
 // TestVSCode_E2E_LaunchConnectTerminate tests the complete lifecycle:

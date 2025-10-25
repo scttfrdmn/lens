@@ -11,7 +11,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )

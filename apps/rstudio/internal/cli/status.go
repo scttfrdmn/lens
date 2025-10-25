@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
-	awslib "github.com/scttfrdmn/aws-ide/pkg/aws"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	awslib "github.com/scttfrdmn/lens/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 )
 

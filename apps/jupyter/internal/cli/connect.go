@@ -6,8 +6,8 @@ import (
 	"os"
 	"os/exec"
 
-	awslib "github.com/scttfrdmn/aws-ide/pkg/aws"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	awslib "github.com/scttfrdmn/lens/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 )
 
@@ -155,7 +155,7 @@ func setupSSHTunnel(instanceID string, localPort int, publicIP string, instance 
 	fmt.Printf("✓ SSH tunnel established (PID %d)\n", instance.TunnelPID)
 	fmt.Printf("Jupyter Lab: http://localhost:%d\n", localPort)
 	fmt.Println("\nNote: Keep this terminal open or the tunnel will close")
-	fmt.Println("To stop the tunnel: aws-jupyter stop " + instanceID)
+	fmt.Println("To stop the tunnel: lens-jupyter stop " + instanceID)
 
 	return nil
 }
@@ -189,7 +189,7 @@ func setupSSMPortForwarding(instanceID string, localPort int, instance *config.I
 	fmt.Printf("✓ Session Manager port forwarding established (PID %d)\n", instance.TunnelPID)
 	fmt.Printf("Jupyter Lab: http://localhost:%d\n", localPort)
 	fmt.Println("\nNote: Keep this terminal open or the port forwarding will close")
-	fmt.Println("To stop the tunnel: aws-jupyter stop " + instanceID)
+	fmt.Println("To stop the tunnel: lens-jupyter stop " + instanceID)
 
 	return nil
 }
@@ -197,7 +197,7 @@ func setupSSMPortForwarding(instanceID string, localPort int, instance *config.I
 // selectInstance automatically selects an instance when none is specified
 func selectInstance(state *config.LocalState) (string, error) {
 	if len(state.Instances) == 0 {
-		return "", fmt.Errorf("no instances found. Launch an instance first with 'aws-jupyter launch'")
+		return "", fmt.Errorf("no instances found. Launch an instance first with 'lens-jupyter launch'")
 	}
 
 	if len(state.Instances) == 1 {
@@ -221,5 +221,5 @@ func selectInstance(state *config.LocalState) (string, error) {
 		fmt.Printf("    Launched: %s\n", inst.LaunchedAt.Format("2006-01-02 15:04:05"))
 		fmt.Println()
 	}
-	return "", fmt.Errorf("please specify which instance to connect to: aws-jupyter connect INSTANCE_ID")
+	return "", fmt.Errorf("please specify which instance to connect to: lens-jupyter connect INSTANCE_ID")
 }

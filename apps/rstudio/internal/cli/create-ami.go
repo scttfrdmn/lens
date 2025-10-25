@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/scttfrdmn/aws-ide/pkg/aws"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 )
 
@@ -31,7 +31,7 @@ Use --no-reboot to create the AMI without rebooting (not recommended for product
 		},
 	}
 
-	cmd.Flags().StringVarP(&name, "name", "n", "", "AMI name (default: aws-jupyter-<environment>-<timestamp>)")
+	cmd.Flags().StringVarP(&name, "name", "n", "", "AMI name (default: lens-jupyter-<environment>-<timestamp>)")
 	cmd.Flags().BoolVar(&noReboot, "no-reboot", false, "Create AMI without rebooting the instance")
 
 	return cmd
@@ -61,7 +61,7 @@ func runCreateAMI(instanceID string, name string, noReboot bool) error {
 	// Generate AMI name if not provided
 	if name == "" {
 		timestamp := time.Now().Format("20060102-150405")
-		name = fmt.Sprintf("aws-jupyter-%s-%s", instance.Environment, timestamp)
+		name = fmt.Sprintf("lens-jupyter-%s-%s", instance.Environment, timestamp)
 	}
 
 	// Create AMI
@@ -70,7 +70,7 @@ func runCreateAMI(instanceID string, name string, noReboot bool) error {
 		fmt.Printf("⚠️  Warning: Creating AMI without reboot. Filesystem consistency not guaranteed.\n")
 	}
 
-	amiID, err := ec2Client.CreateAMI(ctx, instanceID, name, fmt.Sprintf("aws-jupyter %s environment", instance.Environment), noReboot)
+	amiID, err := ec2Client.CreateAMI(ctx, instanceID, name, fmt.Sprintf("lens-jupyter %s environment", instance.Environment), noReboot)
 	if err != nil {
 		return fmt.Errorf("failed to create AMI: %w", err)
 	}

@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/scttfrdmn/aws-ide/pkg/aws"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/config"
 )
 
 func TestCleanupStateFile_EmptyDeletedAMIs(t *testing.T) {

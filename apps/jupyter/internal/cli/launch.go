@@ -10,11 +10,11 @@ import (
 
 	awssdkconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
-	jupyterconfig "github.com/scttfrdmn/aws-ide/apps/jupyter/internal/config"
-	"github.com/scttfrdmn/aws-ide/pkg/aws"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
-	"github.com/scttfrdmn/aws-ide/pkg/output"
-	"github.com/scttfrdmn/aws-ide/pkg/readiness"
+	jupyterconfig "github.com/scttfrdmn/lens/apps/jupyter/internal/config"
+	"github.com/scttfrdmn/lens/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/output"
+	"github.com/scttfrdmn/lens/pkg/readiness"
 	"github.com/spf13/cobra"
 )
 
@@ -301,7 +301,7 @@ func setupInstanceProfile(ctx context.Context, profile string) (*aws.InstancePro
 		return nil, fmt.Errorf("failed to create IAM client: %w", err)
 	}
 
-	instanceProfile, err := iamClient.GetOrCreateSessionManagerRole(ctx, "aws-jupyter")
+	instanceProfile, err := iamClient.GetOrCreateSessionManagerRole(ctx, "lens-jupyter")
 	if err != nil {
 		return nil, fmt.Errorf("failed to setup Session Manager role: %w", err)
 	}
@@ -402,7 +402,7 @@ func setupSecurityGroup(ctx context.Context, ec2Client *aws.EC2Client, vpcID, co
 
 	sgStrategy := aws.DefaultSecurityGroupStrategy(vpcID)
 	if connectionMethod == connectionMethodSessionManager {
-		sgStrategy.DefaultName = "aws-jupyter-session-manager"
+		sgStrategy.DefaultName = "lens-jupyter-session-manager"
 	}
 
 	securityGroup, err := ec2Client.GetOrCreateSecurityGroup(ctx, sgStrategy)
@@ -543,7 +543,7 @@ func displayInstanceInfo(instance *types.Instance, env *config.Environment, subn
 			if env.AMIBase == "amazonlinux2-arm64" || env.AMIBase == "amazonlinux2-x86_64" {
 				username = "ec2-user"
 			}
-			out.Connection(fmt.Sprintf("ssh -i ~/.aws-jupyter/keys/%s.pem %s@%s", keyInfo.Name, username, publicIP))
+			out.Connection(fmt.Sprintf("ssh -i ~/.lens-jupyter/keys/%s.pem %s@%s", keyInfo.Name, username, publicIP))
 		} else {
 			out.Info("Use Session Manager or VPN/bastion to connect to private instance")
 		}
@@ -557,7 +557,7 @@ func displayInstanceInfo(instance *types.Instance, env *config.Environment, subn
 
 	out.Blank()
 	out.Subheader("Next Steps:")
-	out.List(fmt.Sprintf("Use 'aws-jupyter connect %s' to setup port forwarding", instanceID))
+	out.List(fmt.Sprintf("Use 'lens-jupyter connect %s' to setup port forwarding", instanceID))
 	out.Blank()
 
 	return nil

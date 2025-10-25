@@ -12,8 +12,8 @@ func TestDefaultKeyPairStrategy(t *testing.T) {
 		t.Error("Expected PreferExisting to be true")
 	}
 
-	if strategy.DefaultPrefix != "aws-jupyter" {
-		t.Errorf("Expected DefaultPrefix 'aws-jupyter', got: %s", strategy.DefaultPrefix)
+	if strategy.DefaultPrefix != "lens-jupyter" {
+		t.Errorf("Expected DefaultPrefix 'lens-jupyter', got: %s", strategy.DefaultPrefix)
 	}
 
 	if strategy.Region != region {
@@ -34,15 +34,15 @@ func TestKeyPairStrategy_GetDefaultKeyName(t *testing.T) {
 		{
 			name: "default strategy",
 			strategy: KeyPairStrategy{
-				DefaultPrefix: "aws-jupyter",
+				DefaultPrefix: "lens-jupyter",
 				Region:        "us-west-2",
 			},
-			expectedName: "aws-jupyter-us-west-2",
+			expectedName: "lens-jupyter-us-west-2",
 		},
 		{
 			name: "user specified key",
 			strategy: KeyPairStrategy{
-				DefaultPrefix: "aws-jupyter",
+				DefaultPrefix: "lens-jupyter",
 				Region:        "us-west-2",
 				UserSpecified: "my-custom-key",
 			},
@@ -65,11 +65,11 @@ func TestIsAwsJupyterKey(t *testing.T) {
 		keyName  string
 		expected bool
 	}{
-		{"aws-jupyter-us-west-2", true},
-		{"aws-jupyter-us-east-1", true},
-		{"aws-jupyter-eu-west-1", true},
+		{"lens-jupyter-us-west-2", true},
+		{"lens-jupyter-us-east-1", true},
+		{"lens-jupyter-eu-west-1", true},
 		{"my-custom-key", false},
-		{"aws-jupyter", false}, // Must have region suffix
+		{"lens-jupyter", false}, // Must have region suffix
 		{"", false},
 	}
 
@@ -87,7 +87,7 @@ func TestKeyPairInfo_Structure(t *testing.T) {
 	info := &KeyPairInfo{
 		Name:       "test-key",
 		PrivateKey: "-----BEGIN RSA PRIVATE KEY-----\ntest\n-----END RSA PRIVATE KEY-----",
-		CreatedBy:  "aws-jupyter",
+		CreatedBy:  "lens-jupyter",
 	}
 
 	if info.Name != "test-key" {
@@ -98,15 +98,15 @@ func TestKeyPairInfo_Structure(t *testing.T) {
 		t.Error("Expected PrivateKey to be non-empty")
 	}
 
-	if info.CreatedBy != "aws-jupyter" {
-		t.Errorf("Expected CreatedBy aws-jupyter, got: %s", info.CreatedBy)
+	if info.CreatedBy != "lens-jupyter" {
+		t.Errorf("Expected CreatedBy lens-jupyter, got: %s", info.CreatedBy)
 	}
 }
 
 func TestKeyPairStrategy_PreferExistingBehavior(t *testing.T) {
 	strategy := KeyPairStrategy{
 		PreferExisting: true,
-		DefaultPrefix:  "aws-jupyter",
+		DefaultPrefix:  "lens-jupyter",
 		Region:         "us-west-2",
 		ForceCreate:    false,
 	}

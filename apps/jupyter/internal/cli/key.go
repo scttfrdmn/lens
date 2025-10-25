@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/scttfrdmn/aws-ide/pkg/aws"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +15,7 @@ func NewKeyCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "key",
 		Short: "Manage SSH key pairs",
-		Long:  "Commands for managing SSH key pairs used by aws-jupyter instances",
+		Long:  "Commands for managing SSH key pairs used by lens-jupyter instances",
 	}
 
 	cmd.AddCommand(newKeyListCmd())
@@ -153,8 +153,8 @@ func runKeyList(profile string) error {
 				}
 			}
 			status := ""
-			if awsKey.CreatedBy == "aws-jupyter" {
-				status = " [aws-jupyter]"
+			if awsKey.CreatedBy == "lens-jupyter" {
+				status = " [lens-jupyter]"
 			}
 			if hasLocal {
 				fmt.Printf("  ✓ %s (has local key)%s\n", awsKey.Name, status)
@@ -236,7 +236,7 @@ func runKeyValidate() error {
 	}
 
 	if hasErrors {
-		fmt.Println("\nTo fix permissions, run: chmod 600 ~/.aws-jupyter/keys/*.pem")
+		fmt.Println("\nTo fix permissions, run: chmod 600 ~/.lens-jupyter/keys/*.pem")
 	}
 
 	return nil

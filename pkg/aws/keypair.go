@@ -18,23 +18,23 @@ type KeyPairInfo struct {
 	Fingerprint string
 	PrivateKey  string // Only populated when creating new keys
 	Region      string
-	CreatedBy   string // "aws-jupyter" or "user"
+	CreatedBy   string // "lens-jupyter" or "user"
 }
 
 // KeyPairStrategy defines how to handle key pair selection and creation
 type KeyPairStrategy struct {
 	PreferExisting bool   // Try to reuse existing keys
-	DefaultPrefix  string // "aws-jupyter"
+	DefaultPrefix  string // "lens-jupyter"
 	UserSpecified  string // User's custom key name
 	Region         string // Current region
 	ForceCreate    bool   // Force creation of new key even if exists
 }
 
-// DefaultKeyPairStrategy returns the recommended strategy for aws-jupyter
+// DefaultKeyPairStrategy returns the recommended strategy for lens-jupyter
 func DefaultKeyPairStrategy(region string) KeyPairStrategy {
 	return KeyPairStrategy{
 		PreferExisting: true,
-		DefaultPrefix:  "aws-jupyter",
+		DefaultPrefix:  "lens-jupyter",
 		Region:         region,
 		ForceCreate:    false,
 	}
@@ -48,9 +48,9 @@ func (s KeyPairStrategy) GetDefaultKeyName() string {
 	return fmt.Sprintf("%s-%s", s.DefaultPrefix, s.Region)
 }
 
-// IsAwsJupyterKey returns true if the key name was created by aws-jupyter
+// IsAwsJupyterKey returns true if the key name was created by lens-jupyter
 func IsAwsJupyterKey(keyName string) bool {
-	return strings.HasPrefix(keyName, "aws-jupyter-")
+	return strings.HasPrefix(keyName, "lens-jupyter-")
 }
 
 // ListKeyPairs returns all key pairs in the current region
@@ -68,7 +68,7 @@ func (e *EC2Client) ListKeyPairs(ctx context.Context) ([]KeyPairInfo, error) {
 
 		createdBy := "user"
 		if IsAwsJupyterKey(*kp.KeyName) {
-			createdBy = "aws-jupyter"
+			createdBy = "lens-jupyter"
 		}
 
 		keys = append(keys, KeyPairInfo{
@@ -107,7 +107,7 @@ func (e *EC2Client) CreateKeyPair(ctx context.Context, keyName string) (*KeyPair
 				ResourceType: types.ResourceTypeKeyPair,
 				Tags: []types.Tag{
 					{Key: aws.String("Name"), Value: aws.String(keyName)},
-					{Key: aws.String("CreatedBy"), Value: aws.String("aws-jupyter-cli")},
+					{Key: aws.String("CreatedBy"), Value: aws.String("lens-jupyter-cli")},
 					{Key: aws.String("Purpose"), Value: aws.String("Jupyter Lab SSH access")},
 				},
 			},
@@ -122,7 +122,7 @@ func (e *EC2Client) CreateKeyPair(ctx context.Context, keyName string) (*KeyPair
 		Fingerprint: *result.KeyFingerprint,
 		PrivateKey:  *result.KeyMaterial,
 		Region:      e.region,
-		CreatedBy:   "aws-jupyter",
+		CreatedBy:   "lens-jupyter",
 	}, nil
 }
 
@@ -184,7 +184,7 @@ func (e *EC2Client) GetOrCreateKeyPair(ctx context.Context, strategy KeyPairStra
 	return e.CreateKeyPair(ctx, keyName)
 }
 
-// ListAwsJupyterKeys returns only key pairs created by aws-jupyter
+// ListAwsJupyterKeys returns only key pairs created by lens-jupyter
 func (e *EC2Client) ListAwsJupyterKeys(ctx context.Context) ([]KeyPairInfo, error) {
 	allKeys, err := e.ListKeyPairs(ctx)
 	if err != nil {
@@ -193,7 +193,7 @@ func (e *EC2Client) ListAwsJupyterKeys(ctx context.Context) ([]KeyPairInfo, erro
 
 	var jupyterKeys []KeyPairInfo
 	for _, key := range allKeys {
-		if key.CreatedBy == "aws-jupyter" {
+		if key.CreatedBy == "lens-jupyter" {
 			jupyterKeys = append(jupyterKeys, key)
 		}
 	}

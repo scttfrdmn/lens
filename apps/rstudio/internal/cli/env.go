@@ -3,7 +3,7 @@ package cli
 import (
 	"fmt"
 
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 )
 

@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/scttfrdmn/aws-ide/pkg/aws"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 )
 
@@ -99,7 +99,7 @@ func runStart(instanceID string) error {
 		fmt.Printf("Public IP: %s\n", *instanceInfo.PublicIpAddress)
 	}
 	fmt.Printf("\n📓 To connect:\n")
-	fmt.Printf("aws-jupyter connect %s\n", instanceID)
+	fmt.Printf("lens-jupyter connect %s\n", instanceID)
 
 	return nil
 }

@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/scttfrdmn/aws-ide/pkg/aws"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
-	"github.com/scttfrdmn/aws-ide/pkg/readiness"
+	"github.com/scttfrdmn/lens/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/readiness"
 )
 
 // TestContext holds common resources for E2E tests

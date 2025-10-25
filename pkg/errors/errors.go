@@ -101,7 +101,7 @@ func ConfigFileError(operation string, cause error) *ContextualError {
 	return New(operation, cause).
 		WithContext("There was an issue with your configuration file.").
 		WithSuggestions(
-			"Initialize config with: aws-vscode config init",
+			"Initialize config with: lens-vscode config init",
 			"Check config file at: ~/.aws-ide/config.yaml",
 			"Validate YAML syntax if editing manually",
 		)
@@ -112,7 +112,7 @@ func InstanceNotFoundError(instanceID string) *ContextualError {
 	return New("find instance", fmt.Errorf("instance %s not found in local state", instanceID)).
 		WithContext("The instance may have been terminated or was not launched by this tool.").
 		WithSuggestions(
-			"List your instances with: aws-vscode list",
+			"List your instances with: lens-vscode list",
 			"Check AWS Console to see if instance exists",
 			"If instance was terminated, the state will be cleaned up automatically",
 		)
@@ -124,7 +124,7 @@ func NetworkError(operation string, cause error) *ContextualError {
 		WithContext("Unable to establish network connection.").
 		WithSuggestions(
 			"Check your internet connection",
-			"Verify the instance is running: aws-vscode status INSTANCE_ID",
+			"Verify the instance is running: lens-vscode status INSTANCE_ID",
 			"Check security group rules allow necessary traffic",
 			"If using Session Manager, verify SSM agent is running",
 		)
@@ -135,8 +135,8 @@ func EnvironmentNotFoundError(envName string) *ContextualError {
 	return New("load environment", fmt.Errorf("environment '%s' not found", envName)).
 		WithContext("The specified environment configuration does not exist.").
 		WithSuggestions(
-			"List available environments: aws-vscode env list",
-			"Generate an environment from your project: aws-vscode generate",
+			"List available environments: lens-vscode env list",
+			"Generate an environment from your project: lens-vscode generate",
 			"Check if environment name is correct",
 		)
 }
@@ -146,10 +146,10 @@ func AMINotFoundError(amiID string) *ContextualError {
 	return New("find AMI", fmt.Errorf("AMI '%s' not found", amiID)).
 		WithContext("The specified AMI does not exist or is not accessible.").
 		WithSuggestions(
-			"List your custom AMIs: aws-vscode list-amis",
+			"List your custom AMIs: lens-vscode list-amis",
 			"Verify the AMI ID is correct",
 			"Check if AMI exists in the current region",
-			"Create a new AMI: aws-vscode create-ami INSTANCE_ID",
+			"Create a new AMI: lens-vscode create-ami INSTANCE_ID",
 		)
 }
 
@@ -158,7 +158,7 @@ func ValidationError(field string, value string, reason string) *ContextualError
 	return New("validate input", fmt.Errorf("invalid %s: %s", field, value)).
 		WithContext(reason).
 		WithSuggestions(
-			"Check the command help for valid values: aws-vscode COMMAND --help",
+			"Check the command help for valid values: lens-vscode COMMAND --help",
 			"Review the documentation for examples",
 		)
 }
@@ -170,7 +170,7 @@ func QuotaExceededError(resourceType string, cause error) *ContextualError {
 		WithSuggestions(
 			fmt.Sprintf("Terminate unused %ss to free up quota", resourceType),
 			"Request a quota increase through AWS Service Quotas",
-			"Check current usage: aws-vscode list",
+			"Check current usage: lens-vscode list",
 		)
 }
 
@@ -194,6 +194,6 @@ func CostTrackingError(operation string, cause error) *ContextualError {
 			"Verify AWS Cost Explorer API permissions",
 			"Check if Cost Explorer is enabled in your account",
 			"Cost data may take 24 hours to appear",
-			"Disable cost tracking: aws-vscode config set enable_cost_tracking false",
+			"Disable cost tracking: lens-vscode config set enable_cost_tracking false",
 		)
 }

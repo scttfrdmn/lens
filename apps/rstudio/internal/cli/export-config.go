@@ -9,7 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 )
 
@@ -29,10 +29,10 @@ This creates a tar.gz archive that can be imported to new instances.
 
 Examples:
   # Export using default config
-  aws-rstudio export-config --output rstudio-config.tar.gz
+  lens-rstudio export-config --output rstudio-config.tar.gz
 
   # Export using custom config definition
-  aws-rstudio export-config --config my-custom --output config.tar.gz`,
+  lens-rstudio export-config --config my-custom --output config.tar.gz`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runExportConfig(configName, output)
 		},
@@ -126,7 +126,7 @@ func runExportConfig(configName, output string) error {
 	fmt.Printf("  Output: %s (%.1f KB)\n", output, float64(sizeKB))
 	fmt.Printf("  Exported %d paths\n", len(exportedPaths))
 	fmt.Printf("\nTo import this configuration on an instance:\n")
-	fmt.Printf("  aws-rstudio import-config --input %s --instance-id i-xxx\n", output)
+	fmt.Printf("  lens-rstudio import-config --input %s --instance-id i-xxx\n", output)
 
 	return nil
 }

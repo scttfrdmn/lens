@@ -143,29 +143,29 @@ build: build-all ## Build all applications
 
 build-all: build-jupyter build-rstudio build-vscode ## Build all applications
 
-build-jupyter: ## Build aws-jupyter
-	@echo "Building aws-jupyter..."
+build-jupyter: ## Build lens-jupyter
+	@echo "Building lens-jupyter..."
 	@mkdir -p $(BINARY_DIR)
-	@cd $(APPS_DIR)/jupyter && $(GOBUILD) -o ../../$(BINARY_DIR)/aws-jupyter ./cmd/aws-jupyter
-	@echo "✓ Built: $(BINARY_DIR)/aws-jupyter"
+	@cd $(APPS_DIR)/jupyter && $(GOBUILD) -o ../../$(BINARY_DIR)/lens-jupyter ./cmd/lens-jupyter
+	@echo "✓ Built: $(BINARY_DIR)/lens-jupyter"
 
-build-rstudio: ## Build aws-rstudio
-	@echo "Building aws-rstudio..."
+build-rstudio: ## Build lens-rstudio
+	@echo "Building lens-rstudio..."
 	@mkdir -p $(BINARY_DIR)
-	@cd $(APPS_DIR)/rstudio && $(GOBUILD) -o ../../$(BINARY_DIR)/aws-rstudio ./cmd/aws-rstudio
-	@echo "✓ Built: $(BINARY_DIR)/aws-rstudio"
+	@cd $(APPS_DIR)/rstudio && $(GOBUILD) -o ../../$(BINARY_DIR)/lens-rstudio ./cmd/lens-rstudio
+	@echo "✓ Built: $(BINARY_DIR)/lens-rstudio"
 
-build-vscode: ## Build aws-vscode
-	@echo "Building aws-vscode..."
+build-vscode: ## Build lens-vscode
+	@echo "Building lens-vscode..."
 	@mkdir -p $(BINARY_DIR)
-	@cd $(APPS_DIR)/vscode && $(GOBUILD) -o ../../$(BINARY_DIR)/aws-vscode ./cmd/aws-vscode
-	@echo "✓ Built: $(BINARY_DIR)/aws-vscode"
+	@cd $(APPS_DIR)/vscode && $(GOBUILD) -o ../../$(BINARY_DIR)/lens-vscode ./cmd/lens-vscode
+	@echo "✓ Built: $(BINARY_DIR)/lens-vscode"
 
 install: build-all ## Install binaries to /usr/local/bin
 	@echo "Installing binaries..."
-	@sudo cp $(BINARY_DIR)/aws-jupyter /usr/local/bin/
-	@sudo cp $(BINARY_DIR)/aws-rstudio /usr/local/bin/
-	@sudo cp $(BINARY_DIR)/aws-vscode /usr/local/bin/
+	@sudo cp $(BINARY_DIR)/lens-jupyter /usr/local/bin/
+	@sudo cp $(BINARY_DIR)/lens-rstudio /usr/local/bin/
+	@sudo cp $(BINARY_DIR)/lens-vscode /usr/local/bin/
 	@echo "✓ Installed to /usr/local/bin/"
 
 ##@ Maintenance

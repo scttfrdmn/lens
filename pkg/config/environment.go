@@ -27,8 +27,8 @@ func LoadEnvironment(name string) (*Environment, error) {
 	// Try user config first, then built-in, then Homebrew pkgshare
 	userPath := filepath.Join(GetConfigDir(), "environments", name+".yaml")
 	builtinPath := filepath.Join("environments", name+".yaml")
-	homebrewPath := filepath.Join("/opt/homebrew/share/aws-jupyter/environments", name+".yaml")
-	linuxbrewPath := filepath.Join("/home/linuxbrew/.linuxbrew/share/aws-jupyter/environments", name+".yaml")
+	homebrewPath := filepath.Join("/opt/homebrew/share/lens-jupyter/environments", name+".yaml")
+	linuxbrewPath := filepath.Join("/home/linuxbrew/.linuxbrew/share/lens-jupyter/environments", name+".yaml")
 
 	var path string
 	if _, err := os.Stat(userPath); err == nil {
@@ -65,8 +65,8 @@ func ListEnvironments() ([]string, error) {
 	dirs := []string{
 		filepath.Join(GetConfigDir(), "environments"),
 		"environments",
-		"/opt/homebrew/share/aws-jupyter/environments",
-		"/home/linuxbrew/.linuxbrew/share/aws-jupyter/environments",
+		"/opt/homebrew/share/lens-jupyter/environments",
+		"/home/linuxbrew/.linuxbrew/share/lens-jupyter/environments",
 	}
 
 	for _, dir := range dirs {

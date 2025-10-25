@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/scttfrdmn/aws-ide/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/aws"
 )
 
 const (
@@ -28,14 +28,14 @@ func NewKeyStorage(baseDir string) *KeyStorage {
 	}
 }
 
-// DefaultKeyStorage returns the default key storage in ~/.aws-jupyter/keys
+// DefaultKeyStorage returns the default key storage in ~/.lens/keys
 func DefaultKeyStorage() (*KeyStorage, error) {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user home directory: %w", err)
 	}
 
-	baseDir := filepath.Join(homeDir, ".aws-jupyter", "keys")
+	baseDir := filepath.Join(homeDir, ".lens", "keys")
 	return NewKeyStorage(baseDir), nil
 }
 

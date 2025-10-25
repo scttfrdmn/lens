@@ -6,13 +6,13 @@ import (
 
 func TestInstanceProfileInfo_Structure(t *testing.T) {
 	info := &InstanceProfileInfo{
-		Name: "aws-jupyter-session-manager",
-		Arn:  "arn:aws:iam::123456789012:instance-profile/aws-jupyter-session-manager",
-		Role: "aws-jupyter-session-manager-role",
+		Name: "lens-jupyter-session-manager",
+		Arn:  "arn:aws:iam::123456789012:instance-profile/lens-jupyter-session-manager",
+		Role: "lens-jupyter-session-manager-role",
 	}
 
-	if info.Name != "aws-jupyter-session-manager" {
-		t.Errorf("Expected Name 'aws-jupyter-session-manager', got: %s", info.Name)
+	if info.Name != "lens-jupyter-session-manager" {
+		t.Errorf("Expected Name 'lens-jupyter-session-manager', got: %s", info.Name)
 	}
 
 	if info.Arn == "" {
@@ -30,12 +30,12 @@ func TestIAMConstants(t *testing.T) {
 	// by testing the structure and naming conventions
 
 	profileInfo := &InstanceProfileInfo{
-		Name: "aws-jupyter-session-manager",
-		Arn:  "arn:aws:iam::123456789012:instance-profile/aws-jupyter-session-manager",
+		Name: "lens-jupyter-session-manager",
+		Arn:  "arn:aws:iam::123456789012:instance-profile/lens-jupyter-session-manager",
 	}
 
 	// Verify expected naming patterns
-	expectedNamePrefix := "aws-jupyter"
+	expectedNamePrefix := "lens-jupyter"
 	if len(profileInfo.Name) < len(expectedNamePrefix) ||
 		profileInfo.Name[:len(expectedNamePrefix)] != expectedNamePrefix {
 		t.Errorf("Expected instance profile name to start with '%s', got: %s", expectedNamePrefix, profileInfo.Name)
@@ -50,12 +50,12 @@ func TestInstanceProfileInfo_ARNFormat(t *testing.T) {
 	}{
 		{
 			name:          "valid ARN",
-			arn:           "arn:aws:iam::123456789012:instance-profile/aws-jupyter-session-manager",
+			arn:           "arn:aws:iam::123456789012:instance-profile/lens-jupyter-session-manager",
 			shouldBeValid: true,
 		},
 		{
 			name:          "valid ARN different account",
-			arn:           "arn:aws:iam::999888777666:instance-profile/aws-jupyter-session-manager",
+			arn:           "arn:aws:iam::999888777666:instance-profile/lens-jupyter-session-manager",
 			shouldBeValid: true,
 		},
 		{
@@ -92,7 +92,7 @@ func TestInstanceProfileInfo_NameValidation(t *testing.T) {
 		name    string
 		isValid bool
 	}{
-		{"aws-jupyter-session-manager", true},
+		{"lens-jupyter-session-manager", true},
 		{"my-custom-profile", true},
 		{"", false},
 		{"profile-with-numbers-123", true},

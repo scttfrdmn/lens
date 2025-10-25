@@ -110,9 +110,9 @@ func InstanceNotRunningError(instanceID string, state string) *FriendlyError {
 		explanation,
 		fmt.Errorf("instance %s is in %s state", instanceID, state),
 	).WithNextSteps(
-		fmt.Sprintf("Start the instance: aws-jupyter start %s", instanceID),
+		fmt.Sprintf("Start the instance: lens-jupyter start %s", instanceID),
 		"Wait 2-3 minutes for it to fully start",
-		fmt.Sprintf("Check if it's ready: aws-jupyter status %s", instanceID),
+		fmt.Sprintf("Check if it's ready: lens-jupyter status %s", instanceID),
 	)
 }
 
@@ -123,9 +123,9 @@ func NoInstancesFoundError() *FriendlyError {
 		"You haven't created any cloud computers (instances) yet. You need to create one first before you can use it.",
 		fmt.Errorf("no instances found"),
 	).WithNextSteps(
-		"Create your first instance with the easy setup wizard: aws-jupyter wizard",
-		"Or create one with specific options: aws-jupyter launch",
-		"Need help? Run: aws-jupyter wizard --help",
+		"Create your first instance with the easy setup wizard: lens-jupyter wizard",
+		"Or create one with specific options: lens-jupyter launch",
+		"Need help? Run: lens-jupyter wizard --help",
 	)
 }
 
@@ -136,8 +136,8 @@ func InstanceTerminatedError(instanceID string) *FriendlyError {
 		"The cloud computer you're trying to use has been deleted (terminated). Once an instance is terminated, it's gone permanently and can't be recovered.",
 		fmt.Errorf("instance %s was terminated", instanceID),
 	).WithNextSteps(
-		"Create a new instance with: aws-jupyter wizard",
-		"Check your other instances: aws-jupyter list",
+		"Create a new instance with: lens-jupyter wizard",
+		"Check your other instances: lens-jupyter list",
 		"If you need to recover data, check if you have backups or snapshots",
 	)
 }
@@ -149,9 +149,9 @@ func RegionMismatchError(instanceRegion string, currentRegion string) *FriendlyE
 		fmt.Sprintf("Your cloud computer is in the '%s' region, but you're currently looking in the '%s' region. AWS regions are like different data centers around the world.", instanceRegion, currentRegion),
 		fmt.Errorf("instance is in %s but you're using %s", instanceRegion, currentRegion),
 	).WithNextSteps(
-		fmt.Sprintf("Switch to the correct region: aws-jupyter --region %s list", instanceRegion),
-		fmt.Sprintf("Or set it as default: aws-jupyter config set default_region %s", instanceRegion),
-		"List all your instances in all regions: aws-jupyter list --all-regions",
+		fmt.Sprintf("Switch to the correct region: lens-jupyter --region %s list", instanceRegion),
+		fmt.Sprintf("Or set it as default: lens-jupyter config set default_region %s", instanceRegion),
+		"List all your instances in all regions: lens-jupyter list --all-regions",
 	)
 }
 
@@ -176,7 +176,7 @@ func TooManyInstancesError(cause error) *FriendlyError {
 		"You've reached the maximum number of cloud computers (instances) you're allowed to have running at once. AWS limits how many you can run to prevent accidents.",
 		cause,
 	).WithNextSteps(
-		"Stop or terminate instances you're not using: aws-jupyter list",
+		"Stop or terminate instances you're not using: lens-jupyter list",
 		"Wait for stopped instances to fully shut down (takes 1-2 minutes)",
 		"If you need more instances, request a limit increase in the AWS console",
 	)
@@ -190,7 +190,7 @@ func NetworkTimeoutError(cause error) *FriendlyError {
 		cause,
 	).WithNextSteps(
 		"Check that your internet connection is working",
-		"Verify the instance is running: aws-jupyter status INSTANCE_ID",
+		"Verify the instance is running: lens-jupyter status INSTANCE_ID",
 		"Try again in a minute - the instance might still be starting up",
 		"If this keeps happening, the instance may have crashed. Try stopping and starting it again.",
 	)
@@ -203,9 +203,9 @@ func EnvironmentNotFoundFriendly(envName string) *FriendlyError {
 		fmt.Sprintf("The software setup (environment) called '%s' doesn't exist. Environments are pre-configured sets of software tools.", envName),
 		fmt.Errorf("environment '%s' not found", envName),
 	).WithNextSteps(
-		"See what environments are available: aws-jupyter env list",
-		"Use the wizard to pick the right one: aws-jupyter wizard",
-		"Create a custom environment: aws-jupyter generate",
+		"See what environments are available: lens-jupyter env list",
+		"Use the wizard to pick the right one: lens-jupyter wizard",
+		"Create a custom environment: lens-jupyter generate",
 	)
 }
 
@@ -216,7 +216,7 @@ func DiskFullError(instanceID string, cause error) *FriendlyError {
 		"The hard drive on your cloud computer is completely full. You need to delete some files or increase the storage size.",
 		cause,
 	).WithNextSteps(
-		fmt.Sprintf("Connect and delete unnecessary files: aws-jupyter connect %s", instanceID),
+		fmt.Sprintf("Connect and delete unnecessary files: lens-jupyter connect %s", instanceID),
 		"Check what's using space with: df -h",
 		"Create a new instance with more storage space",
 		"Consider creating a snapshot before deleting important files",
@@ -276,7 +276,7 @@ func TranslateAWSError(err error, context string) error {
 		).WithNextSteps(
 			"Try the command again in a minute",
 			"Check if your internet connection is working",
-			"Run 'aws-jupyter status' to check if everything is okay",
+			"Run 'lens-jupyter status' to check if everything is okay",
 			"If this keeps happening, you can report it as a bug",
 		).ShowTechnicalDetails()
 	}

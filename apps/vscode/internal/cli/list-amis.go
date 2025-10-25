@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/scttfrdmn/aws-ide/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/aws"
 	"github.com/spf13/cobra"
 )
 
@@ -15,8 +15,8 @@ func NewListAMIsCmd() *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "list-amis",
-		Short: "List custom aws-vscode AMIs",
-		Long: `List all AMIs created by aws-vscode CLI.
+		Short: "List custom lens-vscode AMIs",
+		Long: `List all AMIs created by lens-vscode CLI.
 
 Shows AMIs with their IDs, names, creation dates, and states.
 Only shows AMIs created in the specified region (defaults to current AWS region).`,
@@ -52,8 +52,8 @@ func runListAMIs(region string) error {
 	}
 
 	if len(amis) == 0 {
-		fmt.Printf("No custom aws-vscode AMIs found in region %s\n", ec2Client.GetRegion())
-		fmt.Printf("\nCreate an AMI with: aws-vscode create-ami INSTANCE_ID\n")
+		fmt.Printf("No custom lens-vscode AMIs found in region %s\n", ec2Client.GetRegion())
+		fmt.Printf("\nCreate an AMI with: lens-vscode create-ami INSTANCE_ID\n")
 		return nil
 	}
 
@@ -62,7 +62,7 @@ func runListAMIs(region string) error {
 		return amis[i].CreationDate.After(amis[j].CreationDate)
 	})
 
-	fmt.Printf("Custom aws-vscode AMIs in region %s:\n\n", ec2Client.GetRegion())
+	fmt.Printf("Custom lens-vscode AMIs in region %s:\n\n", ec2Client.GetRegion())
 	for _, ami := range amis {
 		fmt.Printf("AMI ID: %s\n", ami.ID)
 		fmt.Printf("  Name: %s\n", ami.Name)
@@ -75,7 +75,7 @@ func runListAMIs(region string) error {
 	}
 
 	fmt.Printf("To launch an instance using a custom AMI:\n")
-	fmt.Printf("  aws-vscode launch --env ENVIRONMENT --ami AMI_ID\n")
+	fmt.Printf("  lens-vscode launch --env ENVIRONMENT --ami AMI_ID\n")
 
 	return nil
 }

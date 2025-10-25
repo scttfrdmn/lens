@@ -3,11 +3,11 @@ package cli
 import (
 	"fmt"
 
-	"github.com/scttfrdmn/aws-ide/pkg/cli"
+	"github.com/scttfrdmn/lens/pkg/cli"
 	"github.com/spf13/cobra"
 )
 
-// NewWizardCmd creates the wizard command for aws-jupyter
+// NewWizardCmd creates the wizard command for lens-jupyter
 func NewWizardCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "wizard",
@@ -19,7 +19,7 @@ up for you automatically.
 
 Perfect for researchers who want to get started quickly without technical details.`,
 		Example: `  # Launch the wizard
-  aws-jupyter wizard
+  lens-jupyter wizard
 
   The wizard will guide you through:
   - Choosing what type of analysis you want to do

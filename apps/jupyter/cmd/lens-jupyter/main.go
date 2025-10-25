@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/scttfrdmn/aws-ide/apps/rstudio/internal/cli"
-	"github.com/scttfrdmn/aws-ide/pkg"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/apps/jupyter/internal/cli"
+	"github.com/scttfrdmn/lens/pkg"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 )
 
@@ -17,28 +17,34 @@ var (
 )
 
 func main() {
+	// Migrate from legacy config directories if needed
+	if err := config.MigrateFromLegacy(); err != nil {
+		fmt.Fprintf(os.Stderr, "Warning: Failed to migrate legacy config: %v\n", err)
+		// Continue anyway - don't block if migration fails
+	}
+
 	if err := config.EnsureConfigDir(); err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to create config directory: %v\n", err)
 		os.Exit(1)
 	}
 
 	rootCmd := &cobra.Command{
-		Use:   "aws-rstudio",
-		Short: "Secure RStudio Server on AWS Graviton with Session Manager & advanced networking",
-		Long: `aws-rstudio is a powerful CLI tool for launching secure RStudio Server instances
+		Use:   "lens-jupyter",
+		Short: "Secure Jupyter Lab on AWS Graviton with Session Manager & advanced networking",
+		Long: `lens-jupyter is a powerful CLI tool for launching secure Jupyter Lab instances
 on AWS EC2 Graviton processors with professional-grade security and networking.
 
 Features:
 • Session Manager & SSH connection methods
 • Private subnet support with NAT Gateway
 • Smart security groups and key management
-• Built-in environments for data science, statistical computing, and research
+• Built-in environments for data science, ML, and research
 • Cost-aware infrastructure with reuse strategies
 
 Quick Start:
-• Just run 'aws-rstudio' to launch the interactive setup wizard
-• Or use 'aws-rstudio quickstart' for instant launch with defaults
-• Run 'aws-rstudio --help' to see all available commands`,
+• Just run 'lens-jupyter' to launch the interactive setup wizard
+• Or use 'lens-jupyter quickstart' for instant launch with defaults
+• Run 'lens-jupyter --help' to see all available commands`,
 		Version: fmt.Sprintf("v%s (platform: v%s, commit: %s, date: %s)", version, pkg.Version, commit, date),
 		Run: func(cmd *cobra.Command, args []string) {
 			// When no subcommand is provided, run the wizard by default
@@ -66,7 +72,6 @@ Quick Start:
 	rootCmd.AddCommand(cli.NewStatusCmd())
 	rootCmd.AddCommand(cli.NewGenerateCmd())
 	rootCmd.AddCommand(cli.NewKeyCmd())
-	rootCmd.AddCommand(cli.NewExportConfigCmd())
 	rootCmd.AddCommand(cli.NewConfigCmd())
 	rootCmd.AddCommand(cli.NewCostsCmd())
 

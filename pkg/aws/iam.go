@@ -55,7 +55,7 @@ const SessionManagerTrustPolicy = `{
 }`
 
 // GetOrCreateSessionManagerRole creates or gets the IAM role for Session Manager
-// appPrefix should be "aws-jupyter", "aws-vscode", "aws-rstudio", etc.
+// appPrefix should be "lens-jupyter", "lens-vscode", "lens-rstudio", etc.
 func (i *IAMClient) GetOrCreateSessionManagerRole(ctx context.Context, appPrefix string) (*InstanceProfileInfo, error) {
 	roleName := appPrefix + "-session-manager-role"
 	instanceProfileName := appPrefix + "-session-manager-profile"
@@ -363,8 +363,8 @@ func (i *IAMClient) ValidateSessionManagerRole(ctx context.Context, roleName str
 
 // CleanupSessionManagerResources removes Session Manager IAM resources (use with caution)
 func (i *IAMClient) CleanupSessionManagerResources(ctx context.Context) error {
-	roleName := "aws-jupyter-session-manager-role"
-	instanceProfileName := "aws-jupyter-session-manager-profile"
+	roleName := "lens-jupyter-session-manager-role"
+	instanceProfileName := "lens-jupyter-session-manager-profile"
 
 	fmt.Println("⚠️  Cleaning up Session Manager IAM resources...")
 

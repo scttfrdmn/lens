@@ -15,7 +15,7 @@ func TestInstanceStruct(t *testing.T) {
 		Environment:   "data-science",
 		InstanceType:  "m7g.medium",
 		PublicIP:      "1.2.3.4",
-		KeyPair:       "aws-jupyter-us-east-1",
+		KeyPair:       "lens-jupyter-us-east-1",
 		LaunchedAt:    now,
 		IdleTimeout:   "4h",
 		Region:        "us-east-1",
@@ -65,9 +65,9 @@ func TestGetConfigDir(t *testing.T) {
 		t.Error("Config dir should not be empty")
 	}
 
-	// Should end with .aws-jupyter
-	if filepath.Base(configDir) != ".aws-jupyter" {
-		t.Errorf("Expected config dir to end with '.aws-jupyter', got %s", configDir)
+	// Should end with .lens-jupyter
+	if filepath.Base(configDir) != ".lens-jupyter" {
+		t.Errorf("Expected config dir to end with '.lens-jupyter', got %s", configDir)
 	}
 
 	// Should be under home directory
@@ -76,7 +76,7 @@ func TestGetConfigDir(t *testing.T) {
 		t.Fatalf("Failed to get home dir: %v", err)
 	}
 
-	expected := filepath.Join(home, ".aws-jupyter")
+	expected := filepath.Join(home, ".lens-jupyter")
 	if configDir != expected {
 		t.Errorf("Expected config dir %s, got %s", expected, configDir)
 	}

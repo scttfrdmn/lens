@@ -10,11 +10,11 @@ import (
 
 	awssdkconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
-	vscodeconfig "github.com/scttfrdmn/aws-ide/apps/vscode/internal/config"
-	"github.com/scttfrdmn/aws-ide/pkg/aws"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
-	"github.com/scttfrdmn/aws-ide/pkg/output"
-	"github.com/scttfrdmn/aws-ide/pkg/readiness"
+	vscodeconfig "github.com/scttfrdmn/lens/apps/vscode/internal/config"
+	"github.com/scttfrdmn/lens/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/output"
+	"github.com/scttfrdmn/lens/pkg/readiness"
 	"github.com/spf13/cobra"
 )
 
@@ -324,7 +324,7 @@ func setupInstanceProfile(ctx context.Context, profile string) (*aws.InstancePro
 		return nil, fmt.Errorf("failed to create IAM client: %w", err)
 	}
 
-	instanceProfile, err := iamClient.GetOrCreateSessionManagerRole(ctx, "aws-vscode")
+	instanceProfile, err := iamClient.GetOrCreateSessionManagerRole(ctx, "lens-vscode")
 	if err != nil {
 		return nil, fmt.Errorf("failed to setup Session Manager role: %w", err)
 	}
@@ -425,9 +425,9 @@ func setupSecurityGroup(ctx context.Context, ec2Client *aws.EC2Client, vpcID, co
 
 	sgStrategy := aws.DefaultSecurityGroupStrategy(vpcID)
 	if connectionMethod == connectionMethodSessionManager {
-		sgStrategy.DefaultName = "aws-vscode-session-manager"
+		sgStrategy.DefaultName = "lens-vscode-session-manager"
 	} else {
-		sgStrategy.DefaultName = "aws-vscode"
+		sgStrategy.DefaultName = "lens-vscode"
 	}
 
 	securityGroup, err := ec2Client.GetOrCreateSecurityGroup(ctx, sgStrategy)
@@ -571,7 +571,7 @@ func displayVSCodeInfo(instance *types.Instance, env *config.Environment, subnet
 			if env.AMIBase == "amazonlinux2-arm64" || env.AMIBase == "amazonlinux2-x86_64" {
 				username = "ec2-user"
 			}
-			out.Connection(fmt.Sprintf("ssh -i ~/.aws-vscode/keys/%s.pem %s@%s", keyInfo.Name, username, publicIP))
+			out.Connection(fmt.Sprintf("ssh -i ~/.lens-vscode/keys/%s.pem %s@%s", keyInfo.Name, username, publicIP))
 		} else {
 			out.Info("Use Session Manager or VPN/bastion to connect to private instance")
 		}
@@ -588,7 +588,7 @@ func displayVSCodeInfo(instance *types.Instance, env *config.Environment, subnet
 	out.List("To get the password, SSH into the instance and run:")
 	out.Print("  cat ~/.config/code-server/config.yaml")
 	out.Blank()
-	out.List(fmt.Sprintf("Or use 'aws-vscode connect %s' to setup port forwarding", instanceID))
+	out.List(fmt.Sprintf("Or use 'lens-vscode connect %s' to setup port forwarding", instanceID))
 	out.Blank()
 
 	return nil

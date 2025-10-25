@@ -171,8 +171,8 @@ func (e *EC2Client) LaunchInstance(ctx context.Context, params LaunchParams) (*t
 			{
 				ResourceType: types.ResourceTypeInstance,
 				Tags: []types.Tag{
-					{Key: aws.String("Name"), Value: aws.String("aws-jupyter")},
-					{Key: aws.String("CreatedBy"), Value: aws.String("aws-jupyter-cli")},
+					{Key: aws.String("Name"), Value: aws.String("lens-jupyter")},
+					{Key: aws.String("CreatedBy"), Value: aws.String("lens-jupyter-cli")},
 					{Key: aws.String("Environment"), Value: aws.String(params.Environment)},
 				},
 			},
@@ -361,7 +361,7 @@ func (e *EC2Client) CreateAMI(ctx context.Context, instanceID, name, description
 				ResourceType: types.ResourceTypeImage,
 				Tags: []types.Tag{
 					{Key: aws.String("Name"), Value: aws.String(name)},
-					{Key: aws.String("CreatedBy"), Value: aws.String("aws-jupyter-cli")},
+					{Key: aws.String("CreatedBy"), Value: aws.String("lens-jupyter-cli")},
 				},
 			},
 		},
@@ -384,14 +384,14 @@ type AMIInfo struct {
 	CreationDate time.Time
 }
 
-// ListCustomAMIs lists all AMIs created by aws-jupyter CLI
+// ListCustomAMIs lists all AMIs created by lens-jupyter CLI
 func (e *EC2Client) ListCustomAMIs(ctx context.Context) ([]AMIInfo, error) {
 	input := &ec2.DescribeImagesInput{
 		Owners: []string{"self"},
 		Filters: []types.Filter{
 			{
 				Name:   aws.String("tag:CreatedBy"),
-				Values: []string{"aws-jupyter-cli"},
+				Values: []string{"lens-jupyter-cli"},
 			},
 		},
 	}

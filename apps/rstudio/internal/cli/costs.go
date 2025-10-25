@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/scttfrdmn/aws-ide/pkg/config"
-	"github.com/scttfrdmn/aws-ide/pkg/cost"
+	"github.com/scttfrdmn/lens/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/cost"
 	"github.com/spf13/cobra"
 )
 
@@ -53,7 +53,7 @@ func runCostsAll(showDetails bool) error {
 	cfg, _ := config.LoadUserConfig()
 	if cfg != nil && !cfg.EnableCostTracking {
 		fmt.Println("Cost tracking is disabled in config")
-		fmt.Println("Enable with: aws-vscode config set enable_cost_tracking true")
+		fmt.Println("Enable with: lens-vscode config set enable_cost_tracking true")
 		return nil
 	}
 

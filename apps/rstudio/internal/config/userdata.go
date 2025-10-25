@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	pkgconfig "github.com/scttfrdmn/aws-ide/pkg/config"
+	pkgconfig "github.com/scttfrdmn/lens/pkg/config"
 )
 
 // GenerateUserData creates a cloud-init user data script for the given environment
@@ -39,7 +39,7 @@ func generateUserDataScript(env *pkgconfig.Environment, idleTimeoutSeconds int, 
 	sb.WriteString("  echo \"STEP:$1\" | tee -a $PROGRESS_LOG\n")
 	sb.WriteString("}\n\n")
 
-	sb.WriteString("log_progress 'Starting aws-rstudio environment setup'\n")
+	sb.WriteString("log_progress 'Starting lens-rstudio environment setup'\n")
 	sb.WriteString("echo 'Environment: " + env.Name + "'\n\n")
 
 	// Update system
@@ -196,7 +196,7 @@ func generateUserDataScript(env *pkgconfig.Environment, idleTimeoutSeconds int, 
 	// Final status
 	sb.WriteString("log_progress 'Setup complete - RStudio Server is ready'\n")
 	sb.WriteString("echo 'COMPLETE' >> $PROGRESS_LOG\n")
-	sb.WriteString("echo 'aws-rstudio environment setup complete!'\n")
+	sb.WriteString("echo 'lens-rstudio environment setup complete!'\n")
 	sb.WriteString("echo 'RStudio Server is running on port 8787'\n")
 	sb.WriteString("echo 'Default login: ubuntu / rstudio'\n")
 	sb.WriteString("echo 'Use Session Manager or SSH tunnel to connect'\n")

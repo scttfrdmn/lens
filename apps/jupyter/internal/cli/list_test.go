@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/config"
 )
 
 func TestFormatDuration(t *testing.T) {

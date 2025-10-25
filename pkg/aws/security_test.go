@@ -12,8 +12,8 @@ func TestDefaultSecurityGroupStrategy(t *testing.T) {
 		t.Error("Expected PreferExisting to be true")
 	}
 
-	if strategy.DefaultName != "aws-jupyter" {
-		t.Errorf("Expected DefaultName 'aws-jupyter', got: %s", strategy.DefaultName)
+	if strategy.DefaultName != "lens-jupyter" {
+		t.Errorf("Expected DefaultName 'lens-jupyter', got: %s", strategy.DefaultName)
 	}
 
 	if strategy.VpcID != vpcID {
@@ -34,14 +34,14 @@ func TestSecurityGroupStrategy_GetDefaultSecurityGroupName(t *testing.T) {
 		{
 			name: "default name",
 			strategy: SecurityGroupStrategy{
-				DefaultName: "aws-jupyter",
+				DefaultName: "lens-jupyter",
 			},
-			expectedName: "aws-jupyter",
+			expectedName: "lens-jupyter",
 		},
 		{
 			name: "user specified",
 			strategy: SecurityGroupStrategy{
-				DefaultName:   "aws-jupyter",
+				DefaultName:   "lens-jupyter",
 				UserSpecified: "my-custom-sg",
 			},
 			expectedName: "my-custom-sg",
@@ -63,8 +63,8 @@ func TestIsAwsJupyterSecurityGroup(t *testing.T) {
 		name     string
 		expected bool
 	}{
-		{"aws-jupyter", true},
-		{"aws-jupyter-session-manager", false},
+		{"lens-jupyter", true},
+		{"lens-jupyter-session-manager", false},
 		{"my-custom-sg", false},
 		{"", false},
 	}
@@ -82,26 +82,26 @@ func TestIsAwsJupyterSecurityGroup(t *testing.T) {
 func TestSecurityGroupInfo_Structure(t *testing.T) {
 	info := &SecurityGroupInfo{
 		ID:          "sg-12345",
-		Name:        "aws-jupyter",
+		Name:        "lens-jupyter",
 		Description: "Test security group",
 		VpcID:       "vpc-12345",
-		CreatedBy:   "aws-jupyter",
+		CreatedBy:   "lens-jupyter",
 	}
 
 	if info.ID != "sg-12345" {
 		t.Errorf("Expected ID sg-12345, got: %s", info.ID)
 	}
 
-	if info.Name != "aws-jupyter" {
-		t.Errorf("Expected Name aws-jupyter, got: %s", info.Name)
+	if info.Name != "lens-jupyter" {
+		t.Errorf("Expected Name lens-jupyter, got: %s", info.Name)
 	}
 
 	if info.VpcID != "vpc-12345" {
 		t.Errorf("Expected VpcID vpc-12345, got: %s", info.VpcID)
 	}
 
-	if info.CreatedBy != "aws-jupyter" {
-		t.Errorf("Expected CreatedBy aws-jupyter, got: %s", info.CreatedBy)
+	if info.CreatedBy != "lens-jupyter" {
+		t.Errorf("Expected CreatedBy lens-jupyter, got: %s", info.CreatedBy)
 	}
 }
 
@@ -151,11 +151,11 @@ func TestSecurityGroupConstants(t *testing.T) {
 		t.Errorf("Expected createdByUser to be 'user', got: %s", createdByUser)
 	}
 
-	if createdByAwsJupyter != "aws-jupyter" {
-		t.Errorf("Expected createdByAwsJupyter to be 'aws-jupyter', got: %s", createdByAwsJupyter)
+	if createdByAwsJupyter != "lens-jupyter" {
+		t.Errorf("Expected createdByAwsJupyter to be 'lens-jupyter', got: %s", createdByAwsJupyter)
 	}
 
-	if defaultSGName != "aws-jupyter" {
-		t.Errorf("Expected defaultSGName to be 'aws-jupyter', got: %s", defaultSGName)
+	if defaultSGName != "lens-jupyter" {
+		t.Errorf("Expected defaultSGName to be 'lens-jupyter', got: %s", defaultSGName)
 	}
 }

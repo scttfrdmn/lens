@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/config"
 )
 
 // EventType represents different events that can trigger hooks
@@ -134,7 +134,7 @@ func TriggerAsync(event EventData) {
 // Example hook commands that users can configure:
 //
 // # Send email via sendmail
-// echo "Instance ${AWS_IDE_INSTANCE_ID} started" | mail -s "AWS IDE Alert" user@example.com
+// echo "Instance ${AWS_IDE_INSTANCE_ID} started" | mail -s "Lens Alert" user@example.com
 //
 // # Post to Slack webhook
 // curl -X POST -H 'Content-type: application/json' \
@@ -145,10 +145,10 @@ func TriggerAsync(event EventData) {
 // echo "[$(date)] ${AWS_IDE_EVENT}: ${AWS_IDE_INSTANCE_ID}" >> ~/aws-ide-events.log
 //
 // # Send desktop notification (macOS)
-// osascript -e "display notification \"${AWS_IDE_EVENT}\" with title \"AWS IDE\""
+// osascript -e "display notification \"${AWS_IDE_EVENT}\" with title \"Lens\""
 //
 // # Send desktop notification (Linux)
-// notify-send "AWS IDE" "${AWS_IDE_EVENT}: ${AWS_IDE_INSTANCE_ID}"
+// notify-send "Lens" "${AWS_IDE_EVENT}: ${AWS_IDE_INSTANCE_ID}"
 
 // FormatEventMessage creates a human-readable message for the event
 func FormatEventMessage(event EventData) string {

@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/scttfrdmn/aws-ide/pkg/output"
+	"github.com/scttfrdmn/lens/pkg/output"
 	"github.com/spf13/cobra"
 )
 
-// NewQuickstartCmd creates the quickstart command for aws-rstudio
+// NewQuickstartCmd creates the quickstart command for lens-rstudio
 func NewQuickstartCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "quickstart",
@@ -27,13 +27,13 @@ Smart defaults used:
 
 You can always customize these later with the 'wizard' or 'launch' commands.`,
 		Example: `  # Launch with smart defaults
-  aws-rstudio quickstart
+  lens-rstudio quickstart
 
   # Launch and connect immediately
-  aws-rstudio quickstart && aws-rstudio connect
+  lens-rstudio quickstart && lens-rstudio connect
 
   # Launch in a specific region
-  aws-rstudio quickstart --region us-west-2`,
+  lens-rstudio quickstart --region us-west-2`,
 		RunE: runQuickstart,
 	}
 
@@ -122,8 +122,8 @@ func runQuickstart(cmd *cobra.Command, args []string) error {
 	out.Blank()
 	out.Info("💡 Next steps:")
 	out.List("Wait 2-3 minutes for RStudio to finish installing")
-	out.List("Connect with: aws-rstudio connect " + defaults["name"])
-	out.List("When done, stop it to save money: aws-rstudio stop " + defaults["name"])
+	out.List("Connect with: lens-rstudio connect " + defaults["name"])
+	out.List("When done, stop it to save money: lens-rstudio stop " + defaults["name"])
 	out.List("Or just leave it - auto-stop will shut it down after 2 hours")
 	out.Blank()
 

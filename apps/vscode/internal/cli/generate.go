@@ -31,7 +31,7 @@ This command will:
 • Generate a ready-to-use environment YAML file
 
 The generated config can be used with:
-  aws-vscode launch --env-file generated-env.yml`,
+  lens-vscode launch --env-file generated-env.yml`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runGenerate(projectDir, outputFile)
 		},
@@ -106,7 +106,7 @@ func runGenerate(projectDir string, outputFile string) error {
 
 	fmt.Printf("\n✓ Generated environment config: %s\n", outputFile)
 	fmt.Printf("\nTo launch an instance with this configuration:\n")
-	fmt.Printf("  aws-vscode launch --env-file %s\n", outputFile)
+	fmt.Printf("  lens-vscode launch --env-file %s\n", outputFile)
 
 	return nil
 }
@@ -413,7 +413,7 @@ func writeEnvironmentConfig(config *EnvironmentConfig, outputFile string) error 
 	}
 
 	// Add header comment
-	header := fmt.Sprintf("# Generated VSCode environment configuration\n# Created by aws-vscode generate\n# Project type: %s\n\n", config.Description)
+	header := fmt.Sprintf("# Generated VSCode environment configuration\n# Created by lens-vscode generate\n# Project type: %s\n\n", config.Description)
 	fullContent := header + string(data)
 
 	if err := os.WriteFile(outputFile, []byte(fullContent), 0644); err != nil {

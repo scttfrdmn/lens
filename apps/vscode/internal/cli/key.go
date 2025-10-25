@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/scttfrdmn/aws-ide/pkg/aws"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +15,7 @@ func NewKeyCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "key",
 		Short: "Manage SSH key pairs",
-		Long:  "Commands for managing SSH key pairs used by aws-vscode instances",
+		Long:  "Commands for managing SSH key pairs used by lens-vscode instances",
 	}
 
 	cmd.AddCommand(newKeyListCmd())
@@ -153,8 +153,8 @@ func runKeyList(profile string) error {
 				}
 			}
 			status := ""
-			if awsKey.CreatedBy == "aws-vscode" {
-				status = " [aws-vscode]"
+			if awsKey.CreatedBy == "lens-vscode" {
+				status = " [lens-vscode]"
 			}
 			if hasLocal {
 				fmt.Printf("  ✓ %s (has local key)%s\n", awsKey.Name, status)
@@ -236,7 +236,7 @@ func runKeyValidate() error {
 	}
 
 	if hasErrors {
-		fmt.Println("\nTo fix permissions, run: chmod 600 ~/.aws-vscode/keys/*.pem")
+		fmt.Println("\nTo fix permissions, run: chmod 600 ~/.lens-vscode/keys/*.pem")
 	}
 
 	return nil

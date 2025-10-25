@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 )
 
@@ -22,18 +22,18 @@ default settings for all aws-ide tools (jupyter, rstudio, vscode).
 
 Examples:
   # Initialize config with defaults
-  aws-vscode config init
+  lens-vscode config init
 
   # View current configuration
-  aws-vscode config show
+  lens-vscode config show
 
   # Set a configuration value
-  aws-vscode config set default_region us-west-2
-  aws-vscode config set default_instance_type t4g.large
-  aws-vscode config set vscode.port 8080
+  lens-vscode config set default_region us-west-2
+  lens-vscode config set default_instance_type t4g.large
+  lens-vscode config set vscode.port 8080
 
   # Get a specific configuration value
-  aws-vscode config get default_region`,
+  lens-vscode config get default_region`,
 	}
 
 	cmd.AddCommand(NewConfigInitCmd())
@@ -134,7 +134,7 @@ func runConfigInit(force bool) error {
 
 	fmt.Printf("✓ Initialized config file: %s\n", configPath)
 	fmt.Println("\nEdit the file to customize your settings, or use:")
-	fmt.Println("  aws-vscode config set KEY VALUE")
+	fmt.Println("  lens-vscode config set KEY VALUE")
 
 	return nil
 }

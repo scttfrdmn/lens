@@ -130,8 +130,8 @@ func (e *EC2Client) GetOrCreateNATGateway(ctx context.Context, vpcID string) (*N
 			{
 				ResourceType: types.ResourceTypeElasticIp,
 				Tags: []types.Tag{
-					{Key: aws.String("Name"), Value: aws.String("aws-jupyter-nat-gateway-eip")},
-					{Key: aws.String("CreatedBy"), Value: aws.String("aws-jupyter-cli")},
+					{Key: aws.String("Name"), Value: aws.String("lens-jupyter-nat-gateway-eip")},
+					{Key: aws.String("CreatedBy"), Value: aws.String("lens-jupyter-cli")},
 				},
 			},
 		},
@@ -149,8 +149,8 @@ func (e *EC2Client) GetOrCreateNATGateway(ctx context.Context, vpcID string) (*N
 			{
 				ResourceType: types.ResourceTypeNatgateway,
 				Tags: []types.Tag{
-					{Key: aws.String("Name"), Value: aws.String("aws-jupyter-nat-gateway")},
-					{Key: aws.String("CreatedBy"), Value: aws.String("aws-jupyter-cli")},
+					{Key: aws.String("Name"), Value: aws.String("lens-jupyter-nat-gateway")},
+					{Key: aws.String("CreatedBy"), Value: aws.String("lens-jupyter-cli")},
 				},
 			},
 		},

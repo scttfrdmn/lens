@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/scttfrdmn/aws-ide/pkg/aws"
-	"github.com/scttfrdmn/aws-ide/pkg/config"
+	"github.com/scttfrdmn/lens/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/config"
 	"github.com/spf13/cobra"
 )
 
@@ -17,20 +17,20 @@ func NewDeleteAMICmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete-ami [AMI_ID]",
 		Short: "Delete a custom AMI",
-		Long: `Delete one or more custom AMIs created by aws-vscode CLI.
+		Long: `Delete one or more custom AMIs created by lens-vscode CLI.
 
 When deleting an AMI, both the AMI and its associated snapshots are removed.
 This operation cannot be undone.
 
 Examples:
   # Delete a specific AMI
-  aws-vscode delete-ami ami-1234567890abcdef0
+  lens-vscode delete-ami ami-1234567890abcdef0
 
   # Delete all custom AMIs in current region
-  aws-vscode delete-ami --all
+  lens-vscode delete-ami --all
 
   # Delete all custom AMIs in specific region
-  aws-vscode delete-ami --all --region us-west-2`,
+  lens-vscode delete-ami --all --region us-west-2`,
 		Args: func(cmd *cobra.Command, args []string) error {
 			if all && len(args) > 0 {
 				return fmt.Errorf("cannot specify AMI_ID when using --all flag")
@@ -48,7 +48,7 @@ Examples:
 		},
 	}
 
-	cmd.Flags().BoolVar(&all, "all", false, "Delete all custom aws-vscode AMIs")
+	cmd.Flags().BoolVar(&all, "all", false, "Delete all custom lens-vscode AMIs")
 	cmd.Flags().StringVarP(&region, "region", "r", "", "AWS region (defaults to current region)")
 
 	return cmd
@@ -102,12 +102,12 @@ func runDeleteAllAMIs(region string) error {
 	}
 
 	if len(amis) == 0 {
-		fmt.Printf("No custom aws-vscode AMIs found in region %s\n", ec2Client.GetRegion())
+		fmt.Printf("No custom lens-vscode AMIs found in region %s\n", ec2Client.GetRegion())
 		return nil
 	}
 
 	// Confirm deletion
-	fmt.Printf("Found %d custom aws-vscode AMI(s) in region %s:\n", len(amis), ec2Client.GetRegion())
+	fmt.Printf("Found %d custom lens-vscode AMI(s) in region %s:\n", len(amis), ec2Client.GetRegion())
 	for _, ami := range amis {
 		fmt.Printf("  - %s (%s) - %s\n", ami.ID, ami.Name, ami.CreationDate.Format("2006-01-02 15:04:05"))
 	}

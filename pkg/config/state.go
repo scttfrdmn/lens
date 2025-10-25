@@ -44,10 +44,20 @@ type LocalState struct {
 	KeyPairs  map[string]string    `json:"key_pairs"` // name -> private key path
 }
 
-// GetConfigDir returns the path to the aws-jupyter configuration directory
+// GetConfigDir returns the path to the lens configuration directory
 func GetConfigDir() string {
 	home, _ := os.UserHomeDir()
-	return filepath.Join(home, ".aws-jupyter")
+	return filepath.Join(home, ".lens")
+}
+
+// GetLegacyConfigDirs returns paths to legacy config directories for migration
+func GetLegacyConfigDirs() []string {
+	home, _ := os.UserHomeDir()
+	return []string{
+		filepath.Join(home, ".lens-jupyter"),
+		filepath.Join(home, ".lens-rstudio"),
+		filepath.Join(home, ".lens-vscode"),
+	}
 }
 
 // EnsureConfigDir creates the configuration directory if it doesn't exist
@@ -111,4 +121,72 @@ func (i *Instance) RecordStateChange(state string) {
 		State:     state,
 		Timestamp: time.Now(),
 	})
+}
+
+// MigrateFromLegacy migrates config from legacy aws-* directories to unified .lens directory
+// This function is safe to call multiple times - it will only migrate once
+func MigrateFromLegacy() error {
+	newConfigDir := GetConfigDir()
+	
+	// If new config already exists, no migration needed
+	if _, err := os.Stat(newConfigDir); err == nil {
+		return nil
+	}
+	
+	// Check each legacy directory
+	legacyDirs := GetLegacyConfigDirs()
+	var foundLegacy string
+	
+	for _, dir := range legacyDirs {
+		if _, err := os.Stat(dir); err == nil {
+			foundLegacy = dir
+			break
+		}
+	}
+	
+	// No legacy config found, nothing to migrate
+	if foundLegacy == "" {
+		return nil
+	}
+	
+	// Create new config directory
+	if err := os.MkdirAll(newConfigDir, permConfigDir); err != nil {
+		return err
+	}
+	
+	// Migrate state.json if it exists
+	oldStatePath := filepath.Join(foundLegacy, "state.json")
+	newStatePath := filepath.Join(newConfigDir, "state.json")
+	if _, err := os.Stat(oldStatePath); err == nil {
+		data, err := os.ReadFile(oldStatePath)
+		if err == nil {
+			_ = os.WriteFile(newStatePath, data, permStateFile)
+		}
+	}
+	
+	// Migrate environments directory if it exists
+	oldEnvDir := filepath.Join(foundLegacy, "environments")
+	newEnvDir := filepath.Join(newConfigDir, "environments")
+	if _, err := os.Stat(oldEnvDir); err == nil {
+		_ = os.MkdirAll(newEnvDir, permConfigDir)
+		// Copy all files from old to new
+		entries, err := os.ReadDir(oldEnvDir)
+		if err == nil {
+			for _, entry := range entries {
+				if !entry.IsDir() {
+					oldFile := filepath.Join(oldEnvDir, entry.Name())
+					newFile := filepath.Join(newEnvDir, entry.Name())
+					data, err := os.ReadFile(oldFile)
+					if err == nil {
+						_ = os.WriteFile(newFile, data, 0644)
+					}
+				}
+			}
+		}
+	}
+	
+	// Note: We intentionally don't delete the old config directory
+	// Users can manually remove it after verifying the migration worked
+	
+	return nil
 }

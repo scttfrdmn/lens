@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/scttfrdmn/aws-ide/pkg/aws"
+	"github.com/scttfrdmn/lens/pkg/aws"
 )
 
 func TestNewKeyStorage(t *testing.T) {
@@ -30,7 +30,7 @@ func TestDefaultKeyStorage(t *testing.T) {
 		t.Fatal("Expected non-nil KeyStorage")
 	}
 
-	// Should end with .aws-jupyter/keys
+	// Should end with .lens-jupyter/keys
 	if !filepath.IsAbs(ks.baseDir) {
 		t.Errorf("Expected absolute path, got %s", ks.baseDir)
 	}
@@ -40,7 +40,7 @@ func TestDefaultKeyStorage(t *testing.T) {
 		t.Fatalf("Failed to get home dir: %v", err)
 	}
 
-	expected := filepath.Join(home, ".aws-jupyter", "keys")
+	expected := filepath.Join(home, ".lens-jupyter", "keys")
 	if ks.baseDir != expected {
 		t.Errorf("Expected baseDir %s, got %s", expected, ks.baseDir)
 	}
