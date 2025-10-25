@@ -292,14 +292,18 @@ Make Lens accessible to non-technical academic researchers with guided setup and
 
 ---
 
-## 🔬 v0.10.0 - Additional Research Tools (was v0.8.0 roadmap phase)
+## 🔬 v0.10.0 - GUI Foundation & Tool Expansion (was v0.8.0 roadmap phase)
 
 **Status:** Next - Planned for v0.10.0 Release
 **Target:** 2-3 months
-**Priority:** 🔥 HIGH - Researchers need variety of tools
+**Priority:** 🔥 HIGH - Researchers need variety of tools + GUI support
+
+**📖 See Also**: `docs/TOOL_SUPPORT_STRATEGY.md` for comprehensive tool expansion plan
 
 ### Goals
-Expand beyond Jupyter/RStudio/VSCode to support additional research and analysis tools.
+1. Enable GUI tool support with NICE DCV
+2. Add web-based research tools (Streamlit, Zeppelin, Q Developer)
+3. Establish foundation for future GUI tools (MATLAB, ArcGIS, QGIS, etc.)
 
 ### Applications to Add
 
@@ -384,21 +388,18 @@ Expand beyond Jupyter/RStudio/VSCode to support additional research and analysis
   - [ ] Multi-monitor support
   - [ ] Better than traditional remote desktop protocols
 
-### Implementation Order
-1. **Amazon Q Developer** (AWS native, already partially integrated)
-2. **NICE DCV Desktop** (critical for GUI apps, GPU workloads, AWS native)
-3. **Streamlit** (most requested, easiest to use)
+### Implementation Order (v0.10.0)
+1. **NICE DCV Desktop** (critical foundation for GUI apps)
+2. **Streamlit** (most requested web tool)
+3. **Amazon Q Developer** (AWS native, already partially integrated)
 4. **Zeppelin** (fills notebook alternative niche)
-5. **Theia** (general-purpose IDE)
-6. **Quarto** (academic publishing)
-7. **Observable** (specialized use case)
 
 ### Success Criteria
-- ✅ At least 3 new research tools added (Streamlit, Zeppelin, Theia)
-- ✅ All tools have 2-3 domain-specific environments
-- ✅ Unified CLI experience across all tools
+- ✅ NICE DCV desktop working with browser and native client access
+- ✅ At least 2-3 new web-based tools added
+- ✅ Users can manually install GUI tools on DCV desktop
+- ✅ GPU acceleration working for compatible tools
 - ✅ Documentation for each tool with academic use cases
-- ✅ Easy switching between tools for same project
 
 ---
 
@@ -611,6 +612,176 @@ Help research labs manage cloud spending with budget tracking and optimization.
 - ✅ Researchers see their individual usage
 - ✅ Cost optimization recommendations save 20%+
 - ✅ No surprise bills
+
+---
+
+## 🖥️ v0.14.0 - Open Source GUI Tools
+
+**Status:** Planned for v0.14.0 Release
+**Target:** 6-7 months
+**Priority:** HIGH - Widely used open-source research tools
+
+**📖 See Also**: `docs/TOOL_SUPPORT_STRATEGY.md` - Tool Priority Tier 1
+
+### Goals
+Add pre-configured open-source GUI applications that are widely used in academic research.
+
+### Applications
+
+**lens-qgis** 🎯 HIGHEST PRIORITY
+- [ ] QGIS desktop GIS application
+- [ ] Pre-installed common plugins
+- [ ] Environments:
+  - [ ] `basic-gis` - Essential GIS tools
+  - [ ] `advanced-gis` - QGIS + GRASS + SAGA + PostGIS
+  - [ ] `remote-sensing` - QGIS + Orfeo Toolbox + SNAP
+- [ ] Sample datasets included
+
+**lens-paraview** 🎯 HIGH PRIORITY
+- [ ] ParaView for scientific visualization
+- [ ] OSPRay rendering support
+- [ ] GPU acceleration support
+- [ ] Environments:
+  - [ ] `visualization` - Standard ParaView
+  - [ ] `gpu-visualization` - With GPU rendering
+  - [ ] `large-data` - Optimized for datasets >10GB
+
+**lens-imagej** 🎯 HIGH PRIORITY
+- [ ] ImageJ/Fiji for image analysis
+- [ ] Pre-installed common plugins
+- [ ] Environments:
+  - [ ] `microscopy` - Fluorescence microscopy tools
+  - [ ] `cell-analysis` - Cell segmentation and tracking
+  - [ ] `3d-imaging` - 3D reconstruction tools
+
+**lens-octave** 🎯 MEDIUM PRIORITY
+- [ ] GNU Octave (MATLAB alternative)
+- [ ] Web UI and desktop GUI options
+- [ ] Environments:
+  - [ ] `mathematics` - Basic math and plotting
+  - [ ] `signal-processing` - Signal analysis tools
+  - [ ] `control-systems` - Control theory
+
+**lens-openrefine** 🎯 MEDIUM PRIORITY
+- [ ] OpenRefine for data cleaning
+- [ ] Web-based interface
+- [ ] Environments:
+  - [ ] `data-cleaning` - Basic cleaning and transformation
+  - [ ] `reconciliation` - Entity matching and linking
+
+### Success Criteria
+- ✅ 5 open-source GUI tools fully supported
+- ✅ Each tool has 2-3 domain-specific environments
+- ✅ Tools work seamlessly via NICE DCV
+- ✅ GPU acceleration working where applicable
+- ✅ Documentation with research use cases
+
+---
+
+## 💼 v0.15.0 - Commercial Tools (AWS Marketplace)
+
+**Status:** Planned for v0.15.0 Release
+**Target:** 7-9 months
+**Priority:** HIGH - High-demand commercial tools
+
+**📖 See Also**: `docs/TOOL_SUPPORT_STRATEGY.md` - Tool Priority Tier 2
+
+### Goals
+Support high-demand commercial research tools via AWS Marketplace integration.
+
+### Infrastructure
+- [ ] AWS Marketplace AMI discovery and selection
+- [ ] Automatic pricing calculation (instance + software costs)
+- [ ] Marketplace subscription handling
+- [ ] Cost comparison (marketplace vs BYOL)
+
+### Applications
+
+**lens-matlab** 🎯 HIGHEST PRIORITY
+- [ ] MATLAB via AWS Marketplace or Campus License
+- [ ] Deployment options:
+  - [ ] AWS Marketplace (license included, pay-per-hour)
+  - [ ] Campus License Server (cloud-based, most academic users)
+  - [ ] License File (BYOL for individual licenses)
+- [ ] Automatic license server configuration
+- [ ] Environments:
+  - [ ] `engineering` - Simulink, Control System, Signal Processing
+  - [ ] `data-science` - Statistics, Machine Learning, Deep Learning
+  - [ ] `computational-biology` - Bioinformatics, Image Processing
+  - [ ] `finance` - Financial Toolbox, Econometrics
+- [ ] GPU support for deep learning workloads
+
+**lens-mathematica** 🎯 HIGH PRIORITY
+- [ ] Wolfram Mathematica via marketplace or license
+- [ ] Wolfram Cloud integration
+- [ ] Environments:
+  - [ ] `symbolic-math` - Symbolic computation
+  - [ ] `data-science` - Statistical analysis
+  - [ ] `physics` - Mathematical physics tools
+
+### Success Criteria
+- ✅ Marketplace integration working
+- ✅ Campus license server configuration seamless
+- ✅ Clear cost comparison between deployment options
+- ✅ MATLAB working for academic researchers
+- ✅ Documentation for IT admins on license setup
+
+---
+
+## 🗺️ v0.16.0 - Specialized Domain Tools
+
+**Status:** Planned for v0.16.0 Release
+**Target:** 9-12 months
+**Priority:** MEDIUM - Specialized research needs
+
+**📖 See Also**: `docs/TOOL_SUPPORT_STRATEGY.md` - Tool Priority Tiers 3 & 4
+
+### Goals
+Support specialized tools for specific research domains.
+
+### Applications by Domain
+
+**GIS & Geography**
+- [ ] **lens-arcgis** - ArcGIS Pro/Desktop (marketplace or BYOL)
+  - Campus license server support
+  - Named user authentication
+  - Concurrent use licenses
+
+**Statistics & Social Sciences**
+- [ ] **lens-stata** - Stata (BYOL)
+- [ ] **lens-spss** - SPSS Statistics (BYOL or subscription)
+- [ ] SAS (via lens-tool catalog)
+
+**Bioinformatics**
+- [ ] **lens-geneious** - Geneious Prime (subscription)
+- [ ] **lens-pymol** - PyMOL (open source + commercial)
+- [ ] CellProfiler (via lens-tool catalog)
+
+**Engineering & Simulation**
+- [ ] Ansys (via lens-tool catalog, marketplace)
+- [ ] COMSOL Multiphysics (via lens-tool catalog, BYOL)
+- [ ] OpenFOAM (via lens-tool catalog, open source)
+
+**3D & Visualization**
+- [ ] Blender (via lens-tool catalog, open source)
+- [ ] MeshLab (via lens-tool catalog, open source)
+
+**Remote Sensing**
+- [ ] ENVI/IDL (via lens-tool catalog, BYOL)
+- [ ] SNAP (ESA) (via lens-tool catalog, open source)
+
+### Tool Catalog System
+- [ ] Universal `lens-tool` launcher for long-tail tools
+- [ ] Community AMI contributions
+- [ ] Tool discovery: `lens tools search bioinformatics`
+- [ ] Tool info: `lens tools info geneious`
+
+### Success Criteria
+- ✅ 10+ additional specialized tools supported
+- ✅ Tool catalog system fully operational
+- ✅ Community can contribute tool definitions
+- ✅ BYOL licensing working reliably
+- ✅ Clear documentation for each tool
 
 ---
 
