@@ -38,7 +38,7 @@
 
 ---
 
-## Current Situation (Before AWS IDE)
+## Current Situation (Before Lens)
 
 ### Existing Setup
 **Primary workstation**: 2019 MacBook Pro
@@ -104,11 +104,11 @@ Maria tried to use AWS EC2 directly (September 2024):
 
 ---
 
-## AWS IDE Workflow
+## Lens Workflow
 
 ### Initial Setup (First Time Use)
 
-**Monday Morning, 9:00 AM** - Maria decides to try AWS IDE after colleague recommendation
+**Monday Morning, 9:00 AM** - Maria decides to try Lens after colleague recommendation
 
 #### Step 1: Installation (5 minutes)
 
@@ -117,15 +117,15 @@ Maria follows the installation guide:
 ```bash
 # macOS installation
 brew tap scttfrdmn/tap
-brew install aws-jupyter
+brew install lens-jupyter
 ```
 
 **Output**:
 ```
 ==> Tapping scttfrdmn/tap
-==> Downloading https://github.com/scttfrdmn/aws-ide/releases/download/v0.7.2/aws-jupyter_0.7.2_darwin_amd64.tar.gz
-==> Installing aws-jupyter from scttfrdmn/tap
-🍺  /opt/homebrew/Cellar/aws-jupyter/0.7.2: 1 file, 14.2MB
+==> Downloading https://github.com/scttfrdmn/lens/releases/download/v0.7.2/lens-jupyter_0.7.2_darwin_amd64.tar.gz
+==> Installing lens-jupyter from scttfrdmn/tap
+🍺  /opt/homebrew/Cellar/lens-jupyter/0.7.2: 1 file, 14.2MB
 ```
 
 **Maria's reaction**: ✅ "That was easy! Just like installing normal software."
@@ -151,10 +151,10 @@ Default output format [None]: json
 #### Step 3: First Launch with Wizard (3 minutes)
 
 ```bash
-aws-jupyter
+lens-jupyter
 ```
 
-**AWS IDE launches interactive wizard:**
+**Lens launches interactive wizard:**
 
 ```
 🚀 Welcome to AWS Jupyter!
@@ -246,9 +246,9 @@ Your choice: y
 
 💡 Tips:
    - Your environment will auto-stop after 2 hours idle (saves money!)
-   - To stop manually: aws-jupyter stop
-   - To check costs: aws-jupyter costs
-   - Need help? aws-jupyter --help
+   - To stop manually: lens-jupyter stop
+   - To check costs: lens-jupyter costs
+   - Need help? lens-jupyter --help
 
 📊 Instance Details:
    ID: i-0abc123def456789
@@ -273,7 +273,7 @@ Your choice: y
 #### Step 1: Check Running Instances (5 seconds)
 
 ```bash
-aws-jupyter status
+lens-jupyter status
 ```
 
 **Output**:
@@ -291,7 +291,7 @@ i-0abc123def456789 (bioinformatics) - STOPPED
 #### Step 2: Restart Instance (30 seconds)
 
 ```bash
-aws-jupyter start
+lens-jupyter start
 ```
 
 **Output**:
@@ -341,7 +341,7 @@ Maria opens Jupyter Lab in browser:
 #### Step 4: Cleanup (10 seconds)
 
 ```bash
-aws-jupyter stop
+lens-jupyter stop
 ```
 
 **Output**:
@@ -356,7 +356,7 @@ aws-jupyter stop
    Cost: $0.24
    Monthly projection: $7.20 (well under your $50 budget!)
 
-💾 Your data is saved. Restart anytime with: aws-jupyter start
+💾 Your data is saved. Restart anytime with: lens-jupyter start
 ```
 
 **Maria's reaction**: ✅ "I remembered to stop it this time! And I can see exactly how much it cost - $0.24 is totally reasonable."
@@ -386,7 +386,7 @@ aws-jupyter stop
 **End of Month 1** - Maria checks her spending:
 
 ```bash
-aws-jupyter costs
+lens-jupyter costs
 ```
 
 **Output**:
@@ -429,7 +429,7 @@ aws-jupyter costs
 | **Laptop only** | $0 | But 6.5 hours wasted per analysis × 12 = 78 hours lost |
 | **Manual AWS (with mistake)** | $320 | Maria's actual experience (forgot to stop) |
 | **Manual AWS (perfect use)** | $28 | If Maria never forgot to stop (unrealistic) |
-| **AWS IDE with auto-stop** | **$5** | Actual cost with automated cost control |
+| **Lens with auto-stop** | **$5** | Actual cost with automated cost control |
 
 **ROI Analysis**:
 - **Time saved**: 78 hours per month @ $25/hr academic time value = **$1,950 value**
@@ -442,13 +442,13 @@ aws-jupyter costs
 
 ### Pain #1: Laptop Too Slow for Genomic Analysis
 
-**Before AWS IDE**:
+**Before Lens**:
 - Analysis runtime: 8 hours on laptop
 - Laptop unusable during computation
 - Frequently runs out of RAM → crashes
 - Limited to datasets < 20GB
 
-**With AWS IDE**:
+**With Lens**:
 - Analysis runtime: 2 hours on t4g.large
 - Can continue working on laptop during analysis
 - 8GB RAM sufficient for most workflows
@@ -469,13 +469,13 @@ aws-jupyter costs
 
 ### Pain #2: AWS Too Complex and Intimidating
 
-**Before AWS IDE**:
+**Before Lens**:
 - 5 hours to learn AWS basics (VPC, security groups, SSH)
 - Still failed on first attempt
 - Anxiety about making expensive mistakes
 - Gave up and avoided cloud computing
 
-**With AWS IDE**:
+**With Lens**:
 - 18 minutes from installation to working environment
 - Wizard asks plain-English questions
 - No need to understand AWS concepts
@@ -498,13 +498,13 @@ aws-jupyter costs
 
 ### Pain #3: Cost Anxiety and Budget Blowouts
 
-**Before AWS IDE**:
+**Before Lens**:
 - $320 surprise bill from forgotten instance (64% of budget)
 - Anxiety prevented using cloud computing
 - No visibility into costs until bill arrived
 - Couldn't trust self to remember to stop instances
 
-**With AWS IDE**:
+**With Lens**:
 - Cost preview before launching
 - Auto-stop prevents runaway costs
 - Real-time cost tracking
@@ -527,22 +527,22 @@ aws-jupyter costs
 
 ### Pain #4: Analysis Not Reproducible
 
-**Before AWS IDE**:
+**Before Lens**:
 - Colleague: "Can you share your analysis?"
 - Maria: "Sure!" → emails R script
 - Colleague: "I'm getting different results"
 - Problem: Different R package versions, different BioConda versions
 - Solution: 8 hours emailing back-and-forth about environment details
 
-**With AWS IDE**:
+**With Lens**:
 - Maria exports environment:
   ```bash
-  aws-jupyter env export > maria-genomics-analysis.yaml
+  lens-jupyter env export > maria-genomics-analysis.yaml
   ```
 - Emails YAML file to colleague
 - Colleague launches identical environment:
   ```bash
-  aws-jupyter launch --env maria-genomics-analysis.yaml
+  lens-jupyter launch --env maria-genomics-analysis.yaml
   ```
 - Analysis reproduces perfectly
 
@@ -563,15 +563,15 @@ aws-jupyter costs
 
 ### Pain #5: No Collaboration with Advisor
 
-**Before AWS IDE**:
+**Before Lens**:
 - Advisor: "Can I review your analysis?"
 - Maria: Exports notebook → emails → advisor imports → different results
 - Or: Screen-share via Zoom (slow, frustrating)
 
-**With AWS IDE** (future v0.10.0):
+**With Lens** (future v0.10.0):
 - Maria shares instance with advisor:
   ```bash
-  aws-jupyter share i-0abc123def456789 --email advisor@university.edu --duration 2h --read-only
+  lens-jupyter share i-0abc123def456789 --email advisor@university.edu --duration 2h --read-only
   ```
 - Advisor receives email with one-click access link
 - Advisor reviews analysis in real-time
@@ -595,7 +595,7 @@ aws-jupyter costs
 
 ### Time Savings
 
-| Activity | Before AWS IDE | With AWS IDE | Improvement |
+| Activity | Before Lens | With Lens | Improvement |
 |----------|----------------|--------------|-------------|
 | Initial AWS setup | 5 hours (failed) | 15 minutes | 95% faster |
 | Per-analysis runtime | 8 hours | 2 hours | 75% faster |
@@ -608,16 +608,16 @@ aws-jupyter costs
 | Month | Scenario | Cost | Notes |
 |-------|----------|------|-------|
 | Sept | Manual AWS (mistake) | $320 | Forgot to stop instance |
-| Oct | AWS IDE | $5 | 12 analysis sessions with auto-stop |
-| Nov | AWS IDE | $6 | 14 analysis sessions |
-| Dec | AWS IDE | $5 | 11 analysis sessions |
-| **Q4 Total** | **AWS IDE** | **$16** | **vs $960 if repeated mistakes** |
+| Oct | Lens | $5 | 12 analysis sessions with auto-stop |
+| Nov | Lens | $6 | 14 analysis sessions |
+| Dec | Lens | $5 | 11 analysis sessions |
+| **Q4 Total** | **Lens** | **$16** | **vs $960 if repeated mistakes** |
 
 **Savings**: $944 per quarter (98% reduction)
 
 ### Research Output
 
-| Metric | Before AWS IDE | After AWS IDE (3 months) | Improvement |
+| Metric | Before Lens | After Lens (3 months) | Improvement |
 |--------|----------------|--------------------------|-------------|
 | Datasets analyzed | 8 per quarter | 35 per quarter | 4.4x more |
 | Papers drafted | 0.5 per quarter | 1.5 per quarter | 3x more |
@@ -627,7 +627,7 @@ aws-jupyter costs
 ### Qualitative Feedback
 
 **Maria's quote (3 months later)**:
-> "AWS IDE transformed my research. I was terrified of cloud computing after that $320 bill, but now I use it 3-4 times per week without thinking about it. The wizard makes it feel like launching a normal app, not configuring a server. And auto-stop means I sleep soundly knowing I won't wake up to a $500 bill. I've analyzed 4x more datasets this quarter than last year's entire year. I recommended it to 3 colleagues and they all love it too."
+> "Lens transformed my research. I was terrified of cloud computing after that $320 bill, but now I use it 3-4 times per week without thinking about it. The wizard makes it feel like launching a normal app, not configuring a server. And auto-stop means I sleep soundly knowing I won't wake up to a $500 bill. I've analyzed 4x more datasets this quarter than last year's entire year. I recommended it to 3 colleagues and they all love it too."
 
 **Advisor's feedback**:
 > "Maria's productivity has increased dramatically. She's analyzing datasets that were previously impossible on her laptop, and the reproducible environments mean I can verify her analysis myself. The cost is minimal compared to the research value. This is exactly what academic researchers need."
@@ -706,22 +706,22 @@ aws-jupyter costs
 
 5. **Quickstart command** (#2): Skip wizard for repeat launches
    - Current: Wizard is helpful but adds 2 minutes
-   - Future: `aws-jupyter quickstart --last` to reuse previous config
+   - Future: `lens-jupyter quickstart --last` to reuse previous config
 
 ---
 
 ## Conclusion
 
-AWS IDE transformed Maria from a **cloud-avoider** to a **cloud-enthusiast**:
+Lens transformed Maria from a **cloud-avoider** to a **cloud-enthusiast**:
 
-### Before AWS IDE
+### Before Lens
 - ❌ Terrified of AWS after $320 mistake
 - ❌ Limited to laptop (8-hour analyses, frequent crashes)
 - ❌ Avoided cloud computing entirely
 - ❌ Research progress blocked by compute limitations
 - ❌ Budget anxiety prevented exploration
 
-### After AWS IDE
+### After Lens
 - ✅ Uses cloud 3-4x per week confidently
 - ✅ Analyses run 4x faster (2 hours vs 8 hours)
 - ✅ 4x research output (35 datasets vs 8 per quarter)
@@ -742,4 +742,4 @@ AWS IDE transformed Maria from a **cloud-avoider** to a **cloud-enthusiast**:
 - **Research**: 4x more datasets analyzed
 - **Confidence**: 3/10 → 9/10
 
-Maria represents the **core target user**: academic researcher with limited technical skills and tight budget who needs cloud compute to be **simple, safe, and affordable**. AWS IDE succeeds by meeting all three requirements.
+Maria represents the **core target user**: academic researcher with limited technical skills and tight budget who needs cloud compute to be **simple, safe, and affordable**. Lens succeeds by meeting all three requirements.

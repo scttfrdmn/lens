@@ -1,15 +1,15 @@
 version: 2
 
-project_name: aws-rstudio
+project_name: lens-rstudio
 
 before:
   hooks:
     - go mod tidy
 
 builds:
-  - id: aws-rstudio
-    main: ./cmd/aws-rstudio
-    binary: aws-rstudio
+  - id: lens-rstudio
+    main: ./cmd/lens-rstudio
+    binary: lens-rstudio
     dir: .
     env:
       - CGO_ENABLED=0
@@ -29,9 +29,9 @@ builds:
 archives:
   - id: rstudio
     builds:
-      - aws-rstudio
+      - lens-rstudio
     name_template: >-
-      aws-rstudio_
+      lens-rstudio_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
@@ -50,7 +50,7 @@ archives:
           - zip
 
 checksum:
-  name_template: 'aws-rstudio_checksums.txt'
+  name_template: 'lens-rstudio_checksums.txt'
 
 snapshot:
   version_template: "{{ incpatch .Version }}-next"
@@ -78,42 +78,42 @@ changelog:
 release:
   github:
     owner: scttfrdmn
-    name: aws-ide
+    name: lens
   draft: false
   prerelease: auto
   mode: append
-  name_template: "aws-rstudio {{.Version}}"
+  name_template: "lens-rstudio {{.Version}}"
   header: |
-    ## aws-rstudio {{.Version}} ({{ .Date }})
+    ## lens-rstudio {{.Version}} ({{ .Date }})
 
     CLI tool for launching RStudio Server instances on AWS EC2 Graviton processors.
 
-    ### What's Changed in aws-rstudio
+    ### What's Changed in lens-rstudio
   footer: |
     ## Installation
 
     ### Homebrew (macOS/Linux)
     ```bash
-    brew install scttfrdmn/tap/aws-rstudio
+    brew install scttfrdmn/tap/lens-rstudio
     ```
 
     ### Direct Download
     Download the appropriate binary for your platform from the assets above.
 
-    See the [CHANGELOG](https://github.com/scttfrdmn/aws-ide/blob/{{.Tag}}/CHANGELOG.md) for detailed release notes.
+    See the [CHANGELOG](https://github.com/scttfrdmn/lens/blob/{{.Tag}}/CHANGELOG.md) for detailed release notes.
 
 brews:
-  - name: aws-rstudio
+  - name: lens-rstudio
     ids:
       - rstudio
     repository:
       owner: scttfrdmn
       name: homebrew-tap
-    homepage: https://github.com/scttfrdmn/aws-ide
+    homepage: https://github.com/scttfrdmn/lens
     description: CLI tool for launching RStudio Server instances on AWS EC2 Graviton processors
     license: Apache-2.0
     folder: Formula
     install: |
-      bin.install "aws-rstudio"
+      bin.install "lens-rstudio"
     test: |
-      system "#{bin}/aws-rstudio", "--version"
+      system "#{bin}/lens-rstudio", "--version"

@@ -1,4 +1,4 @@
-# aws-jupyter User Guide
+# lens-jupyter User Guide
 
 Launch secure Jupyter Lab instances on AWS for data science and machine learning.
 
@@ -7,7 +7,7 @@ Launch secure Jupyter Lab instances on AWS for data science and machine learning
 The simplest way to launch Jupyter Lab is using the interactive wizard:
 
 ```bash
-aws-jupyter
+lens-jupyter
 ```
 
 This launches the wizard which guides you through:
@@ -22,29 +22,29 @@ This launches the wizard which guides you through:
 
 ```bash
 # Interactive wizard (recommended for beginners)
-aws-jupyter
+lens-jupyter
 
 # Quick launch with defaults
-aws-jupyter quickstart
+lens-jupyter quickstart
 
 # Launch with specific environment
-aws-jupyter launch --env data-science-python
+lens-jupyter launch --env data-science-python
 ```
 
 ### Machine Learning with GPU
 
 ```bash
 # Launch GPU instance for training
-aws-jupyter launch --env deep-learning-gpu --instance-type g4dn.xlarge
+lens-jupyter launch --env deep-learning-gpu --instance-type g4dn.xlarge
 
 # Use spot instance for cost savings
-aws-jupyter launch --env ml-gpu --instance-type g4dn.xlarge --spot
+lens-jupyter launch --env ml-gpu --instance-type g4dn.xlarge --spot
 ```
 
 ### Bioinformatics
 
 ```bash
-aws-jupyter launch --env bioinformatics
+lens-jupyter launch --env bioinformatics
 ```
 
 ## Available Commands
@@ -54,11 +54,11 @@ aws-jupyter launch --env bioinformatics
 Start a new Jupyter Lab instance:
 
 ```bash
-aws-jupyter launch [flags]
+lens-jupyter launch [flags]
 ```
 
 **Common flags:**
-- `--env`: Environment name (see `aws-jupyter env list`)
+- `--env`: Environment name (see `lens-jupyter env list`)
 - `--instance-type`: EC2 instance type (default: t3.medium)
 - `--region`: AWS region (default: us-east-1)
 - `--spot`: Use spot instance for cost savings
@@ -70,11 +70,11 @@ aws-jupyter launch [flags]
 View all running instances:
 
 ```bash
-aws-jupyter list
+lens-jupyter list
 
 # Filter by state
-aws-jupyter list --state running
-aws-jupyter list --state stopped
+lens-jupyter list --state running
+lens-jupyter list --state stopped
 ```
 
 ### Connect
@@ -82,10 +82,10 @@ aws-jupyter list --state stopped
 Connect to an existing instance:
 
 ```bash
-aws-jupyter connect [instance-id]
+lens-jupyter connect [instance-id]
 
 # Connect via Session Manager (no SSH keys needed)
-aws-jupyter connect i-abc123 --session-manager
+lens-jupyter connect i-abc123 --session-manager
 ```
 
 ### Stop
@@ -93,7 +93,7 @@ aws-jupyter connect i-abc123 --session-manager
 Stop a running instance (data persists):
 
 ```bash
-aws-jupyter stop i-abc123
+lens-jupyter stop i-abc123
 ```
 
 ### Start
@@ -101,7 +101,7 @@ aws-jupyter stop i-abc123
 Start a stopped instance:
 
 ```bash
-aws-jupyter start i-abc123
+lens-jupyter start i-abc123
 ```
 
 ### Terminate
@@ -109,7 +109,7 @@ aws-jupyter start i-abc123
 Permanently delete an instance:
 
 ```bash
-aws-jupyter terminate i-abc123
+lens-jupyter terminate i-abc123
 ```
 
 ## Environments
@@ -117,13 +117,13 @@ aws-jupyter terminate i-abc123
 List available environments:
 
 ```bash
-aws-jupyter env list
+lens-jupyter env list
 ```
 
 Show environment details:
 
 ```bash
-aws-jupyter env show data-science-python
+lens-jupyter env show data-science-python
 ```
 
 ## Tips and Best Practices

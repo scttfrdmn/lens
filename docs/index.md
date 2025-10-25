@@ -1,14 +1,14 @@
-# AWS IDE Documentation
+# Lens Documentation
 
-Welcome to AWS IDE - a suite of command-line tools for launching secure, cloud-based development environments for academic research on AWS.
+Welcome to Lens - a suite of command-line tools for launching secure, cloud-based development environments for academic research on AWS.
 
-## What is AWS IDE?
+## What is Lens?
 
-AWS IDE provides three powerful applications for researchers:
+Lens provides three powerful applications for researchers:
 
-- **[aws-jupyter](user-guides/jupyter.md)**: Launch Jupyter Lab instances for data science and machine learning
-- **[aws-rstudio](user-guides/rstudio.md)**: Launch RStudio Server for statistical computing and R development  
-- **[aws-vscode](user-guides/vscode.md)**: Launch VSCode Server for general-purpose development
+- **[lens-jupyter](user-guides/jupyter.md)**: Launch Jupyter Lab instances for data science and machine learning
+- **[lens-rstudio](user-guides/rstudio.md)**: Launch RStudio Server for statistical computing and R development  
+- **[lens-vscode](user-guides/vscode.md)**: Launch VSCode Server for general-purpose development
 
 All tools share robust infrastructure for AWS integration, security, cost optimization, and ease of use.
 
@@ -19,10 +19,10 @@ Get started in under 5 minutes:
 ```bash
 # Install (choose your platform)
 # macOS
-brew install scttfrdmn/tap/aws-jupyter
+brew install scttfrdmn/tap/lens-jupyter
 
 # Launch with interactive wizard
-aws-jupyter
+lens-jupyter
 ```
 
 ## Key Features
@@ -49,7 +49,7 @@ aws-jupyter
 
 ## Who Is This For?
 
-AWS IDE is designed for academic researchers at all levels:
+Lens is designed for academic researchers at all levels:
 
 <div class="grid cards" markdown>
 
@@ -103,7 +103,7 @@ AWS IDE is designed for academic researchers at all levels:
 
     ---
     
-    Install AWS IDE and launch your first instance
+    Install Lens and launch your first instance
 
 -   :material-book-open-variant: **[User Guides](user-guides/jupyter.md)**
 
@@ -121,18 +121,18 @@ AWS IDE is designed for academic researchers at all levels:
 
     ---
     
-    Contributing to AWS IDE
+    Contributing to Lens
 
 </div>
 
 ## Get Help
 
-- **Questions?** Check out [GitHub Discussions](https://github.com/scttfrdmn/aws-ide/discussions)
-- **Found a bug?** [Report an issue](https://github.com/scttfrdmn/aws-ide/issues/new/choose)
-- **Need a feature?** [Request it here](https://github.com/scttfrdmn/aws-ide/issues/new/choose)
+- **Questions?** Check out [GitHub Discussions](https://github.com/scttfrdmn/lens/discussions)
+- **Found a bug?** [Report an issue](https://github.com/scttfrdmn/lens/issues/new/choose)
+- **Need a feature?** [Request it here](https://github.com/scttfrdmn/lens/issues/new/choose)
 
 ## Version
 
 Current version: **v0.7.2** (Platform: v1.0.0)
 
-See the [CHANGELOG](https://github.com/scttfrdmn/aws-ide/blob/main/CHANGELOG.md) for release notes.
+See the [CHANGELOG](https://github.com/scttfrdmn/lens/blob/main/CHANGELOG.md) for release notes.

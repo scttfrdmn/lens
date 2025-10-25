@@ -1,6 +1,6 @@
 # GitHub Actions CI/CD Workflows
 
-This directory contains the CI/CD workflows for the aws-ide project.
+This directory contains the CI/CD workflows for the lens project.
 
 ## Workflows Overview
 
@@ -248,7 +248,7 @@ If AWS tests fail with credential errors:
 ### E2E Tests Leaving Resources
 
 If cleanup fails:
-1. Manually check for instances with tag `CreatedBy=aws-ide-test`
+1. Manually check for instances with tag `CreatedBy=lens-test`
 2. Terminate orphaned instances
 3. Delete associated security groups and IAM roles
 4. Review cleanup logic in e2e-tests.yml

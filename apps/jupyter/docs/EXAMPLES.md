@@ -1,6 +1,6 @@
 # Examples & Use Cases
 
-Real-world examples and usage scenarios for aws-jupyter.
+Real-world examples and usage scenarios for lens-jupyter.
 
 ## Table of Contents
 
@@ -22,24 +22,24 @@ Real-world examples and usage scenarios for aws-jupyter.
 
 ```bash
 # 1. Launch small instance with data science environment
-aws-jupyter launch \
+lens-jupyter launch \
   --env data-science \
   --instance-type m7g.medium \
   --connection ssh
 
 # 2. Wait for instance to be ready (2-3 minutes)
-aws-jupyter list
+lens-jupyter list
 
 # 3. Connect to Jupyter Lab
 # SSH tunnel will be shown in output
 # Open browser to http://localhost:8888
 
 # 4. When done, stop the instance
-aws-jupyter stop i-0abc123def456789
+lens-jupyter stop i-0abc123def456789
 
 # 5. Later, start it again
 aws ec2 start-instances --instance-ids i-0abc123def456789
-aws-jupyter connect i-0abc123def456789
+lens-jupyter connect i-0abc123def456789
 ```
 
 **Cost:** ~$30-40/month for 8 hours/day usage
@@ -50,7 +50,7 @@ aws-jupyter connect i-0abc123def456789
 
 ```bash
 # Launch in private subnet with Session Manager
-aws-jupyter launch \
+lens-jupyter launch \
   --connection session-manager \
   --subnet-type private \
   --create-nat-gateway \
@@ -58,7 +58,7 @@ aws-jupyter launch \
   --instance-type m7g.xlarge
 
 # Connect securely (no SSH keys, no public IP)
-aws-jupyter connect i-0abc123def456789
+lens-jupyter connect i-0abc123def456789
 
 # Port forward Jupyter
 aws ssm start-session \
@@ -75,14 +75,14 @@ aws ssm start-session \
 
 ```bash
 # 1. Launch minimal environment
-aws-jupyter launch \
+lens-jupyter launch \
   --env minimal \
   --instance-type m7g.medium
 
 # 2. Do your work in Jupyter
 
 # 3. Terminate when done (not stop - fully delete)
-aws-jupyter terminate i-0abc123def456789
+lens-jupyter terminate i-0abc123def456789
 
 # Cost: Pay only for hours used, e.g., 2 hours = $0.10
 ```
@@ -95,13 +95,13 @@ aws-jupyter terminate i-0abc123def456789
 
 ```bash
 # 1. Launch instance with large storage
-aws-jupyter launch \
+lens-jupyter launch \
   --env data-science \
   --instance-type m7g.xlarge \
   --volume-size 200  # 200GB EBS volume
 
 # 2. Connect and download data
-aws-jupyter connect i-0abc123def456789
+lens-jupyter connect i-0abc123def456789
 
 # In instance:
 aws s3 sync s3://my-bucket/dataset /home/ubuntu/data --region us-west-2
@@ -114,7 +114,7 @@ aws s3 cp /home/ubuntu/results/ s3://my-bucket/results/ --recursive
 
 # 5. Terminate (don't forget!)
 exit  # from instance
-aws-jupyter terminate i-0abc123def456789
+lens-jupyter terminate i-0abc123def456789
 ```
 
 **Jupyter Notebook Example:**
@@ -138,7 +138,7 @@ result.to_csv('/home/ubuntu/results/summary.csv')
 
 ```bash
 # Launch with data science tools
-aws-jupyter launch \
+lens-jupyter launch \
   --env data-science \
   --instance-type m7g.large \
   --connection session-manager
@@ -183,7 +183,7 @@ print(f"Next 30 days forecast:\n{forecast}")
 
 ```bash
 # Launch with data science environment
-aws-jupyter launch \
+lens-jupyter launch \
   --env data-science \
   --instance-type m7g.large
 ```
@@ -244,7 +244,7 @@ widgets.interact(update_dashboard, region=region_dropdown, product=product_dropd
 
 ```bash
 # Launch GPU instance (if available) or large CPU
-aws-jupyter launch \
+lens-jupyter launch \
   --env ml-pytorch \
   --instance-type m7g.2xlarge \
   --volume-size 100 \
@@ -317,7 +317,7 @@ s3.upload_file('model.pth', 'my-bucket', 'models/model.pth')
 
 ```bash
 # Launch with deep learning environment
-aws-jupyter launch \
+lens-jupyter launch \
   --env deep-learning \
   --instance-type m7g.xlarge \
   --connection session-manager
@@ -387,7 +387,7 @@ s3.upload_file('final_model.pkl', 'my-bucket', 'models/final_model.pkl')
 
 ```bash
 # Launch with ML environment and large instance
-aws-jupyter launch \
+lens-jupyter launch \
   --env ml-pytorch \
   --instance-type m7g.2xlarge \
   --volume-size 150 \
@@ -470,7 +470,7 @@ s3.upload_file('model.tar.gz', 'my-bucket', 'models/bert_model.tar.gz')
 
 ```bash
 # Launch with computational biology environment
-aws-jupyter launch \
+lens-jupyter launch \
   --env computational-bio \
   --instance-type m7g.xlarge \
   --volume-size 200 \
@@ -548,7 +548,7 @@ s3.upload_file('results.csv', 'my-bucket', 'results/results.csv')
 
 ```bash
 # Launch with R environment
-aws-jupyter launch \
+lens-jupyter launch \
   --env r-stats \
   --instance-type m7g.large \
   --connection ssh
@@ -617,7 +617,7 @@ s3write_using(
 
 ```bash
 # Launch production instance in private subnet
-aws-jupyter launch \
+lens-jupyter launch \
   --connection session-manager \
   --subnet-type private \
   --create-nat-gateway \
@@ -711,7 +711,7 @@ print("Model deployed to S3 successfully!")
 
 ```bash
 # Launch monitoring instance
-aws-jupyter launch \
+lens-jupyter launch \
   --env data-science \
   --instance-type m7g.large \
   --connection session-manager \
@@ -792,14 +792,14 @@ s3.upload_file(
 
 ```bash
 # Launch test environment
-aws-jupyter launch \
+lens-jupyter launch \
   --env minimal \
   --instance-type m7g.medium \
   --connection ssh \
   --tags "Environment=test,Purpose=package-testing"
 
 # Connect
-aws-jupyter connect i-test-instance
+lens-jupyter connect i-test-instance
 
 # In Jupyter, test new packages
 ```
@@ -834,7 +834,7 @@ print("✅ All tests passed! Safe to update production.")
 **Scenario:** Analyze A/B test results
 
 ```bash
-aws-jupyter launch \
+lens-jupyter launch \
   --env data-science \
   --instance-type m7g.large \
   --connection session-manager
@@ -918,23 +918,23 @@ s3.upload_file('ab_test_results.png', 'analytics-bucket', 'results/ab_test.png')
 
 ```bash
 # 1. Use smallest viable instance
-aws-jupyter launch \
+lens-jupyter launch \
   --env minimal \
   --instance-type m7g.medium \
   --connection session-manager \
   --subnet-type private  # No NAT Gateway!
 
 # 2. Stop when not in use (save 90% of costs)
-aws-jupyter stop i-0abc123def456789
+lens-jupyter stop i-0abc123def456789
 
 # 3. Start when needed
 aws ec2 start-instances --instance-ids i-0abc123def456789
 
 # 4. Connect
-aws-jupyter connect i-0abc123def456789
+lens-jupyter connect i-0abc123def456789
 
 # 5. Terminate when project done
-aws-jupyter terminate i-0abc123def456789
+lens-jupyter terminate i-0abc123def456789
 ```
 
 **Monthly Cost:**
@@ -947,9 +947,9 @@ aws-jupyter terminate i-0abc123def456789
 **Scenario:** Use spot instances for fault-tolerant workloads
 
 ```bash
-# Not yet supported by aws-jupyter, but planned for v0.5.0
+# Not yet supported by lens-jupyter, but planned for v0.5.0
 # Future command might look like:
-aws-jupyter launch \
+lens-jupyter launch \
   --instance-market spot \
   --spot-max-price 0.05 \
   --env ml-pytorch
@@ -965,7 +965,7 @@ aws-jupyter launch \
 
 ```bash
 # Team lead launches instance
-aws-jupyter launch \
+lens-jupyter launch \
   --env data-science \
   --instance-type m7g.xlarge \
   --connection session-manager \
@@ -975,7 +975,7 @@ aws-jupyter launch \
 
 # Share instance ID with team
 # Team members connect:
-aws-jupyter connect i-shared-instance
+lens-jupyter connect i-shared-instance
 
 # Everyone works in their own notebook directory
 # /home/ubuntu/notebooks/alice/
@@ -1008,36 +1008,36 @@ git push
 
 ```bash
 # Phase 1: Data Exploration (2 hours)
-aws-jupyter launch \
+lens-jupyter launch \
   --env data-science \
   --instance-type m7g.medium \
   --connection ssh
 
 # Do exploratory data analysis in Jupyter
 # Stop when done
-aws-jupyter stop i-0abc123def456789
+lens-jupyter stop i-0abc123def456789
 
 # Phase 2: Model Training (4 hours next day)
 aws ec2 start-instances --instance-ids i-0abc123def456789
-aws-jupyter connect i-0abc123def456789
+lens-jupyter connect i-0abc123def456789
 
 # Train models, compare approaches
 # Stop when done
-aws-jupyter stop i-0abc123def456789
+lens-jupyter stop i-0abc123def456789
 
 # Phase 3: Hyperparameter Tuning (overnight)
 # Upgrade to larger instance for speed
 # (Stop instance, modify via console, start)
 
 aws ec2 start-instances --instance-ids i-0abc123def456789
-aws-jupyter connect i-0abc123def456789
+lens-jupyter connect i-0abc123def456789
 
 # Run optimization overnight
 # Let it complete
 
 # Phase 4: Production Deployment
 # Launch separate production instance
-aws-jupyter launch \
+lens-jupyter launch \
   --env ml-pytorch \
   --instance-type m7g.large \
   --connection session-manager \
@@ -1049,7 +1049,7 @@ aws-jupyter launch \
 # Set up monitoring
 # Terminate training instance
 
-aws-jupyter terminate i-0abc123def456789
+lens-jupyter terminate i-0abc123def456789
 ```
 
 **Total Cost Estimate:**
@@ -1066,14 +1066,14 @@ aws-jupyter terminate i-0abc123def456789
 
 ```bash
 # Step 1: Literature review and data collection
-aws-jupyter launch \
+lens-jupyter launch \
   --env minimal \
   --instance-type m7g.medium \
   --connection ssh
 
 # Collect and organize data
 # Create initial analysis notebooks
-aws-jupyter stop i-0abc123def456789
+lens-jupyter stop i-0abc123def456789
 
 # Step 2: Analysis and modeling (1 week)
 aws ec2 start-instances --instance-ids i-0abc123def456789
@@ -1088,7 +1088,7 @@ aws ec2 start-instances --instance-ids i-0abc123def456789
 # Step 4: Write paper
 # Download results locally
 # Terminate instance when analysis complete
-aws-jupyter terminate i-0abc123def456789
+lens-jupyter terminate i-0abc123def456789
 
 # Total cost: ~$15-20 for 2-week project
 ```
@@ -1109,4 +1109,4 @@ aws-jupyter terminate i-0abc123def456789
 
 ---
 
-**Have your own use case?** Share it in [GitHub Discussions](https://github.com/scttfrdmn/aws-jupyter/discussions) or open a PR to add it to this document!
+**Have your own use case?** Share it in [GitHub Discussions](https://github.com/scttfrdmn/lens-jupyter/discussions) or open a PR to add it to this document!

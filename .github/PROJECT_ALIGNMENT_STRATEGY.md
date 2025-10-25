@@ -1,6 +1,6 @@
-# AWS IDE Project Alignment Strategy
+# Lens Project Alignment Strategy
 
-> **Purpose**: This document outlines the comprehensive strategy to align aws-ide's design, documentation, GitHub Issues, and Project board following the organizational methodology from lfr-tools.
+> **Purpose**: This document outlines the comprehensive strategy to align lens's design, documentation, GitHub Issues, and Project board following the organizational methodology from lfr-tools.
 
 **Last Updated**: 2025-10-20
 **Status**: Planning Phase
@@ -9,14 +9,14 @@
 
 ## Executive Summary
 
-AWS IDE currently has:
+Lens currently has:
 - ✅ Comprehensive ROADMAP.md with phased development plan (v0.7.0 - v1.0.0)
 - ✅ Well-structured monorepo with pkg/ and apps/ architecture
 - ✅ Basic GitHub infrastructure (issue templates, labels, PR template, workflows)
 - ✅ Initial MkDocs documentation structure
 - ⚠️ **Missing**: Persona-centric organization and traceability
 
-**Goal**: Transform aws-ide to use the proven lfr-tools organizational methodology:
+**Goal**: Transform lens to use the proven lfr-tools organizational methodology:
 - **Personas as North Star** - Every feature traces to a user persona
 - **Explicit Traceability** - Docs ↔ Issues ↔ PRs all linked
 - **Phase-Based Labels** - Enable filtering by roadmap phase
@@ -41,7 +41,7 @@ AWS IDE currently has:
 - Labels: 147 labels across 11 categories (comprehensive!)
 - PR Template: Basic template with checklist
 - Workflows: 7 active (CI, docs, labels, project-automation, release, e2e-tests, smoke-tests)
-- Project: #6 "AWS IDE Development" (empty, no issues)
+- Project: #6 "Lens Development" (empty, no issues)
 
 **Current Personas (from docs)**:
 - Solo Researchers
@@ -227,7 +227,7 @@ docs/
    - Dr. Sarah Johnson, research data scientist
    - Budget: $5,000/year for prototyping
    - Pain: Needs multiple environments (Python, R, Jupyter, RStudio)
-   - Workflow: Switch between aws-jupyter and aws-rstudio
+   - Workflow: Switch between lens-jupyter and lens-rstudio
    - Success: Seamless workflow across tools, reproducible environments
 
 5. **05_INSTRUCTOR_WALKTHROUGH.md**
@@ -261,7 +261,7 @@ docs/
 - Pain Points: [Quantified problems]
 - Constraints: [Budget, time, skill]
 
-## AWS IDE Workflow
+## Lens Workflow
 
 ### Initial Setup (First Time)
 [Step-by-step commands with output]
@@ -275,8 +275,8 @@ docs/
 ## Pain Points & Solutions
 
 ### Pain #1: [Problem]
-- **Before AWS IDE**: [Quantified pain, e.g., "8 hours setup"]
-- **With AWS IDE**: [Quantified improvement, e.g., "15 minutes setup"]
+- **Before Lens**: [Quantified pain, e.g., "8 hours setup"]
+- **With Lens**: [Quantified improvement, e.g., "15 minutes setup"]
 - **Success Metric**: [Measurement, e.g., "97% time reduction"]
 - **Related GitHub Issue**: #12
 
@@ -626,7 +626,7 @@ gh project field-create 6 --owner scttfrdmn --name "ROI" --data-type "SINGLE_SEL
 ```bash
 # Add all issues to project
 for i in {1..30}; do
-  gh project item-add 6 --owner scttfrdmn --url "https://github.com/scttfrdmn/aws-ide/issues/$i"
+  gh project item-add 6 --owner scttfrdmn --url "https://github.com/scttfrdmn/lens/issues/$i"
 done
 ```
 
@@ -642,7 +642,7 @@ Add issue references to each feature:
 - [x] Add `wizard` command that guides users through setup (#1)
 - [ ] Make wizard the default when no arguments provided (#1)
 - [ ] Add `quickstart` command for each app (#2)
-  - [ ] `aws-jupyter quickstart` → instant launch with sensible defaults (#2)
+  - [ ] `lens-jupyter quickstart` → instant launch with sensible defaults (#2)
 ```
 
 #### 5.2 Update Persona Walkthroughs
@@ -651,9 +651,9 @@ Add issue references to each pain point:
 ```markdown
 ### Pain #1: Setup Takes 8 Hours
 
-**Before AWS IDE**: Manual EC2 setup, security groups, SSH keys, package installation takes 8 hours.
+**Before Lens**: Manual EC2 setup, security groups, SSH keys, package installation takes 8 hours.
 
-**With AWS IDE**: `aws-jupyter quickstart` launches in 15 minutes (97% reduction).
+**With Lens**: `lens-jupyter quickstart` launches in 15 minutes (97% reduction).
 
 **Success Metric**: Setup time < 20 minutes.
 
@@ -799,7 +799,7 @@ gh issue list --label "persona: solo-researcher,phase: 0.7-ux,priority: high"
 gh project view 6 --owner scttfrdmn
 
 # Add issue to project
-gh project item-add 6 --owner scttfrdmn --url "https://github.com/scttfrdmn/aws-ide/issues/1"
+gh project item-add 6 --owner scttfrdmn --url "https://github.com/scttfrdmn/lens/issues/1"
 
 # Create custom field
 gh project field-create 6 --owner scttfrdmn --name "Persona" --data-type "SINGLE_SELECT"
@@ -818,8 +818,8 @@ gh issue create --title "[Phase 0.7][Solo Researcher] Make wizard default" \
 ## References
 
 - **LFR-Tools Analysis**: Comprehensive analysis of organizational methodology
-- **aws-ide ROADMAP.md**: Current roadmap (v0.7.0 - v1.0.0)
-- **aws-ide README.md**: Technical overview and architecture
+- **lens ROADMAP.md**: Current roadmap (v0.7.0 - v1.0.0)
+- **lens README.md**: Technical overview and architecture
 - **MkDocs Material**: Documentation framework
 - **GitHub Projects V2**: Modern project boards with custom fields
 

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   localstack:
-    container_name: aws-ide-localstack
+    container_name: lens-localstack
     image: localstack/localstack:latest
     ports:
       - "4566:4566"  # LocalStack gateway
@@ -43,4 +43,4 @@ services:
 
 networks:
   default:
-    name: aws-ide-test
+    name: lens-test

@@ -1,6 +1,6 @@
-# aws-jupyter Roadmap
+# lens-jupyter Roadmap
 
-This document outlines the future development plans for aws-jupyter. The project follows semantic versioning and is organized into phases.
+This document outlines the future development plans for lens-jupyter. The project follows semantic versioning and is organized into phases.
 
 ## 📊 Current Status: v0.2.0 (In Progress)
 
@@ -139,7 +139,7 @@ Improve usability and developer experience with better UI/UX.
   - [ ] Smart suggestions based on context
 
 - [ ] Configuration File Support
-  - [ ] `~/.aws-jupyter/config.yaml` for defaults
+  - [ ] `~/.lens-jupyter/config.yaml` for defaults
   - [ ] Profile support (dev, prod, etc.)
   - [ ] Override CLI flags with config
   - [ ] Validate configuration on load
@@ -208,10 +208,10 @@ Improve management of multiple instances and add batch operations.
 
 ### Tasks
 - [ ] Batch Operations
-  - [ ] `aws-jupyter stop --all` - Stop all instances
-  - [ ] `aws-jupyter stop --tag env=test` - Stop by tag
-  - [ ] `aws-jupyter terminate --pattern "jupyter-*"` - Pattern matching
-  - [ ] `aws-jupyter connect --latest` - Connect to most recent
+  - [ ] `lens-jupyter stop --all` - Stop all instances
+  - [ ] `lens-jupyter stop --tag env=test` - Stop by tag
+  - [ ] `lens-jupyter terminate --pattern "jupyter-*"` - Pattern matching
+  - [ ] `lens-jupyter connect --latest` - Connect to most recent
 
 - [ ] Instance Groups
   - [ ] Group instances by project/team
@@ -506,8 +506,8 @@ We follow [Semantic Versioning 2.0.0](https://semver.org/):
 ## 💬 Feedback
 
 Have suggestions for the roadmap?
-- Open an issue: https://github.com/scttfrdmn/aws-jupyter/issues
-- Start a discussion: https://github.com/scttfrdmn/aws-jupyter/discussions
+- Open an issue: https://github.com/scttfrdmn/lens-jupyter/issues
+- Start a discussion: https://github.com/scttfrdmn/lens-jupyter/discussions
 
 We prioritize features based on:
 1. User demand

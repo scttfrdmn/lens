@@ -1,6 +1,6 @@
 # Future Applications for Academic Researchers
 
-This document tracks potential applications to add to the aws-ide project, focusing on academic research workflows.
+This document tracks potential applications to add to the lens project, focusing on academic research workflows.
 
 ## Priority Applications
 

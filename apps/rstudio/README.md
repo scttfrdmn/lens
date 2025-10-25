@@ -1,4 +1,4 @@
-# aws-rstudio
+# lens-rstudio
 
 [![Go Version](https://img.shields.io/badge/go-1.22+-blue.svg)](https://golang.org/dl/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -7,7 +7,7 @@ A powerful CLI tool for launching secure RStudio Server instances on AWS EC2 Gra
 
 **Full lifecycle management** with commands for launching, connecting, stopping, and terminating instances across public and private subnets with Session Manager or SSH access.
 
-> **Note**: This project is part of the [AWS IDE monorepo](../../README.md). It shares infrastructure with [aws-jupyter](../jupyter/) and other IDE launchers.
+> **Note**: This project is part of the [Lens monorepo](../../README.md). It shares infrastructure with [lens-jupyter](../jupyter/) and other IDE launchers.
 
 ## 🚀 Key Features
 
@@ -39,26 +39,26 @@ A powerful CLI tool for launching secure RStudio Server instances on AWS EC2 Gra
 
 ```bash
 # Clone the repository
-git clone https://github.com/scttfrdmn/aws-ide
-cd aws-ide/apps/rstudio
+git clone https://github.com/scttfrdmn/lens
+cd lens/apps/rstudio
 
 # Build
-go build -o aws-rstudio ./cmd/aws-rstudio
+go build -o lens-rstudio ./cmd/lens-rstudio
 
 # Install
-sudo mv aws-rstudio /usr/local/bin/
+sudo mv lens-rstudio /usr/local/bin/
 ```
 
 ### Verify Installation
 
 ```bash
-aws-rstudio --version
-aws-rstudio --help
+lens-rstudio --version
+lens-rstudio --help
 ```
 
 ## AWS Authentication
 
-Before using aws-rstudio, configure AWS credentials:
+Before using lens-rstudio, configure AWS credentials:
 
 ```bash
 # Option 1: AWS CLI (Recommended)
@@ -71,7 +71,7 @@ export AWS_DEFAULT_REGION="us-east-1"
 
 # Option 3: AWS profiles
 aws configure --profile myprofile
-aws-rstudio launch --profile myprofile
+lens-rstudio launch --profile myprofile
 ```
 
 See the [AWS Authentication Guide](../jupyter/docs/AWS_AUTHENTICATION.md) for detailed setup instructions.
@@ -82,7 +82,7 @@ See the [AWS Authentication Guide](../jupyter/docs/AWS_AUTHENTICATION.md) for de
 
 ```bash
 # Launch with all defaults - perfect for getting started
-aws-rstudio launch
+lens-rstudio launch
 
 # The CLI will:
 # ✓ Configure IAM roles and security groups
@@ -96,33 +96,33 @@ aws-rstudio launch
 
 ```bash
 # Most secure: Private subnet with Session Manager
-aws-rstudio launch --connection session-manager --subnet-type private --create-nat-gateway
+lens-rstudio launch --connection session-manager --subnet-type private --create-nat-gateway
 
 # Secure and cost-effective: Private subnet without internet
-aws-rstudio launch --connection session-manager --subnet-type private
+lens-rstudio launch --connection session-manager --subnet-type private
 
 # Session Manager with public subnet (no SSH exposure)
-aws-rstudio launch --connection session-manager
+lens-rstudio launch --connection session-manager
 ```
 
 ### **🔑 Traditional SSH Launch**
 
 ```bash
 # Standard SSH with public subnet
-aws-rstudio launch --connection ssh
+lens-rstudio launch --connection ssh
 
 # SSH with custom environment and instance type
-aws-rstudio launch --env tidyverse --instance-type t4g.large --connection ssh
+lens-rstudio launch --env tidyverse --instance-type t4g.large --connection ssh
 ```
 
 ### **💰 Cost Control with Idle Detection**
 
 ```bash
 # Auto-stop after 30 minutes of inactivity (great for testing)
-aws-rstudio launch --idle-timeout 30m
+lens-rstudio launch --idle-timeout 30m
 
 # Custom timeout for long-running work
-aws-rstudio launch --idle-timeout 8h
+lens-rstudio launch --idle-timeout 8h
 
 # Auto-stop detects:
 # ✓ Active R sessions and computation processes
@@ -135,23 +135,23 @@ aws-rstudio launch --idle-timeout 8h
 
 ```bash
 # Instance lifecycle
-aws-rstudio list                        # Show all instances with status
-aws-rstudio status i-0abc123def         # Detailed instance information
-aws-rstudio connect i-0abc123def        # Connect to existing instance
-aws-rstudio stop i-0abc123def           # Stop instance (preserves EBS)
-aws-rstudio terminate i-0abc123def      # Terminate instance (cleanup)
+lens-rstudio list                        # Show all instances with status
+lens-rstudio status i-0abc123def         # Detailed instance information
+lens-rstudio connect i-0abc123def        # Connect to existing instance
+lens-rstudio stop i-0abc123def           # Stop instance (preserves EBS)
+lens-rstudio terminate i-0abc123def      # Terminate instance (cleanup)
 
 # SSH key management
-aws-rstudio key list                    # View local and AWS key pairs
-aws-rstudio key show                    # Show default key details
-aws-rstudio key validate                # Check key file permissions
+lens-rstudio key list                    # View local and AWS key pairs
+lens-rstudio key show                    # Show default key details
+lens-rstudio key validate                # Check key file permissions
 ```
 
 ### **📋 Preview Changes (Dry Run)**
 
 ```bash
 # Always preview before launching
-aws-rstudio launch --dry-run --connection session-manager --subnet-type private --create-nat-gateway
+lens-rstudio launch --dry-run --connection session-manager --subnet-type private --create-nat-gateway
 ```
 
 ## Environments
@@ -168,13 +168,13 @@ Create custom R environments from your local setup:
 
 ```bash
 # List available environments
-aws-rstudio env list
+lens-rstudio env list
 
 # View environment details
-aws-rstudio env show tidyverse
+lens-rstudio env show tidyverse
 
 # Generate custom environment (coming soon)
-aws-rstudio generate --name my-rproject --source ./research
+lens-rstudio generate --name my-rproject --source ./research
 ```
 
 ## 🔗 Connection Methods
@@ -189,10 +189,10 @@ See the [Session Manager Setup Guide](../jupyter/docs/SESSION_MANAGER_SETUP.md) 
 
 ```bash
 # Launch with Session Manager
-aws-rstudio launch --connection session-manager
+lens-rstudio launch --connection session-manager
 
 # Connect to running instance
-aws-rstudio connect i-0abc123def
+lens-rstudio connect i-0abc123def
 # or use AWS CLI directly:
 aws ssm start-session --target i-0abc123def --profile myprofile
 ```
@@ -201,16 +201,16 @@ aws ssm start-session --target i-0abc123def --profile myprofile
 
 ### **Traditional SSH**
 - **Full SSH access** - direct SSH connection with automatic key management
-- **Economical key reuse** - smart naming strategy (aws-rstudio-{region})
+- **Economical key reuse** - smart naming strategy (lens-rstudio-{region})
 - **Secure local storage** - private keys stored with 600 permissions
 - **IP restrictions** - security groups restrict access to your current IP
 
 ```bash
 # Launch with SSH
-aws-rstudio launch --connection ssh
+lens-rstudio launch --connection ssh
 
 # Connect directly
-ssh -i ~/.aws-rstudio/keys/aws-rstudio-us-west-2.pem ubuntu@1.2.3.4
+ssh -i ~/.lens-rstudio/keys/lens-rstudio-us-west-2.pem ubuntu@1.2.3.4
 ```
 
 ## 🌐 Networking Options
@@ -229,13 +229,13 @@ See the [Private Subnet Guide](../jupyter/docs/PRIVATE_SUBNET_GUIDE.md) for best
 
 ```bash
 # Private subnet with internet access (recommended for production)
-aws-rstudio launch --subnet-type private --create-nat-gateway
+lens-rstudio launch --subnet-type private --create-nat-gateway
 
 # Private subnet without internet (cost-effective but limited functionality)
-aws-rstudio launch --subnet-type private
+lens-rstudio launch --subnet-type private
 
 # Cost breakdown displayed during dry-run
-aws-rstudio launch --dry-run --subnet-type private --create-nat-gateway
+lens-rstudio launch --dry-run --subnet-type private --create-nat-gateway
 ```
 
 ## ⚙️ Configuration
@@ -245,20 +245,20 @@ Credentials managed through standard AWS credential chain:
 
 ```bash
 # Use specific AWS profile
-aws-rstudio launch --profile research
+lens-rstudio launch --profile research
 
 # Custom region
-aws-rstudio launch --region eu-west-1
+lens-rstudio launch --region eu-west-1
 
 # Custom idle timeout
-aws-rstudio launch --idle-timeout 8h
+lens-rstudio launch --idle-timeout 8h
 ```
 
 ### **Advanced Options**
 
 ```bash
 # Combine all options
-aws-rstudio launch \
+lens-rstudio launch \
   --connection session-manager \
   --subnet-type private \
   --create-nat-gateway \
@@ -288,7 +288,7 @@ See the main [README](../../README.md#aws-permissions) for required AWS permissi
 - **[AWS Authentication](../jupyter/docs/AWS_AUTHENTICATION.md)** - Complete authentication setup guide
 
 ### **Reference**
-- **[Main README](../../README.md)** - Overview of the AWS IDE project
+- **[Main README](../../README.md)** - Overview of the Lens project
 - **[Roadmap](../../ROADMAP.md)** - Detailed feature planning
 - **[Contributing](../../CONTRIBUTING.md)** - How to contribute
 
@@ -296,7 +296,7 @@ See the main [README](../../README.md#aws-permissions) for required AWS permissi
 
 **Current Version**: v0.5.0 (Feature Parity - In Progress)
 
-aws-rstudio is rapidly approaching feature parity with [aws-jupyter](../jupyter/). Most core features are implemented and tested.
+lens-rstudio is rapidly approaching feature parity with [lens-jupyter](../jupyter/). Most core features are implemented and tested.
 
 ### ✅ Working Features
 - **Full CLI command set**: All 10 commands implemented
@@ -328,9 +328,9 @@ See the [ROADMAP](../../ROADMAP.md) for detailed planning.
 
 ```bash
 # Clone and build
-git clone https://github.com/scttfrdmn/aws-ide
-cd aws-ide/apps/rstudio
-go build ./cmd/aws-rstudio
+git clone https://github.com/scttfrdmn/lens
+cd lens/apps/rstudio
+go build ./cmd/lens-rstudio
 
 # Run tests
 go test ./...
@@ -342,7 +342,7 @@ goreleaser build --snapshot --rm-dist
 
 ## Shared Infrastructure
 
-aws-rstudio shares infrastructure with other AWS IDE tools:
+lens-rstudio shares infrastructure with other Lens tools:
 
 - **AWS SDK integrations**: `../../pkg/aws/`
 - **Configuration management**: `../../pkg/config/`
@@ -354,7 +354,7 @@ This allows for consistent behavior across all IDE types and reduces code duplic
 
 We welcome contributions! Please see the main [Contributing Guide](../../CONTRIBUTING.md) for details.
 
-**Priority areas for aws-rstudio:**
+**Priority areas for lens-rstudio:**
 - R-specific environment templates
 - RStudio Server configuration
 - R package management
@@ -367,12 +367,12 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](../../
 ## Support
 
 - **Documentation**: See guides in `../jupyter/docs/`
-- **Issues**: [GitHub Issues](https://github.com/scttfrdmn/aws-ide/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/scttfrdmn/aws-ide/discussions)
+- **Issues**: [GitHub Issues](https://github.com/scttfrdmn/lens/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/scttfrdmn/lens/discussions)
 
 ## Acknowledgments
 
 Built with:
 - [AWS SDK for Go v2](https://github.com/aws/aws-sdk-go-v2)
 - [Cobra CLI framework](https://github.com/spf13/cobra)
-- Shared infrastructure from the AWS IDE project
+- Shared infrastructure from the Lens project

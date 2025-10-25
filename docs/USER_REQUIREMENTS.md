@@ -1,6 +1,6 @@
-# AWS IDE User Requirements
+# Lens User Requirements
 
-> **Purpose**: This document defines the authoritative requirements for AWS IDE based on academic researcher needs. Every requirement maps to user personas, quantified pain points, and measurable success criteria.
+> **Purpose**: This document defines the authoritative requirements for Lens based on academic researcher needs. Every requirement maps to user personas, quantified pain points, and measurable success criteria.
 
 **Last Updated**: 2025-10-20
 **Status**: Living Document
@@ -80,16 +80,16 @@ Each requirement follows this format:
 
 ### REQ-1.3: Wizard as Default Interaction
 
-**User Story**: As a Solo Researcher, I need the wizard to launch automatically when I run `aws-jupyter`, because I don't know what flags to use and need guidance every time.
+**User Story**: As a Solo Researcher, I need the wizard to launch automatically when I run `lens-jupyter`, because I don't know what flags to use and need guidance every time.
 
 **Pain Point**:
-- **Before**: Running `aws-jupyter` with no args shows help text = user doesn't know what to do next
+- **Before**: Running `lens-jupyter` with no args shows help text = user doesn't know what to do next
 - **Hidden wizard**: Users don't discover the `wizard` command exists
 - **Flag overload**: 15+ CLI flags overwhelm beginners
 
 **Success Metric**:
-- ✅ `aws-jupyter` (no args) launches interactive wizard
-- ✅ `aws-jupyter launch` uses saved preferences or sensible defaults
+- ✅ `lens-jupyter` (no args) launches interactive wizard
+- ✅ `lens-jupyter launch` uses saved preferences or sensible defaults
 - ✅ Wizard usage > 80% of first-time users
 - ✅ Advanced users can skip with `--no-wizard` or `launch` command
 
@@ -103,7 +103,7 @@ Each requirement follows this format:
 
 ### REQ-1.4: Remember User Preferences
 
-**User Story**: As a Data Scientist, I need AWS IDE to remember my preferred instance type, region, and environment, because I launch the same configuration 3-4 times per week and don't want to re-enter everything.
+**User Story**: As a Data Scientist, I need Lens to remember my preferred instance type, region, and environment, because I launch the same configuration 3-4 times per week and don't want to re-enter everything.
 
 **Pain Point**:
 - **Before**: Every launch requires specifying `--instance-type t4g.xlarge --region us-west-2 --env ml-pytorch`
@@ -112,7 +112,7 @@ Each requirement follows this format:
 
 **Success Metric**:
 - ✅ Wizard asks "Use same settings as last time?" on subsequent launches
-- ✅ Preferences saved in `~/.aws-ide/preferences.yaml`
+- ✅ Preferences saved in `~/.lens/preferences.yaml`
 - ✅ Preferences per app (Jupyter vs RStudio may have different defaults)
 - ✅ 70% reduction in keystrokes for repeat users
 
@@ -134,9 +134,9 @@ Each requirement follows this format:
 - **Known configuration**: Experienced users know exactly what they want
 
 **Success Metric**:
-- ✅ `aws-jupyter quickstart` launches in < 10 seconds (non-interactive)
+- ✅ `lens-jupyter quickstart` launches in < 10 seconds (non-interactive)
 - ✅ Uses sensible defaults: t4g.medium, us-east-1, data-science env
-- ✅ Can override: `aws-jupyter quickstart --env ml-pytorch --size large`
+- ✅ Can override: `lens-jupyter quickstart --env ml-pytorch --size large`
 - ✅ Instructor can demo in class without wizard interruption
 
 **Priority**: HIGH
@@ -209,7 +209,7 @@ Each requirement follows this format:
 **Success Metric**:
 - ✅ Set budget threshold in config: `cost_alert_threshold: 5000` ($5,000/month)
 - ✅ Email alert at 50%, 75%, 90%, 100% of budget
-- ✅ `aws-jupyter costs` shows current month spend vs budget
+- ✅ `lens-jupyter costs` shows current month spend vs budget
 - ✅ Per-lab cost breakdown with tagging
 - ✅ 100% of budget overages detected within 24 hours
 
@@ -231,7 +231,7 @@ Each requirement follows this format:
 - **Multiple grants**: 3 active grants × 4 quarterly reports = 12 reports/year
 
 **Success Metric**:
-- ✅ `aws-jupyter costs --report --from 2025-01-01 --to 2025-12-31 --project NIH-R01-2025 --format pdf`
+- ✅ `lens-jupyter costs --report --from 2025-01-01 --to 2025-12-31 --project NIH-R01-2025 --format pdf`
 - ✅ Report includes: total cost, cost by researcher, cost by instance type, monthly trend
 - ✅ Export formats: PDF (for grant submissions), CSV (for Excel analysis)
 - ✅ Report generation in < 60 seconds
@@ -280,9 +280,9 @@ Each requirement follows this format:
 - **Tidyverse essential**: 90% of R workflows depend on tidyverse packages
 
 **Success Metric**:
-- ✅ `aws-rstudio launch` provides full RStudio Server
+- ✅ `lens-rstudio launch` provides full RStudio Server
 - ✅ Built-in environments: minimal, tidyverse, bioconductor, shiny
-- ✅ Feature parity with aws-jupyter (all commands work identically)
+- ✅ Feature parity with lens-jupyter (all commands work identically)
 - ✅ Tidyverse environment has 100+ R packages pre-installed
 
 **Priority**: CRITICAL
@@ -303,10 +303,10 @@ Each requirement follows this format:
 - **Versatility**: Need general-purpose IDE for Python, R, Julia, shell scripts, etc.
 
 **Success Metric**:
-- ✅ `aws-vscode launch` provides code-server (VSCode in browser)
+- ✅ `lens-vscode launch` provides code-server (VSCode in browser)
 - ✅ Built-in environments: web-dev, python-dev, go-dev, fullstack
 - ✅ Extensions auto-installed (Python, R, Jupyter, GitLens, etc.)
-- ✅ 100% feature parity with aws-jupyter and aws-rstudio
+- ✅ 100% feature parity with lens-jupyter and lens-rstudio
 
 **Priority**: CRITICAL
 **Phase**: v0.6.0 - Testing & Quality (COMPLETE)
@@ -327,7 +327,7 @@ Each requirement follows this format:
 
 **Success Metric**:
 - ✅ Add 6+ additional tools: Amazon Q, Streamlit, Zeppelin, Theia, Quarto, NICE DCV Desktop
-- ✅ Unified CLI: `aws-streamlit launch` works identically to `aws-jupyter launch`
+- ✅ Unified CLI: `aws-streamlit launch` works identically to `lens-jupyter launch`
 - ✅ Shared infrastructure: cost tracking, auto-stop, SSH all work across tools
 - ✅ Lab PI can manage all tools from single dashboard
 
@@ -351,9 +351,9 @@ Each requirement follows this format:
 - **Manual export**: `pip freeze > requirements.txt` doesn't capture system packages, R packages, or configurations
 
 **Success Metric**:
-- ✅ `aws-jupyter env export` creates complete environment snapshot
+- ✅ `lens-jupyter env export` creates complete environment snapshot
 - ✅ Export includes: Python/R packages + versions, system packages, Jupyter extensions, environment variables
-- ✅ `aws-jupyter env import environment.yml` recreates identical environment
+- ✅ `lens-jupyter env import environment.yml` recreates identical environment
 - ✅ Published environments can be reproduced 5 years later
 - ✅ 95% package version match on import
 
@@ -378,7 +378,7 @@ Each requirement follows this format:
 - ✅ Full conda environment support with `environment.yml` files
 - ✅ BioConda channel enabled by default in bioinformatics environments
 - ✅ Pre-configured environments: genomics-pipeline, rna-seq, single-cell
-- ✅ `aws-jupyter launch --env genomics-pipeline` includes 50+ BioConda tools
+- ✅ `lens-jupyter launch --env genomics-pipeline` includes 50+ BioConda tools
 - ✅ Package caching reduces subsequent launch time by 70%
 
 **Priority**: HIGH
@@ -433,7 +433,7 @@ Each requirement follows this format:
 - **Security**: Can't give advisor my AWS credentials
 
 **Success Metric**:
-- ✅ `aws-jupyter share i-abc123 --email advisor@university.edu --duration 2h --read-only`
+- ✅ `lens-jupyter share i-abc123 --email advisor@university.edu --duration 2h --read-only`
 - ✅ Advisor receives email with one-click access link
 - ✅ Read-only mode prevents accidental changes
 - ✅ Access automatically expires after duration
@@ -457,9 +457,9 @@ Each requirement follows this format:
 - **Onboarding**: Each new student requires 1-hour configuration session with PI
 
 **Success Metric**:
-- ✅ PI creates lab config: `aws-jupyter config init --lab chen-physics-lab`
+- ✅ PI creates lab config: `lens-jupyter config init --lab chen-physics-lab`
 - ✅ Config sets: allowed instance types, max instance size, default region, approved environments, budget per student
-- ✅ Students inherit lab config: `aws-jupyter launch --lab chen-physics-lab`
+- ✅ Students inherit lab config: `lens-jupyter launch --lab chen-physics-lab`
 - ✅ Students can't launch unapproved instance types
 - ✅ 90% reduction in PI configuration time
 
@@ -481,9 +481,9 @@ Each requirement follows this format:
 - **Data loss**: 40% of researchers report losing work due to instance termination
 
 **Success Metric**:
-- ✅ Configure S3 sync: `aws-jupyter config set s3_sync_bucket my-research-data`
+- ✅ Configure S3 sync: `lens-jupyter config set s3_sync_bucket my-research-data`
 - ✅ Auto-sync every 15 minutes: `/home/ubuntu/projects/ → s3://my-research-data/projects/`
-- ✅ On-demand sync: `aws-jupyter sync now`
+- ✅ On-demand sync: `lens-jupyter sync now`
 - ✅ Automatic restore on launch: detect previous synced data → ask "Restore previous work?"
 - ✅ Version history: rollback to sync from 1 hour ago, 1 day ago, etc.
 - ✅ 100% data loss prevention
@@ -508,7 +508,7 @@ Each requirement follows this format:
 - **Key sprawl**: 5 students × 3 instance types = 15 SSH keys to manage
 
 **Success Metric**:
-- ✅ Session Manager enabled by default: `aws-jupyter launch --connection session-manager`
+- ✅ Session Manager enabled by default: `lens-jupyter launch --connection session-manager`
 - ✅ No SSH keys created or stored
 - ✅ Uses IAM authentication (existing university IAM integration)
 - ✅ All connections logged in CloudTrail for audits
@@ -533,7 +533,7 @@ Each requirement follows this format:
 - **Manual NAT Gateway**: Setting up NAT Gateways correctly is complex
 
 **Success Metric**:
-- ✅ Launch in private subnet: `aws-jupyter launch --subnet-type private`
+- ✅ Launch in private subnet: `lens-jupyter launch --subnet-type private`
 - ✅ Automatic NAT Gateway creation if needed
 - ✅ No public IP assigned to instance
 - ✅ Access via Session Manager (works without public IP)
@@ -559,7 +559,7 @@ Each requirement follows this format:
 
 **Success Metric**:
 - ✅ All AWS API calls logged to CloudTrail (automatic)
-- ✅ `aws-jupyter audit --from 2025-03-01 --to 2025-03-31` generates report
+- ✅ `lens-jupyter audit --from 2025-03-01 --to 2025-03-31` generates report
 - ✅ Report shows: who launched what, when, from where (IP), what actions taken
 - ✅ Export formats: PDF (for auditors), CSV (for analysis)
 - ✅ 95% time reduction in audit prep (20 hours → 1 hour)
@@ -600,10 +600,10 @@ Each requirement follows this format:
 
 ### REQ-7.2: Responsive CLI Commands
 
-**User Story**: As a Data Scientist checking instance status, I need `aws-jupyter status` to respond in under 2 seconds, because I check status frequently throughout the day and slow commands break my flow.
+**User Story**: As a Data Scientist checking instance status, I need `lens-jupyter status` to respond in under 2 seconds, because I check status frequently throughout the day and slow commands break my flow.
 
 **Pain Point**:
-- **Before**: `aws-jupyter status` takes 5-8 seconds → disrupts workflow
+- **Before**: `lens-jupyter status` takes 5-8 seconds → disrupts workflow
 - **Impatience**: Users assume command failed and hit Ctrl+C
 - **Frequency**: Status checked 10-20 times per session
 
@@ -633,7 +633,7 @@ Each requirement follows this format:
 **Success Metric**:
 - ✅ GPU instance types supported: g4dn (affordable), p3 (performance), p4 (latest)
 - ✅ CUDA pre-installed and configured in GPU environments
-- ✅ `aws-jupyter launch --instance-type g4dn.xlarge --env deep-learning-gpu`
+- ✅ `lens-jupyter launch --instance-type g4dn.xlarge --env deep-learning-gpu`
 - ✅ PyTorch/TensorFlow automatically detect GPU
 - ✅ Cost warnings for expensive GPU instances
 - ✅ Auto-stop essential (GPU idle = $1-12/hour waste)

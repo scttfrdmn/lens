@@ -82,9 +82,9 @@ jobs:
         if: always()
         run: |
           echo "Cleaning up E2E test resources..."
-          # Terminate any instances with CreatedBy=aws-ide-test tag
+          # Terminate any instances with CreatedBy=lens-test tag
           aws ec2 describe-instances \
-            --filters "Name=tag:CreatedBy,Values=aws-ide-test" \
+            --filters "Name=tag:CreatedBy,Values=lens-test" \
                      "Name=instance-state-name,Values=running,stopped,stopping,pending" \
             --query 'Reservations[].Instances[].InstanceId' \
             --output text | xargs -r -n 1 aws ec2 terminate-instances --instance-ids || true
@@ -94,7 +94,7 @@ jobs:
 
           # Delete any test security groups (may fail if instances still attached)
           aws ec2 describe-security-groups \
-            --filters "Name=tag:CreatedBy,Values=aws-ide-test" \
+            --filters "Name=tag:CreatedBy,Values=lens-test" \
             --query 'SecurityGroups[].GroupId' \
             --output text | xargs -r -n 1 aws ec2 delete-security-group --group-id || true
 

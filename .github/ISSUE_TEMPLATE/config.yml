@@ -1,14 +1,14 @@
 blank_issues_enabled: false
 contact_links:
   - name: 💬 Q&A and Discussions
-    url: https://github.com/scttfrdmn/aws-ide/discussions/categories/q-a
+    url: https://github.com/scttfrdmn/lens/discussions/categories/q-a
     about: Ask questions and discuss ideas with the community
   - name: 💡 Ideas and Feature Brainstorming
-    url: https://github.com/scttfrdmn/aws-ide/discussions/categories/ideas
+    url: https://github.com/scttfrdmn/lens/discussions/categories/ideas
     about: Share and discuss feature ideas before creating formal requests
   - name: 📚 Documentation
-    url: https://github.com/scttfrdmn/aws-ide
+    url: https://github.com/scttfrdmn/lens
     about: View project documentation and guides
   - name: 🔒 Security Issues
-    url: https://github.com/scttfrdmn/aws-ide/security/advisories/new
+    url: https://github.com/scttfrdmn/lens/security/advisories/new
     about: Report security vulnerabilities privately

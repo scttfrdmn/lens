@@ -60,7 +60,7 @@
 
 ---
 
-## Current Situation (Before AWS IDE)
+## Current Situation (Before Lens)
 
 ### Existing Lab Infrastructure
 
@@ -133,22 +133,22 @@
 
 ---
 
-## AWS IDE Workflow
+## Lens Workflow
 
 ### Lab-Wide Deployment Strategy
 
 **Week 1: Evaluation** (Prof. Chen tries it personally)
 
-Prof. Chen hears about AWS IDE at a conference. Decides to evaluate before rolling out to students.
+Prof. Chen hears about Lens at a conference. Decides to evaluate before rolling out to students.
 
 #### Personal Trial (Tuesday Morning)
 
 ```bash
 # Prof. Chen on his MacBook
-brew install scttfrdmn/tap/aws-jupyter
+brew install scttfrdmn/tap/lens-jupyter
 
 # Launch wizard
-aws-jupyter
+lens-jupyter
 ```
 
 **Wizard experience**:
@@ -199,7 +199,7 @@ Your choice: y
 - Uploads simulation script (Fortran + Python wrapper)
 - Runs test simulation (1 hour)
 - Checks results
-- Stops instance: `aws-jupyter stop`
+- Stops instance: `lens-jupyter stop`
 
 **Cost**: $0.27
 
@@ -212,7 +212,7 @@ Your choice: y
 #### Lab Meeting (Monday, 2 PM)
 
 **Prof. Chen announces**:
-> "We're moving to AWS IDE for cloud computing. I've been managing our cloud spending ineffectively, and the lab server is a bottleneck. AWS IDE has auto-stop built-in, so we won't have cost overruns like last year's $4,000 incident. I want everyone set up by end of week."
+> "We're moving to Lens for cloud computing. I've been managing our cloud spending ineffectively, and the lab server is a bottleneck. Lens has auto-stop built-in, so we won't have cost overruns like last year's $4,000 incident. I want everyone set up by end of week."
 
 **Student reactions**:
 - **Advanced students (2)**: "Will we have full AWS access? Can we customize?"
@@ -229,7 +229,7 @@ Your choice: y
 Prof. Chen holds 2-hour "setup office hours" - all students come with laptops.
 
 **Results**:
-- 7/7 students successfully installed AWS IDE
+- 7/7 students successfully installed Lens
 - 7/7 students launched first instance successfully
 - Average time to first working instance: 18 minutes
 - 2 students had AWS credential issues (resolved in 10 minutes with Prof. Chen's help)
@@ -253,26 +253,26 @@ Prof. Chen creates `.github` documentation repo for lab with:
 # Chen Lab Cloud Computing Guidelines
 
 ## Quick Start
-Install: `brew install aws-jupyter aws-rstudio` (choose based on your language preference)
+Install: `brew install lens-jupyter lens-rstudio` (choose based on your language preference)
 
 ## Standard Configurations
 
 ### For typical simulation work:
 - Instance: c6g.2xlarge (8 CPUs, 16GB RAM) - $0.272/hr
-- Launch: `aws-jupyter launch --instance-type c6g.2xlarge --idle-timeout 2h`
+- Launch: `lens-jupyter launch --instance-type c6g.2xlarge --idle-timeout 2h`
 - Max cost per session: ~$1.50
 
 ### For GPU/deep learning work:
 - Instance: g4dn.xlarge (1 GPU, 4 CPUs, 16GB RAM) - $0.526/hr
 - Must get Prof. Chen approval for >4 hour runs
-- Launch: `aws-jupyter launch --instance-type g4dn.xlarge --env deep-learning-gpu`
+- Launch: `lens-jupyter launch --instance-type g4dn.xlarge --env deep-learning-gpu`
 
 ## Lab Rules
 
 1. **ALWAYS use auto-stop** (default 2-hour timeout)
-2. **Check costs weekly**: `aws-jupyter costs`
-3. **Stop when done**: `aws-jupyter stop` (don't rely solely on auto-stop)
-4. **Export environments for papers**: `aws-jupyter env export` before submission
+2. **Check costs weekly**: `lens-jupyter costs`
+3. **Stop when done**: `lens-jupyter stop` (don't rely solely on auto-stop)
+4. **Export environments for papers**: `lens-jupyter env export` before submission
 5. **Report to Prof. Chen monthly**: Send cost summary (first Friday of month)
 
 ## Monthly Budget Allocations
@@ -300,7 +300,7 @@ Prof. Chen creates Google Sheet: "Lab Cloud Spending Tracker"
 | ... | ... | ... | ... | ... | ... | ... |
 
 **Process**:
-- 1st Friday of month: Students run `aws-jupyter costs --last-month` and submit to spreadsheet
+- 1st Friday of month: Students run `lens-jupyter costs --last-month` and submit to spreadsheet
 - Prof. Chen reviews in 15 minutes (vs 2 hours manually compiling AWS Cost Explorer data)
 - Flags students exceeding budget for discussion
 
@@ -351,7 +351,7 @@ Prof. Chen creates Google Sheet: "Lab Cloud Spending Tracker"
 
 ### Pain #1: Cost Overruns and Budget Panic
 
-**Before AWS IDE** (April 2023 incident):
+**Before Lens** (April 2023 incident):
 - Student launched 5× p3.8xlarge instances
 - Forgot to terminate for 13 days
 - Cost: $4,100 (27% of annual budget)
@@ -359,15 +359,15 @@ Prof. Chen creates Google Sheet: "Lab Cloud Spending Tracker"
 - Had to request supplemental funding (embarrassing)
 - Lost trust in cloud computing
 
-**With AWS IDE**:
+**With Lens**:
 - Auto-stop enabled by default (2-hour timeout)
 - Even if student forgets, max cost: 2 hours × $0.272 = $0.54
 - Worst case (student launches p3.8xlarge and forgets):
   - Old way: 13 days × 24 hours × $12.24/hr = $3,818
-  - AWS IDE: 2 hours × $12.24/hr = $24.48
+  - Lens: 2 hours × $12.24/hr = $24.48
   - **98% reduction in mistake damage**
 
-**Real AWS IDE experience** (Month 2):
+**Real Lens experience** (Month 2):
 - Student Emma launched g4dn.xlarge ($0.526/hr)
 - Started training run, went to dinner and movie (forgot about it)
 - Auto-stop triggered after 2 hours idle
@@ -386,7 +386,7 @@ Prof. Chen creates Google Sheet: "Lab Cloud Spending Tracker"
 
 ### Pain #2: Infrastructure Management Burden
 
-**Before AWS IDE**:
+**Before Lens**:
 - Prof. Chen spent 5 hours/month on lab server maintenance:
   - Security patches (1 hour/month)
   - Broken package dependencies (2 hours/month)
@@ -395,7 +395,7 @@ Prof. Chen creates Google Sheet: "Lab Cloud Spending Tracker"
   - Hardware troubleshooting (0.5 hour/month average, spikes to 20 hours when GPU fails)
 - Total: 60 hours/year + 20 hours/year crisis management = **80 hours/year**
 
-**With AWS IDE**:
+**With Lens**:
 - AWS manages hardware, OS, security patches
 - Students manage their own instances
 - Prof. Chen's role: Set guidelines, review monthly costs
@@ -422,7 +422,7 @@ Prof. Chen creates Google Sheet: "Lab Cloud Spending Tracker"
 
 ### Pain #3: Reproducibility and Collaboration
 
-**Before AWS IDE** (September 2023 paper revision):
+**Before Lens** (September 2023 paper revision):
 - Postdoc Hannah published paper
 - Reviewer: "Can you share training environment?"
 - Hannah: "I manually installed packages on EC2... I think Python 3.9? PyTorch 1.12 maybe?"
@@ -431,14 +431,14 @@ Prof. Chen creates Google Sheet: "Lab Cloud Spending Tracker"
 - Still couldn't reproduce exactly (different package versions)
 - Paper delayed 3 months
 
-**With AWS IDE**:
+**With Lens**:
 
 **Scenario 1: Paper Submission**
 
 Hannah completes gravitational wave detection model:
 ```bash
 # Export environment
-aws-jupyter env export > gw-detector-2025.yaml
+lens-jupyter env export > gw-detector-2025.yaml
 
 # Include in paper supplementary materials
 ```
@@ -472,7 +472,7 @@ aws_ide_version: "0.7.2"
 wget https://.../ gw-detector-2025.yaml
 
 # Launch identical environment
-aws-jupyter launch --env gw-detector-2025.yaml
+lens-jupyter launch --env gw-detector-2025.yaml
 ```
 
 **Result**: Identical package versions → results reproduce perfectly → paper accepted
@@ -482,14 +482,14 @@ aws-jupyter launch --env gw-detector-2025.yaml
 Student Alex develops new simulation optimization:
 ```bash
 # Share with labmate Emma
-aws-jupyter env export > alex-optim-sim.yaml
+lens-jupyter env export > alex-optim-sim.yaml
 
 # Email or Slack to Emma
 ```
 
 Emma imports and uses immediately:
 ```bash
-aws-jupyter launch --env alex-optim-sim.yaml
+lens-jupyter launch --env alex-optim-sim.yaml
 ```
 
 Both researchers now have identical environments → collaboration seamless
@@ -507,7 +507,7 @@ Both researchers now have identical environments → collaboration seamless
 
 ### Pain #4: Heterogeneous Lab Setup Chaos
 
-**Before AWS IDE**:
+**Before Lens**:
 - 7 researchers using 7 different approaches:
   1. Alex: AWS EC2 manual setup (Ubuntu 22.04, Python 3.10)
   2. David: Lab server (Ubuntu 20.04, Python 3.8)
@@ -523,9 +523,9 @@ Both researchers now have identical environments → collaboration seamless
 - Reproducibility nightmare
 - Students waste time troubleshooting "it works on my machine" issues
 
-**With AWS IDE**:
-- All 7 researchers using AWS IDE
-- Prof. Chen recommended: `aws-jupyter --env scientific-computing` as lab standard
+**With Lens**:
+- All 7 researchers using Lens
+- Prof. Chen recommended: `lens-jupyter --env scientific-computing` as lab standard
 - Everyone has identical base environment
 - Students can still customize (add packages), but share same foundation
 
@@ -553,7 +553,7 @@ packages:
 EOF
 
 # Students use lab standard:
-aws-jupyter launch --env chen-lab-standard.yaml
+lens-jupyter launch --env chen-lab-standard.yaml
 ```
 
 **Result**: 7 researchers now have standardized, reproducible environments
@@ -571,7 +571,7 @@ aws-jupyter launch --env chen-lab-standard.yaml
 
 ### Pain #5: Grant Reporting Burden
 
-**Before AWS IDE**:
+**Before Lens**:
 - NSF requires quarterly budget justifications
 - Prof. Chen spent 20 hours/year compiling cloud spending reports:
   - Download AWS Cost Explorer CSV (30 minutes)
@@ -582,10 +582,10 @@ aws-jupyter launch --env chen-lab-standard.yaml
   - Plus annual report: +2 hours
   - **Total**: 20 hours/year
 
-**With AWS IDE**:
+**With Lens**:
 ```bash
 # Prof. Chen generates grant report
-aws-jupyter costs --from 2025-01-01 --to 2025-03-31 --format pdf --all-users
+lens-jupyter costs --from 2025-01-01 --to 2025-03-31 --format pdf --all-users
 
 # Output: chen-lab-q1-2025-report.pdf
 ```
@@ -612,7 +612,7 @@ aws-jupyter costs --from 2025-01-01 --to 2025-03-31 --format pdf --all-users
 
 ### Pain #6: Lab Server Bottleneck
 
-**Before AWS IDE**:
+**Before Lens**:
 - Lab server: 2× A100 GPUs, shared among 7 researchers
 - Scheduling via Slack: "Who needs GPU tonight?"
 - Common scenario:
@@ -623,7 +623,7 @@ aws-jupyter costs --from 2025-01-01 --to 2025-03-31 --format pdf --all-users
 - **Frequency**: 2-3 conflicts per week
 - **Prof. Chen's time**: 1.5 hours/week = 78 hours/year mediating conflicts
 
-**With AWS IDE**:
+**With Lens**:
 - Each researcher launches their own GPU instance when needed
 - No scheduling conflicts (everyone has dedicated resources)
 - Elastic: Can scale to 7× GPUs during busy periods (e.g., conference deadlines)
@@ -635,7 +635,7 @@ aws-jupyter costs --from 2025-01-01 --to 2025-03-31 --format pdf --all-users
 - Total cost: 5 students × 8 hours × $0.526/hr = $21.04
 - **Result**: Paper deadlines met, zero conflicts, $21 cost
 
-**Before AWS IDE**: Would have required 5 students to time-share 2 GPUs = 8 hours per student × 5 students ÷ 2 GPUs = 20 hours calendar time (likely missed deadline)
+**Before Lens**: Would have required 5 students to time-share 2 GPUs = 8 hours per student × 5 students ÷ 2 GPUs = 20 hours calendar time (likely missed deadline)
 
 **Success Metric**:
 - ✅ Zero scheduling conflicts (vs 2-3/week before)
@@ -685,13 +685,13 @@ aws-jupyter costs --from 2025-01-01 --to 2025-03-31 --format pdf --all-users
 **ROI Analysis**:
 - Prof. Chen's time saved: 247 hours/year
 - Value @ $100/hour: $24,700/year
-- AWS IDE cost: $2,308/year (actual spending)
+- Lens cost: $2,308/year (actual spending)
 - Lab server depreciation: $10,000/year (2 years remaining on hardware)
 - **Net savings**: $24,700 - $2,308 + $10,000 = **$32,392/year**
 
 ### Research Productivity (Lab-Wide)
 
-| Metric | Before AWS IDE | After AWS IDE (6 months) | Improvement |
+| Metric | Before Lens | After Lens (6 months) | Improvement |
 |--------|----------------|--------------------------|-------------|
 | Papers submitted | 8/year | 16/year (projected) | 2x more |
 | Reproducibility complaints | 3/year | 0 | 100% elimination |
@@ -705,7 +705,7 @@ aws-jupyter costs --from 2025-01-01 --to 2025-03-31 --format pdf --all-users
 
 **Question**: "How satisfied are you with lab computing resources?"
 
-| Response | Before AWS IDE | After AWS IDE |
+| Response | Before Lens | After Lens |
 |----------|----------------|---------------|
 | Very Satisfied | 14% (1/7) | 86% (6/7) |
 | Satisfied | 29% (2/7) | 14% (1/7) |
@@ -724,7 +724,7 @@ aws-jupyter costs --from 2025-01-01 --to 2025-03-31 --format pdf --all-users
 
 ### Quote (Month 6 Reflection)
 
-> "AWS IDE transformed my lab's computing infrastructure. Six months ago, I was spending 5 hours/week on infrastructure issues - server maintenance, student conflicts, cost overruns, grant reporting. Now I spend maybe 1 hour/month reviewing cost reports. That's 247 hours/year back for actual research and advising.
+> "Lens transformed my lab's computing infrastructure. Six months ago, I was spending 5 hours/week on infrastructure issues - server maintenance, student conflicts, cost overruns, grant reporting. Now I spend maybe 1 hour/month reviewing cost reports. That's 247 hours/year back for actual research and advising.
 >
 > The financial impact is huge too. We budgeted $15,000/year for cloud computing, but we're on track to spend $2,300. That $12,700 savings let me extend Hannah's postdoc for 3 more months - she's finishing a major paper that will be high-impact.
 >
@@ -732,7 +732,7 @@ aws-jupyter costs --from 2025-01-01 --to 2025-03-31 --format pdf --all-users
 >
 > The auto-stop feature alone was worth it. After David's $4,000 mistake last year, I was terrified of cloud computing. Auto-stop means that even if someone forgets, max damage is $1-2, not thousands. That peace of mind is priceless.
 >
-> I'm recommending AWS IDE to every PI I know. This is what academic cloud computing should be - simple, safe, cost-effective, and reproducible."
+> I'm recommending Lens to every PI I know. This is what academic cloud computing should be - simple, safe, cost-effective, and reproducible."
 
 ---
 
@@ -746,13 +746,13 @@ aws-jupyter costs --from 2025-01-01 --to 2025-03-31 --format pdf --all-users
 
 **For simulation/analysis work**:
 ```bash
-aws-jupyter launch --env chen-lab-standard
+lens-jupyter launch --env chen-lab-standard
 # Cost: ~$0.27/hour (c6g.2xlarge)
 ```
 
 **For GPU/ML work**:
 ```bash
-aws-jupyter launch --instance-type g4dn.xlarge --env deep-learning-gpu
+lens-jupyter launch --instance-type g4dn.xlarge --env deep-learning-gpu
 # Cost: ~$0.53/hour
 # Approval required for >6 hour runs
 ```
@@ -765,7 +765,7 @@ aws-jupyter launch --instance-type g4dn.xlarge --env deep-learning-gpu
 
 #### 3. Monthly Reporting
 
-- 1st Friday of each month: Run `aws-jupyter costs --last-month`
+- 1st Friday of each month: Run `lens-jupyter costs --last-month`
 - Submit to lab Google Sheet
 - Prof. Chen reviews and provides feedback
 - No judgment - just visibility
@@ -773,7 +773,7 @@ aws-jupyter launch --instance-type g4dn.xlarge --env deep-learning-gpu
 #### 4. Reproducibility Requirements
 
 **For paper submissions**:
-1. Export environment: `aws-jupyter env export > paper-env.yaml`
+1. Export environment: `lens-jupyter env export > paper-env.yaml`
 2. Include in supplementary materials
 3. Test environment export works (have labmate try importing)
 
@@ -792,7 +792,7 @@ aws-jupyter launch --instance-type g4dn.xlarge --env deep-learning-gpu
 
 - **Infrastructure questions**: Slack #lab-computing channel (students help each other)
 - **Cost concerns**: Email Prof. Chen directly
-- **AWS IDE bugs**: Report to GitHub, CC Prof. Chen
+- **Lens bugs**: Report to GitHub, CC Prof. Chen
 
 ---
 
@@ -822,7 +822,7 @@ aws-jupyter launch --instance-type g4dn.xlarge --env deep-learning-gpu
 
 5. **Multi-user cost reports** (feature request)
    - Current: Prof. Chen manually compiles 7 individual reports
-   - Desired: `aws-jupyter costs --lab-report --all-users`
+   - Desired: `lens-jupyter costs --lab-report --all-users`
    - One command generates comprehensive lab report
 
 6. **Community environment templates** (#14)
@@ -874,7 +874,7 @@ aws-jupyter launch --instance-type g4dn.xlarge --env deep-learning-gpu
 1. **Group onboarding session**: 2-hour setup session got entire lab operational
 2. **Standard environment**: Lab-wide standard environment reduced support burden
 3. **Monthly reporting ritual**: 1st Friday cost review keeps everyone accountable
-4. **Lead by example**: Prof. Chen used AWS IDE first, then rolled out to students
+4. **Lead by example**: Prof. Chen used Lens first, then rolled out to students
 5. **Documentation**: Lab computing guidelines document answered 80% of questions
 
 ### Unexpected Benefits
@@ -889,7 +889,7 @@ aws-jupyter launch --instance-type g4dn.xlarge --env deep-learning-gpu
 
 ## Conclusion
 
-AWS IDE solved Prof. Chen's lab management challenges across 6 dimensions:
+Lens solved Prof. Chen's lab management challenges across 6 dimensions:
 
 ### Key Outcomes
 - ✅ **85% budget savings** ($15,000 budget → $2,308 actual spending)
@@ -904,7 +904,7 @@ AWS IDE solved Prof. Chen's lab management challenges across 6 dimensions:
 - **Cost savings**: $12,692/year (budget vs actual)
 - **Hardware savings**: $10,000/year (lab server depreciation avoided)
 - **Total value**: $47,392/year
-- **AWS IDE cost**: $2,308/year
+- **Lens cost**: $2,308/year
 - **Net ROI**: **$45,084/year (1,954% ROI)**
 
 ### Success Factors
@@ -914,6 +914,6 @@ AWS IDE solved Prof. Chen's lab management challenges across 6 dimensions:
 4. **Visibility**: Cost tracking enabled effective budget management
 5. **Elastic scaling**: Eliminated resource conflicts
 
-Prof. Chen represents the **Lab PI persona**: managing multiple researchers with varying technical skills, tight budget oversight, limited time for infrastructure, need for reproducibility and cost control. AWS IDE addresses all requirements while saving time and money.
+Prof. Chen represents the **Lab PI persona**: managing multiple researchers with varying technical skills, tight budget oversight, limited time for infrastructure, need for reproducibility and cost control. Lens addresses all requirements while saving time and money.
 
 **Related GitHub Issues**: #12, #14, #15, #16, #17, #19, #20, #21, #28

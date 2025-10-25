@@ -1,21 +1,21 @@
-# Scoop Package for aws-jupyter
+# Scoop Package for lens-jupyter
 
-This directory contains the Scoop manifest for aws-jupyter.
+This directory contains the Scoop manifest for lens-jupyter.
 
-**Note:** aws-jupyter is now part of the [AWS IDE monorepo](https://github.com/scttfrdmn/aws-ide). The binary and functionality remain unchanged.
+**Note:** lens-jupyter is now part of the [Lens monorepo](https://github.com/scttfrdmn/lens). The binary and functionality remain unchanged.
 
 ## For Users
 
-Install aws-jupyter via Scoop:
+Install lens-jupyter via Scoop:
 
 ```powershell
-scoop install https://raw.githubusercontent.com/scttfrdmn/aws-ide/main/scoop/aws-jupyter.json
+scoop install https://raw.githubusercontent.com/scttfrdmn/lens/main/scoop/lens-jupyter.json
 ```
 
 Or after it's added to the main bucket:
 
 ```powershell
-scoop install aws-jupyter
+scoop install lens-jupyter
 ```
 
 ## For Maintainers
@@ -30,13 +30,13 @@ Before submitting to Scoop, test the manifest:
 # irm get.scoop.sh | iex
 
 # Test the manifest
-scoop install .\scoop\aws-jupyter.json
+scoop install .\scoop\lens-jupyter.json
 
 # Verify it works
-aws-jupyter --version
+lens-jupyter --version
 
 # Uninstall to clean up
-scoop uninstall aws-jupyter
+scoop uninstall lens-jupyter
 ```
 
 ### Updating the Manifest
@@ -52,8 +52,8 @@ When releasing a new version:
 ### Submitting to Scoop Main Bucket
 
 1. Fork https://github.com/ScoopInstaller/Main
-2. Copy `aws-jupyter.json` to `bucket/` directory
-3. Test locally: `scoop install ./bucket/aws-jupyter.json`
+2. Copy `lens-jupyter.json` to `bucket/` directory
+3. Test locally: `scoop install ./bucket/lens-jupyter.json`
 4. Submit PR to ScoopInstaller/Main
 
 ## Manifest Features

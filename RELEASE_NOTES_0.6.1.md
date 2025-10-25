@@ -12,10 +12,10 @@ Version 0.6.1 is a patch release that brings VSCode to feature parity with Jupyt
 
 VSCode now has all the commands available in Jupyter and RStudio:
 
-- **`aws-vscode create-ami`** - Create custom AMIs from running instances
-- **`aws-vscode delete-ami`** - Delete custom AMIs with safety confirmations
-- **`aws-vscode list-amis`** - List all custom VSCode AMIs
-- **`aws-vscode generate`** - Auto-generate environment configs from Node.js projects
+- **`lens-vscode create-ami`** - Create custom AMIs from running instances
+- **`lens-vscode delete-ami`** - Delete custom AMIs with safety confirmations
+- **`lens-vscode list-amis`** - List all custom VSCode AMIs
+- **`lens-vscode generate`** - Auto-generate environment configs from Node.js projects
 
 The `generate` command analyzes your Node.js projects and creates optimized environment configurations:
 - Detects frameworks (React, Vue, Next.js, Angular, Express, NestJS, etc.)
@@ -27,7 +27,7 @@ The `generate` command analyzes your Node.js projects and creates optimized envi
 
 ### Unified Configuration System
 
-All three apps (Jupyter, RStudio, VSCode) now share a unified configuration file at `~/.aws-ide/config.yaml`:
+All three apps (Jupyter, RStudio, VSCode) now share a unified configuration file at `~/.lens/config.yaml`:
 
 **New `config` command with subcommands:**
 - `aws-* config init` - Initialize config file with defaults
@@ -115,7 +115,7 @@ Each error provides:
 - `pkg/errors/errors.go` (258 lines)
 
 ### Files Modified (2)
-- `apps/vscode/cmd/aws-vscode/main.go` - Registered 6 new commands
+- `apps/vscode/cmd/lens-vscode/main.go` - Registered 6 new commands
 - `pkg/config/state.go` - Added StateChange tracking
 
 **Total:** 2,597 lines of production code added
@@ -135,27 +135,27 @@ No breaking changes. All existing functionality remains unchanged.
 
 1. **Initialize config:**
    ```bash
-   aws-vscode config init
-   aws-jupyter config init
-   aws-rstudio config init
+   lens-vscode config init
+   lens-jupyter config init
+   lens-rstudio config init
    ```
 
 2. **Enable cost tracking (if desired):**
    ```bash
-   aws-vscode config set enable_cost_tracking true
-   aws-vscode config set cost_alert_threshold 100.0
+   lens-vscode config set enable_cost_tracking true
+   lens-vscode config set cost_alert_threshold 100.0
    ```
 
 3. **Check costs:**
    ```bash
-   aws-vscode costs
-   aws-vscode costs i-1234567890abcdef0
+   lens-vscode costs
+   lens-vscode costs i-1234567890abcdef0
    ```
 
 4. **Generate VSCode config from project:**
    ```bash
    cd /path/to/nodejs/project
-   aws-vscode generate
+   lens-vscode generate
    ```
 
 ## What's Next
@@ -176,4 +176,4 @@ Binaries will be available via GitHub releases and GoReleaser.
 
 ---
 
-For detailed commit history, see: https://github.com/scttfrdmn/aws-ide/compare/v0.6.0...v0.6.1
+For detailed commit history, see: https://github.com/scttfrdmn/lens/compare/v0.6.0...v0.6.1

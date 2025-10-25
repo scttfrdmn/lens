@@ -134,7 +134,7 @@ Describe manual testing steps here
 
 <!-- Check all that apply -->
 
-- [ ] aws-jupyter
-- [ ] aws-rstudio
-- [ ] aws-vscode
+- [ ] lens-jupyter
+- [ ] lens-rstudio
+- [ ] lens-vscode
 - [ ] Shared infrastructure (pkg/)

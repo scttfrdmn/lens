@@ -1,6 +1,6 @@
 # Versioning Strategy
 
-AWS IDE uses a **dual versioning system** to track both platform stability and application-specific features independently.
+Lens uses a **dual versioning system** to track both platform stability and application-specific features independently.
 
 ## Overview
 
@@ -19,9 +19,9 @@ App Version: v0.6.0 (platform: v1.0.0)
 | Component | Version | Status |
 |-----------|---------|--------|
 | Platform (`pkg/`) | v1.0.0 | Stable |
-| aws-jupyter | v0.6.0 | Stable |
-| aws-rstudio | v0.6.0 | Stable |
-| aws-vscode | v0.6.0 | Beta |
+| lens-jupyter | v0.6.0 | Stable |
+| lens-rstudio | v0.6.0 | Stable |
+| lens-vscode | v0.6.0 | Beta |
 
 ## Platform Version (`pkg/` module)
 
@@ -80,9 +80,9 @@ App Version: v0.6.0 (platform: v1.0.0)
 
 **Future option**: Independent versioning if apps diverge significantly
 ```
-aws-jupyter@0.8.0   (got new features)
-aws-rstudio@0.6.1   (only bug fixes)
-aws-vscode@0.7.0    (got new features)
+lens-jupyter@0.8.0   (got new features)
+lens-rstudio@0.6.1   (only bug fixes)
+lens-vscode@0.7.0    (got new features)
 ```
 
 ## Git Tag Strategy
@@ -109,13 +109,13 @@ git tag rstudio/v0.6.1   # Only RStudio patched
 
 ### Check App Version
 ```bash
-aws-jupyter --version
-# Output: aws-jupyter version v0.6.0 (platform: v1.0.0, ...)
+lens-jupyter --version
+# Output: lens-jupyter version v0.6.0 (platform: v1.0.0, ...)
 ```
 
 ### Check Platform Version (in code)
 ```go
-import "github.com/scttfrdmn/aws-ide/pkg"
+import "github.com/scttfrdmn/lens/pkg"
 
 fmt.Printf("Platform: %s\n", pkg.Version)
 ```
@@ -178,8 +178,8 @@ fmt.Printf("Platform: %s\n", pkg.Version)
 ### How do I know which platform version an app requires?
 
 ```bash
-aws-jupyter --version
-# aws-jupyter version v0.6.0 (platform: v1.0.0, ...)
+lens-jupyter --version
+# lens-jupyter version v0.6.0 (platform: v1.0.0, ...)
 ```
 
 The `platform: v1.0.0` shows the required platform version.

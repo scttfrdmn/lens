@@ -12,7 +12,7 @@ v0.6.3 is a documentation and polish release that updates all version references
 
 #### README.md Updates
 - **Version References**: Updated all installation examples from v0.5.1 to v0.6.2
-- **Status Updates**: Changed aws-vscode from "beta" to "production" status
+- **Status Updates**: Changed lens-vscode from "beta" to "production" status
 - **New Feature Documentation**: Added comprehensive sections for Configuration Management and Cost Tracking commands
 - **Updated Roadmap**: Reflects completed work through v0.6.2 and clarifies future direction
 
@@ -21,21 +21,21 @@ Added complete documentation for the `config` command:
 
 ```bash
 # Initialize config file with defaults
-aws-jupyter config init
+lens-jupyter config init
 
 # View current configuration
-aws-jupyter config show
+lens-jupyter config show
 
 # Set defaults
-aws-jupyter config set default_region us-west-2
-aws-jupyter config set default_instance_type t4g.large
+lens-jupyter config set default_region us-west-2
+lens-jupyter config set default_instance_type t4g.large
 
 # Enable cost tracking
-aws-vscode config set enable_cost_tracking true
-aws-vscode config set cost_alert_threshold 100
+lens-vscode config set enable_cost_tracking true
+lens-vscode config set cost_alert_threshold 100
 
 # App-specific settings
-aws-vscode config set vscode.port 8080
+lens-vscode config set vscode.port 8080
 ```
 
 #### Cost Tracking Section
@@ -43,13 +43,13 @@ Added complete documentation for the `costs` command with example output:
 
 ```bash
 # View costs for all instances
-aws-jupyter costs
+lens-jupyter costs
 
 # Detailed breakdown for specific instance
-aws-jupyter costs i-1234567890abcdef0
+lens-jupyter costs i-1234567890abcdef0
 
 # Show detailed breakdowns for all instances
-aws-rstudio costs --details
+lens-rstudio costs --details
 ```
 
 **Key Metrics Documented:**
@@ -66,7 +66,7 @@ Added two new feature categories:
 - Monthly cost estimates based on usage patterns
 
 **🔧 Configuration & Management (New)**:
-- Unified config file (`~/.aws-ide/config.yaml`)
+- Unified config file (`~/.lens/config.yaml`)
 - Flexible settings for all tools
 - Cost alerts with monthly thresholds
 - Per-tool overrides
@@ -74,7 +74,7 @@ Added two new feature categories:
 #### Versioning Section
 Updated current release information:
 - **Current Release**: v0.5.1 → v0.6.2
-- **aws-vscode status**: beta → production
+- **lens-vscode status**: beta → production
 - All three tools now at v0.6.2 (production)
 
 #### Roadmap Section
@@ -105,24 +105,24 @@ Complete rewrite to reflect current state:
 
 **APT (Debian/Ubuntu)**
 ```bash
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-jupyter_0.6.2_linux_amd64.deb
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-rstudio_0.6.2_linux_amd64.deb
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-vscode_0.6.2_linux_amd64.deb
+wget https://github.com/scttfrdmn/lens/releases/latest/download/lens-jupyter_0.6.2_linux_amd64.deb
+wget https://github.com/scttfrdmn/lens/releases/latest/download/lens-rstudio_0.6.2_linux_amd64.deb
+wget https://github.com/scttfrdmn/lens/releases/latest/download/lens-vscode_0.6.2_linux_amd64.deb
 
-sudo dpkg -i aws-jupyter_0.6.2_linux_amd64.deb
-sudo dpkg -i aws-rstudio_0.6.2_linux_amd64.deb
-sudo dpkg -i aws-vscode_0.6.2_linux_amd64.deb
+sudo dpkg -i lens-jupyter_0.6.2_linux_amd64.deb
+sudo dpkg -i lens-rstudio_0.6.2_linux_amd64.deb
+sudo dpkg -i lens-vscode_0.6.2_linux_amd64.deb
 ```
 
 **YUM/DNF (RedHat/Fedora/Amazon Linux)**
 ```bash
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-jupyter_0.6.2_linux_amd64.rpm
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-rstudio_0.6.2_linux_amd64.rpm
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-vscode_0.6.2_linux_amd64.rpm
+wget https://github.com/scttfrdmn/lens/releases/latest/download/lens-jupyter_0.6.2_linux_amd64.rpm
+wget https://github.com/scttfrdmn/lens/releases/latest/download/lens-rstudio_0.6.2_linux_amd64.rpm
+wget https://github.com/scttfrdmn/lens/releases/latest/download/lens-vscode_0.6.2_linux_amd64.rpm
 
-sudo rpm -i aws-jupyter_0.6.2_linux_amd64.rpm
-sudo rpm -i aws-rstudio_0.6.2_linux_amd64.rpm
-sudo rpm -i aws-vscode_0.6.2_linux_amd64.rpm
+sudo rpm -i lens-jupyter_0.6.2_linux_amd64.rpm
+sudo rpm -i lens-rstudio_0.6.2_linux_amd64.rpm
+sudo rpm -i lens-vscode_0.6.2_linux_amd64.rpm
 ```
 
 ## Files Changed
@@ -162,9 +162,9 @@ No binary changes in v0.6.3. This release is documentation-only. Continue using 
 If rebuilding from source:
 ```bash
 git pull origin main
-cd apps/vscode && go build ./cmd/aws-vscode
-cd ../jupyter && go build ./cmd/aws-jupyter
-cd ../rstudio && go build ./cmd/aws-rstudio
+cd apps/vscode && go build ./cmd/lens-vscode
+cd ../jupyter && go build ./cmd/lens-jupyter
+cd ../rstudio && go build ./cmd/lens-rstudio
 ```
 
 ## What's Next
@@ -180,8 +180,8 @@ With documentation current and comprehensive, v0.7.0 will focus on:
 - **Go Version**: 1.22+
 - **AWS CLI**: Required for credentials
 - **Platforms**: macOS (ARM64/x86_64), Linux (ARM64/x86_64)
-- **Config File**: `~/.aws-ide/config.yaml` (shared across all tools)
-- **State File**: `~/.aws-ide/state.json` (shared across all tools)
+- **Config File**: `~/.lens/config.yaml` (shared across all tools)
+- **State File**: `~/.lens/state.json` (shared across all tools)
 
 ## Contributors
 
@@ -189,7 +189,7 @@ With documentation current and comprehensive, v0.7.0 will focus on:
 
 ## Links
 
-- [GitHub Repository](https://github.com/scttfrdmn/aws-ide)
-- [v0.6.3 Release](https://github.com/scttfrdmn/aws-ide/releases/tag/v0.6.3)
-- [Documentation](https://github.com/scttfrdmn/aws-ide/blob/main/README.md)
-- [Roadmap](https://github.com/scttfrdmn/aws-ide/blob/main/ROADMAP.md)
+- [GitHub Repository](https://github.com/scttfrdmn/lens)
+- [v0.6.3 Release](https://github.com/scttfrdmn/lens/releases/tag/v0.6.3)
+- [Documentation](https://github.com/scttfrdmn/lens/blob/main/README.md)
+- [Roadmap](https://github.com/scttfrdmn/lens/blob/main/ROADMAP.md)

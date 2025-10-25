@@ -1,8 +1,8 @@
-# aws-vscode Implementation Plan
+# lens-vscode Implementation Plan
 
 ## Overview
 
-Implement `aws-vscode` CLI tool for launching VSCode Server (code-server) instances on AWS EC2, following the established aws-ide monorepo pattern.
+Implement `lens-vscode` CLI tool for launching VSCode Server (code-server) instances on AWS EC2, following the established lens monorepo pattern.
 
 ## Architecture
 
@@ -34,13 +34,13 @@ Implement `aws-vscode` CLI tool for launching VSCode Server (code-server) instan
 
 ```bash
 cd apps/vscode
-go mod init github.com/scttfrdmn/aws-ide/apps/vscode
-go mod edit -replace github.com/scttfrdmn/aws-ide/pkg=../../pkg
+go mod init github.com/scttfrdmn/lens/apps/vscode
+go mod edit -replace github.com/scttfrdmn/lens/pkg=../../pkg
 ```
 
-### 2. Main Command (cmd/aws-vscode/main.go)
+### 2. Main Command (cmd/lens-vscode/main.go)
 
-Similar to aws-jupyter and aws-rstudio:
+Similar to lens-jupyter and lens-rstudio:
 - Root command with version info
 - Subcommands: launch, list, status, connect, stop, terminate
 - Key management commands
@@ -165,7 +165,7 @@ vscode_extensions:
 
 #### Launch Flow:
 ```bash
-$ aws-vscode launch --environment web-dev
+$ lens-vscode launch --environment web-dev
 
 ⚡ Launching VSCode Server on AWS...
 ✓ Creating security group
@@ -186,7 +186,7 @@ Cost: ~$0.03/hour + storage
 
 #### Connect Command:
 ```bash
-$ aws-vscode connect i-0abc123def
+$ lens-vscode connect i-0abc123def
 
 Connecting to instance i-0abc123def...
 URL: https://ec2-1-2-3-4.compute-1.amazonaws.com:8080

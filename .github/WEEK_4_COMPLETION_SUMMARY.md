@@ -94,7 +94,7 @@ pkg/config/state_test.go      - Added 4 test functions
 
 ### 3. ✅ Created Lens Rebranding Issue (Issue #8)
 
-**Decision**: Rename project from "AWS IDE" to "Lens" (lenside.io domain)
+**Decision**: Rename project from "Lens" to "Lens" (lenside.io domain)
 
 **Binary Naming Convention**: `lens-jupyter`, `lens-rstudio`, `lens-vscode`, etc.
 - ❌ Rejected: `ide-*` (too generic)
@@ -108,11 +108,11 @@ pkg/config/state_test.go      - Added 4 test functions
 **Pending Decisions**:
 - Config directory: `~/.lens/` vs `~/.lens-jupyter/`
 - Go module path: `github.com/scttfrdmn/lens` (recommended)
-- Repository rename: `aws-ide` → `lens` (confirmed)
+- Repository rename: `lens` → `lens` (confirmed)
 
 ### 4. ✅ Configured GitHub Project Board
 
-**Project**: AWS IDE Development (Project #6)
+**Project**: Lens Development (Project #6)
 **URL**: https://github.com/users/scttfrdmn/projects/6
 
 **Custom Fields Created** (via GraphQL API):

@@ -1,9 +1,9 @@
-# aws-jupyter
+# lens-jupyter
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/scttfrdmn/aws-jupyter)](https://goreportcard.com/report/github.com/scttfrdmn/aws-jupyter)
+[![Go Report Card](https://goreportcard.com/badge/github.com/scttfrdmn/lens-jupyter)](https://goreportcard.com/report/github.com/scttfrdmn/lens-jupyter)
 [![Go Version](https://img.shields.io/badge/go-1.22+-blue.svg)](https://golang.org/dl/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Release](https://img.shields.io/github/v/release/scttfrdmn/aws-jupyter)](https://github.com/scttfrdmn/aws-jupyter/releases)
+[![Release](https://img.shields.io/github/v/release/scttfrdmn/lens-jupyter)](https://github.com/scttfrdmn/lens-jupyter/releases)
 
 A powerful CLI tool for launching secure Jupyter Lab instances on AWS EC2 Graviton processors with professional-grade networking and security features.
 
@@ -47,42 +47,42 @@ A powerful CLI tool for launching secure Jupyter Lab instances on AWS EC2 Gravit
 
 ```bash
 # Using conda
-conda install -c conda-forge aws-jupyter
+conda install -c conda-forge lens-jupyter
 
 # Using mamba (faster)
-mamba install -c conda-forge aws-jupyter
+mamba install -c conda-forge lens-jupyter
 ```
 
 ### Homebrew (macOS and Linux)
 
 ```bash
 brew tap scttfrdmn/tap
-brew install aws-jupyter
+brew install lens-jupyter
 ```
 
 ### Scoop (Windows)
 
 ```powershell
 # Once approved in Scoop main bucket
-scoop install aws-jupyter
+scoop install lens-jupyter
 
 # Or install directly from this repository
-scoop install https://raw.githubusercontent.com/scttfrdmn/aws-jupyter/main/scoop/aws-jupyter.json
+scoop install https://raw.githubusercontent.com/scttfrdmn/lens-jupyter/main/scoop/lens-jupyter.json
 ```
 
 ### Go Install
 
 ```bash
-go install github.com/scttfrdmn/aws-jupyter@latest
+go install github.com/scttfrdmn/lens-jupyter@latest
 ```
 
 ### Pre-built Binaries
 
-Download the latest release for your platform from the [releases page](https://github.com/scttfrdmn/aws-jupyter/releases).
+Download the latest release for your platform from the [releases page](https://github.com/scttfrdmn/lens-jupyter/releases).
 
 ## AWS Authentication
 
-Before using aws-jupyter, you need to configure AWS credentials. Don't have an AWS account yet? [Sign up here](https://aws.amazon.com/free/) - new accounts get 12 months of free tier access!
+Before using lens-jupyter, you need to configure AWS credentials. Don't have an AWS account yet? [Sign up here](https://aws.amazon.com/free/) - new accounts get 12 months of free tier access!
 
 ### **🚀 Quick Setup (5 Minutes)**
 
@@ -125,7 +125,7 @@ Before using aws-jupyter, you need to configure AWS credentials. Don't have an A
 
 5. **Launch your first instance!**
    ```bash
-   aws-jupyter launch
+   lens-jupyter launch
    ```
 
 #### **Option 2: Multiple AWS Profiles**
@@ -137,9 +137,9 @@ Perfect if you have multiple AWS accounts (work, personal, etc.):
 aws configure --profile personal
 aws configure --profile work
 
-# Use specific profile with aws-jupyter
-aws-jupyter launch --profile personal
-aws-jupyter launch --profile work --region eu-west-1
+# Use specific profile with lens-jupyter
+lens-jupyter launch --profile personal
+lens-jupyter launch --profile work --region eu-west-1
 ```
 
 #### **Option 3: Environment Variables**
@@ -151,7 +151,7 @@ export AWS_ACCESS_KEY_ID="your-access-key"
 export AWS_SECRET_ACCESS_KEY="your-secret-key"
 export AWS_DEFAULT_REGION="us-east-1"
 
-aws-jupyter launch  # Uses environment variables automatically
+lens-jupyter launch  # Uses environment variables automatically
 ```
 
 #### **Option 4: AWS SSO (Enterprise)**
@@ -164,7 +164,7 @@ aws configure sso --profile company
 
 # Login and use
 aws sso login --profile company
-aws-jupyter launch --profile company
+lens-jupyter launch --profile company
 ```
 
 ### **📋 Detailed Authentication Guide**
@@ -189,7 +189,7 @@ For advanced scenarios, troubleshooting, and security best practices:
 ### **⚡ Simplest Launch (5 Seconds)**
 ```bash
 # Launch with all defaults - perfect for getting started
-aws-jupyter launch
+lens-jupyter launch
 
 # That's it! The CLI will:
 # ✓ Configure IAM roles and security groups
@@ -202,31 +202,31 @@ aws-jupyter launch
 ### **🔐 Secure Launch (Session Manager - Recommended)**
 ```bash
 # Most secure: Private subnet with Session Manager
-aws-jupyter launch --connection session-manager --subnet-type private --create-nat-gateway
+lens-jupyter launch --connection session-manager --subnet-type private --create-nat-gateway
 
 # Secure and cost-effective: Private subnet without internet
-aws-jupyter launch --connection session-manager --subnet-type private
+lens-jupyter launch --connection session-manager --subnet-type private
 
 # Session Manager with public subnet (no SSH exposure)
-aws-jupyter launch --connection session-manager
+lens-jupyter launch --connection session-manager
 ```
 
 ### **🔑 Traditional SSH Launch**
 ```bash
 # Standard SSH with public subnet
-aws-jupyter launch --connection ssh
+lens-jupyter launch --connection ssh
 
 # SSH with custom environment and instance type
-aws-jupyter launch --env ml-pytorch --instance-type m7g.large --connection ssh
+lens-jupyter launch --env ml-pytorch --instance-type m7g.large --connection ssh
 ```
 
 ### **💰 Cost Control with Idle Detection**
 ```bash
 # Auto-stop after 30 minutes of inactivity (great for testing)
-aws-jupyter launch --idle-timeout 30m
+lens-jupyter launch --idle-timeout 30m
 
 # Custom timeout for long-running work
-aws-jupyter launch --idle-timeout 8h
+lens-jupyter launch --idle-timeout 8h
 
 # Auto-stop detects:
 # ✓ Active Jupyter kernels and notebook sessions
@@ -238,26 +238,26 @@ aws-jupyter launch --idle-timeout 8h
 ### **🛠️ Instance & Resource Management**
 ```bash
 # Instance lifecycle
-aws-jupyter list                        # Show all instances with status
-aws-jupyter status i-0abc123def         # Detailed instance information
-aws-jupyter connect i-0abc123def        # Connect to existing instance
-aws-jupyter stop i-0abc123def           # Stop instance (preserves EBS)
-aws-jupyter terminate i-0abc123def      # Terminate instance (cleanup)
+lens-jupyter list                        # Show all instances with status
+lens-jupyter status i-0abc123def         # Detailed instance information
+lens-jupyter connect i-0abc123def        # Connect to existing instance
+lens-jupyter stop i-0abc123def           # Stop instance (preserves EBS)
+lens-jupyter terminate i-0abc123def      # Terminate instance (cleanup)
 
 # SSH key management
-aws-jupyter key list                    # View local and AWS key pairs
-aws-jupyter key show                    # Show default key details
-aws-jupyter key validate                # Check key file permissions
-aws-jupyter key cleanup --dry-run       # Preview orphaned key cleanup
+lens-jupyter key list                    # View local and AWS key pairs
+lens-jupyter key show                    # Show default key details
+lens-jupyter key validate                # Check key file permissions
+lens-jupyter key cleanup --dry-run       # Preview orphaned key cleanup
 
 # Environment generation
-aws-jupyter generate --name my-env --source ./my-project
+lens-jupyter generate --name my-env --source ./my-project
 ```
 
 ### **📋 Preview Changes (Dry Run)**
 ```bash
 # Always preview before launching
-aws-jupyter launch --dry-run --connection session-manager --subnet-type private --create-nat-gateway
+lens-jupyter launch --dry-run --connection session-manager --subnet-type private --create-nat-gateway
 ```
 
 ## Environments
@@ -276,16 +276,16 @@ Create environments from your local setup:
 
 ```bash
 # Analyze current directory and generate config
-aws-jupyter generate --name my-project
+lens-jupyter generate --name my-project
 
 # Analyze specific directory with notebooks
-aws-jupyter generate --source ./research --name research-env
+lens-jupyter generate --source ./research --name research-env
 
 # Generate from requirements.txt
-aws-jupyter generate --source requirements.txt --name prod-env
+lens-jupyter generate --source requirements.txt --name prod-env
 
 # Generate without scanning notebooks
-aws-jupyter generate --name simple-env --scan-notebooks=false
+lens-jupyter generate --name simple-env --scan-notebooks=false
 ```
 
 The generate command will:
@@ -337,10 +337,10 @@ environment_vars:
 
 ```bash
 # Launch with Session Manager
-aws-jupyter launch --connection session-manager
+lens-jupyter launch --connection session-manager
 
 # Connect to running instance
-aws-jupyter connect i-0abc123def
+lens-jupyter connect i-0abc123def
 # or use AWS CLI directly:
 aws ssm start-session --target i-0abc123def --profile myprofile
 ```
@@ -349,16 +349,16 @@ aws ssm start-session --target i-0abc123def --profile myprofile
 
 ### **Traditional SSH**
 - **Full SSH access** - direct SSH connection with automatic key management
-- **Economical key reuse** - smart naming strategy (aws-jupyter-{region})
+- **Economical key reuse** - smart naming strategy (lens-jupyter-{region})
 - **Secure local storage** - private keys stored with 600 permissions
 - **IP restrictions** - security groups restrict access to your current IP
 
 ```bash
 # Launch with SSH
-aws-jupyter launch --connection ssh
+lens-jupyter launch --connection ssh
 
 # Connect directly
-ssh -i ~/.aws-jupyter/keys/aws-jupyter-us-west-2.pem ec2-user@1.2.3.4
+ssh -i ~/.lens-jupyter/keys/lens-jupyter-us-west-2.pem ec2-user@1.2.3.4
 ```
 
 ## 🌐 Networking Options
@@ -377,13 +377,13 @@ ssh -i ~/.aws-jupyter/keys/aws-jupyter-us-west-2.pem ec2-user@1.2.3.4
 
 ```bash
 # Private subnet with internet access (recommended for production)
-aws-jupyter launch --subnet-type private --create-nat-gateway
+lens-jupyter launch --subnet-type private --create-nat-gateway
 
 # Private subnet without internet (cost-effective but limited functionality)
-aws-jupyter launch --subnet-type private
+lens-jupyter launch --subnet-type private
 
 # Cost breakdown displayed during dry-run
-aws-jupyter launch --dry-run --subnet-type private --create-nat-gateway
+lens-jupyter launch --dry-run --subnet-type private --create-nat-gateway
 ```
 
 ## ⚙️ Configuration
@@ -393,19 +393,19 @@ Credentials managed through standard AWS credential chain:
 
 ```bash
 # Use specific AWS profile
-aws-jupyter launch --profile research
+lens-jupyter launch --profile research
 
 # Custom region
-aws-jupyter launch --region eu-west-1
+lens-jupyter launch --region eu-west-1
 
 # Custom idle timeout
-aws-jupyter launch --idle-timeout 8h
+lens-jupyter launch --idle-timeout 8h
 ```
 
 ### **Advanced Options**
 ```bash
 # Combine all options
-aws-jupyter launch \
+lens-jupyter launch \
   --connection session-manager \
   --subnet-type private \
   --create-nat-gateway \
@@ -417,7 +417,7 @@ aws-jupyter launch \
 
 ## Custom Environments
 
-Create custom environments in `~/.aws-jupyter/environments/`:
+Create custom environments in `~/.lens-jupyter/environments/`:
 
 ```yaml
 name: "My Custom Environment"
@@ -515,7 +515,7 @@ See the complete [ROADMAP.md](ROADMAP.md) for detailed feature planning through 
 - [ ] Interactive launch wizard
 - [ ] Color-coded output and progress bars
 - [ ] Enhanced error messages with suggestions
-- [ ] Configuration file support (~/.aws-jupyter/config.yaml)
+- [ ] Configuration file support (~/.lens-jupyter/config.yaml)
 
 ### 📋 **v0.6.0 - Integration Testing** (Planned Q1 2025)
 - [ ] Integration test infrastructure with localstack/moto
@@ -534,8 +534,8 @@ See the complete [ROADMAP.md](ROADMAP.md) for detailed feature planning through 
 ## Development
 
 ```bash
-git clone https://github.com/scttfrdmn/aws-jupyter
-cd aws-jupyter
+git clone https://github.com/scttfrdmn/lens-jupyter
+cd lens-jupyter
 go mod tidy
 
 # Install pre-commit hooks (optional but recommended)
@@ -543,7 +543,7 @@ pip install pre-commit
 pre-commit install
 
 # Build locally
-go build -o aws-jupyter cmd/aws-jupyter/main.go
+go build -o lens-jupyter cmd/lens-jupyter/main.go
 
 # Or use GoReleaser for full release build
 goreleaser build --snapshot --rm-dist
@@ -551,7 +551,7 @@ goreleaser build --snapshot --rm-dist
 
 ### Code Quality
 
-This project maintains an A+ grade on [Go Report Card](https://goreportcard.com/report/github.com/scttfrdmn/aws-jupyter) through:
+This project maintains an A+ grade on [Go Report Card](https://goreportcard.com/report/github.com/scttfrdmn/lens-jupyter) through:
 
 - Pre-commit hooks that enforce formatting, linting, and testing
 - Static analysis with `golangci-lint`

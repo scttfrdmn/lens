@@ -7,7 +7,7 @@
 ## Confirmed Decisions
 
 1. ✅ **Binary Names**: `lens-jupyter`, `lens-rstudio`, `lens-vscode`
-2. ✅ **Repository Name**: `lens` (from `aws-ide`)
+2. ✅ **Repository Name**: `lens` (from `lens`)
 3. ✅ **Config Directory**: `~/.lens/` (unified structure)
 4. ✅ **Go Module Path**: `github.com/scttfrdmn/lens`
 5. ✅ **Backward Compatibility**: Soft migration (auto-detect and migrate)
@@ -26,9 +26,9 @@
 **Why Second**: With imports fixed, we can rename executables and their directories.
 
 1. Rename cmd directories:
-   - `apps/jupyter/cmd/aws-jupyter/` → `apps/jupyter/cmd/lens-jupyter/`
-   - `apps/rstudio/cmd/aws-rstudio/` → `apps/rstudio/cmd/lens-rstudio/`
-   - `apps/vscode/cmd/aws-vscode/` → `apps/vscode/cmd/lens-vscode/`
+   - `apps/jupyter/cmd/lens-jupyter/` → `apps/jupyter/cmd/lens-jupyter/`
+   - `apps/rstudio/cmd/lens-rstudio/` → `apps/rstudio/cmd/lens-rstudio/`
+   - `apps/vscode/cmd/lens-vscode/` → `apps/vscode/cmd/lens-vscode/`
 
 2. Update Makefile build targets
 3. Update all app-specific Makefiles
@@ -39,14 +39,14 @@
 
 1. Update `pkg/config/state.go` - config directory paths
 2. Update `pkg/config/keys.go` - key storage paths
-3. Add migration logic to auto-migrate `~/.aws-jupyter` → `~/.lens/`
+3. Add migration logic to auto-migrate `~/.lens-jupyter` → `~/.lens/`
 4. Update tests
 
 ### Phase 4: Code References
 **Why Fourth**: Update all string literals and messages.
 
 1. Update CLI help text and descriptions
-2. Update error messages ("AWS IDE" → "Lens")
+2. Update error messages ("Lens" → "Lens")
 3. Update log messages
 4. Update comments and docstrings
 
@@ -82,15 +82,15 @@
 - [ ] Update `apps/jupyter/go.mod`
 - [ ] Update `apps/rstudio/go.mod`
 - [ ] Update `apps/vscode/go.mod`
-- [ ] Find and replace all imports: `github.com/scttfrdmn/aws-ide` → `github.com/scttfrdmn/lens`
+- [ ] Find and replace all imports: `github.com/scttfrdmn/lens` → `github.com/scttfrdmn/lens`
 - [ ] Run `go mod tidy` in all modules
 - [ ] Verify no broken imports
 
 ### Phase 2: Binary Names (20 min)
 
-- [ ] Rename `apps/jupyter/cmd/aws-jupyter/` → `apps/jupyter/cmd/lens-jupyter/`
-- [ ] Rename `apps/rstudio/cmd/aws-rstudio/` → `apps/rstudio/cmd/lens-rstudio/`
-- [ ] Rename `apps/vscode/cmd/aws-vscode/` → `apps/vscode/cmd/lens-vscode/`
+- [ ] Rename `apps/jupyter/cmd/lens-jupyter/` → `apps/jupyter/cmd/lens-jupyter/`
+- [ ] Rename `apps/rstudio/cmd/lens-rstudio/` → `apps/rstudio/cmd/lens-rstudio/`
+- [ ] Rename `apps/vscode/cmd/lens-vscode/` → `apps/vscode/cmd/lens-vscode/`
 - [ ] Update root `Makefile` - build targets and binary names
 - [ ] Update `apps/jupyter/Makefile`
 - [ ] Update `apps/rstudio/Makefile`
@@ -100,12 +100,12 @@
 ### Phase 3: Configuration Paths (45 min)
 
 - [ ] Update `pkg/config/state.go`:
-  - Change config dir: `~/.aws-jupyter` → `~/.lens/`
+  - Change config dir: `~/.lens-jupyter` → `~/.lens/`
   - Add unified structure: `~/.lens/state.json`, `~/.lens/keys/`, etc.
 - [ ] Add migration function in `pkg/config/migrate.go`:
   ```go
   func MigrateFromLegacy() error {
-    // Detect ~/.aws-jupyter, ~/.aws-rstudio, ~/.aws-vscode
+    // Detect ~/.lens-jupyter, ~/.lens-rstudio, ~/.lens-vscode
     // Copy to ~/.lens/
     // Log migration
   }
@@ -117,7 +117,7 @@
 
 ### Phase 4: Code References (30 min)
 
-- [ ] Search and replace "AWS IDE" → "Lens" in:
+- [ ] Search and replace "Lens" → "Lens" in:
   - Help text
   - Error messages
   - Log statements
@@ -129,8 +129,8 @@
 ### Phase 5: Documentation (60 min)
 
 - [ ] Update `README.md`:
-  - Title: "AWS IDE" → "Lens"
-  - Installation: `aws-jupyter` → `lens-jupyter`
+  - Title: "Lens" → "Lens"
+  - Installation: `lens-jupyter` → `lens-jupyter`
   - All command examples
   - Project description
 - [ ] Update `apps/jupyter/README.md`
@@ -174,7 +174,7 @@ After each phase, verify:
 
 ### Phase 1 Tests:
 ```bash
-go build ./apps/jupyter/cmd/aws-jupyter  # Should fail (path doesn't exist yet)
+go build ./apps/jupyter/cmd/lens-jupyter  # Should fail (path doesn't exist yet)
 go build ./...                           # Should succeed with no errors
 ```
 
@@ -189,8 +189,8 @@ make build                               # Should build lens-jupyter, lens-rstud
 ### Phase 3 Tests:
 ```bash
 # Create fake old config
-mkdir -p ~/.aws-jupyter
-echo "test" > ~/.aws-jupyter/test.json
+mkdir -p ~/.lens-jupyter
+echo "test" > ~/.lens-jupyter/test.json
 
 # Run migration
 ./bin/lens-jupyter version  # Should auto-migrate
@@ -201,7 +201,7 @@ ls ~/.lens/                 # Should contain migrated files
 
 ### Phase 4 Tests:
 ```bash
-./bin/lens-jupyter --help   # Should say "Lens" not "AWS IDE"
+./bin/lens-jupyter --help   # Should say "Lens" not "Lens"
 ./bin/lens-jupyter launch   # Error messages should say "Lens"
 ```
 
@@ -222,7 +222,7 @@ If issues arise:
 2. **After Release**:
    - Keep backward compatibility in migration code
    - Document manual rollback steps
-   - Provide `aws-jupyter` symlinks if needed
+   - Provide `lens-jupyter` symlinks if needed
 
 ## Timeline
 

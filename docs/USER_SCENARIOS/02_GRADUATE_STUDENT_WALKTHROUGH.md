@@ -39,7 +39,7 @@
 
 ---
 
-## Current Situation (Before AWS IDE)
+## Current Situation (Before Lens)
 
 ### Existing Setup
 
@@ -83,13 +83,13 @@
 
 ---
 
-## AWS IDE Workflow
+## Lens Workflow
 
 ### Getting Advisor Buy-In
 
 **Meeting with Advisor** (Monday, 10 AM)
 
-**Alex**: "I found a tool called AWS IDE that has auto-stop built-in. It prevents the runaway cost problem."
+**Alex**: "I found a tool called Lens that has auto-stop built-in. It prevents the runaway cost problem."
 
 **Advisor**: "How do I know you won't forget again?"
 
@@ -97,10 +97,10 @@
 
 **Advisor**: "Show me a cost estimate for one month."
 
-**Alex launches AWS IDE wizard**:
+**Alex launches Lens wizard**:
 
 ```bash
-aws-jupyter
+lens-jupyter
 ```
 
 **Wizard shows**:
@@ -120,7 +120,7 @@ aws-jupyter
 
 **Advisor**: "Okay, that's reasonable. But I want weekly cost reports."
 
-**Alex**: "AWS IDE has a `costs` command. I can send you weekly reports."
+**Alex**: "Lens has a `costs` command. I can send you weekly reports."
 
 **Advisor**: ✅ Approved
 
@@ -135,7 +135,7 @@ aws-jupyter
 #### Step 1: Launch GPU Instance
 
 ```bash
-aws-jupyter quickstart --gpu --env deep-learning
+lens-jupyter quickstart --gpu --env deep-learning
 ```
 
 **Output** (30 seconds):
@@ -210,7 +210,7 @@ Downloads trained model and visualizations.
 #### Step 6: Stop Instance
 
 ```bash
-aws-jupyter stop
+lens-jupyter stop
 ```
 
 **Output**:
@@ -234,7 +234,7 @@ aws-jupyter stop
 **Friday afternoon** - Alex sends weekly report
 
 ```bash
-aws-jupyter costs --this-week --format summary
+lens-jupyter costs --this-week --format summary
 ```
 
 **Output**:
@@ -282,13 +282,13 @@ aws-jupyter costs --this-week --format summary
 
 ### Pain #1: GPU Access Conflicts
 
-**Before AWS IDE**:
+**Before Lens**:
 - 7 researchers sharing 1 lab GPU
 - Scheduling via Slack (informal, conflicts common)
 - Training interrupted by other students
 - Can't run overnight (someone else scheduled)
 
-**With AWS IDE**:
+**With Lens**:
 - Dedicated GPU when needed (g4dn.xlarge)
 - No scheduling conflicts
 - Can run overnight
@@ -307,13 +307,13 @@ aws-jupyter costs --this-week --format summary
 
 ### Pain #2: Advisor Budget Anxiety
 
-**Before AWS IDE**:
+**Before Lens**:
 - Previous student's $800 mistake → advisor nervous
 - Alex had cloud access revoked
 - Required pre-approval for every launch (slow)
 - Advisor micromanaged spending
 
-**With AWS IDE**:
+**With Lens**:
 - Auto-stop prevents runaway costs
 - Weekly reports build trust
 - Spending predictable ($9-10/week)
@@ -332,13 +332,13 @@ aws-jupyter costs --this-week --format summary
 
 ### Pain #3: Google Colab Limitations
 
-**Before AWS IDE**:
+**Before Lens**:
 - Colab free tier: Disconnects after 90 minutes
 - Colab Pro: Max 12-hour sessions
 - Lost training progress during disconnection
 - Can't install custom CUDA libraries
 
-**With AWS IDE**:
+**With Lens**:
 - Sessions persist until Alex explicitly stops
 - Full control over CUDA environment
 - Can install any library
@@ -357,13 +357,13 @@ aws-jupyter costs --this-week --format summary
 
 ### Pain #4: Long Training Times Block Laptop
 
-**Before AWS IDE**:
+**Before Lens**:
 - Training on laptop GPU (GTX 1650): 24 hours
 - Laptop unusable during training
 - Can't take laptop to class/meetings
 - Must choose: train model OR use laptop
 
-**With AWS IDE**:
+**With Lens**:
 - Training on g4dn.xlarge: 5 hours
 - Laptop free for other work
 - Can close laptop, training continues
@@ -382,16 +382,16 @@ aws-jupyter costs --this-week --format summary
 
 ### Pain #5: Reproducibility for Paper Submissions
 
-**Before AWS IDE**:
+**Before Lens**:
 - Reviewer: "Can you share training environment?"
 - Alex: "I used Colab... not sure exact package versions"
 - Reviewer: "Results don't reproduce"
 - Paper rejected
 
-**With AWS IDE**:
+**With Lens**:
 - Alex exports environment:
   ```bash
-  aws-jupyter env export > cancer-detection-env.yaml
+  lens-jupyter env export > cancer-detection-env.yaml
   ```
 - Includes in paper supplementary materials
 - Reviewers can launch identical environment
@@ -412,7 +412,7 @@ aws-jupyter costs --this-week --format summary
 
 ### Research Productivity
 
-| Metric | Before AWS IDE | After AWS IDE (4 months) | Improvement |
+| Metric | Before Lens | After Lens (4 months) | Improvement |
 |--------|----------------|--------------------------|-------------|
 | Training runs/week | 2-3 (limited by GPU access) | 6-8 (limited by time, not access) | 3x more |
 | Papers submitted | 1 | 3 | 3x more |
@@ -438,12 +438,12 @@ aws-jupyter costs --this-week --format summary
 ### Advisor Satisfaction
 
 **Advisor's feedback**:
-> "Alex's use of AWS IDE is a model for the lab. Weekly cost reports give me visibility, auto-stop prevents mistakes, and spending is 67% under budget. Three other students in my lab are now using it. The $163 cost is negligible compared to Alex's 3x productivity increase. We're making cloud computing work within academic budgets."
+> "Alex's use of Lens is a model for the lab. Weekly cost reports give me visibility, auto-stop prevents mistakes, and spending is 67% under budget. Three other students in my lab are now using it. The $163 cost is negligible compared to Alex's 3x productivity increase. We're making cloud computing work within academic budgets."
 
 ### Qualitative Impact
 
 **Alex's quote**:
-> "AWS IDE gave me GPU access without the guilt. Before, I felt bad asking for the lab GPU because I knew others needed it too. And Colab was frustrating with constant disconnections. Now I can experiment freely, train overnight, and my advisor trusts me because costs are under control. I've submitted 3 papers this semester - I was planning on 1. I'm actually ahead of my dissertation timeline now."
+> "Lens gave me GPU access without the guilt. Before, I felt bad asking for the lab GPU because I knew others needed it too. And Colab was frustrating with constant disconnections. Now I can experiment freely, train overnight, and my advisor trusts me because costs are under control. I've submitted 3 papers this semester - I was planning on 1. I'm actually ahead of my dissertation timeline now."
 
 ---
 
@@ -455,7 +455,7 @@ aws-jupyter costs --this-week --format summary
 2. **Weekly cost reports**: Builds trust, shows responsible usage
 3. **GPU instances**: g4dn.xlarge perfect for PhD research (not too expensive, not too slow)
 4. **Cost estimates**: Advisor could evaluate ROI before approving
-5. **Quickstart command**: Alex uses `aws-jupyter quickstart --gpu` for quick launches
+5. **Quickstart command**: Alex uses `lens-jupyter quickstart --gpu` for quick launches
 
 ### Feature Requests
 
@@ -524,7 +524,7 @@ aws-jupyter costs --this-week --format summary
 
 ## Conclusion
 
-AWS IDE solved Alex's GPU access problem while staying within advisor's strict budget constraints:
+Lens solved Alex's GPU access problem while staying within advisor's strict budget constraints:
 
 ### Key Outcomes
 - ✅ **3x research productivity** (3 papers vs 1 per semester)
@@ -542,6 +542,6 @@ AWS IDE solved Alex's GPU access problem while staying within advisor's strict b
 
 **ROI**: $163 spent → 3 papers submitted → on track for timely PhD graduation
 
-Alex represents the **graduate student persona**: technically capable but budget-constrained, needing advisor trust and GPU access to complete dissertation. AWS IDE provides both.
+Alex represents the **graduate student persona**: technically capable but budget-constrained, needing advisor trust and GPU access to complete dissertation. Lens provides both.
 
 **Related GitHub Issues**: #4, #12, #16, #17, #19, #21, #23, #28

@@ -1,6 +1,6 @@
 # Private Subnet Deployment Guide
 
-This guide covers best practices for deploying aws-jupyter instances in private subnets for enhanced security and compliance.
+This guide covers best practices for deploying lens-jupyter instances in private subnets for enhanced security and compliance.
 
 ## Table of Contents
 
@@ -124,7 +124,7 @@ Private Subnet (Jupyter Instance)
 
 **Command:**
 ```bash
-aws-jupyter launch \
+lens-jupyter launch \
   --connection session-manager \
   --subnet-type private \
   --create-nat-gateway
@@ -158,7 +158,7 @@ No Internet Access
 
 **Command:**
 ```bash
-aws-jupyter launch \
+lens-jupyter launch \
   --connection session-manager \
   --subnet-type private
 ```
@@ -199,7 +199,7 @@ aws ec2 create-vpc-endpoint \
   --route-table-ids rtb-12345
 
 # Step 2: Launch instance
-aws-jupyter launch \
+lens-jupyter launch \
   --connection session-manager \
   --subnet-type private
 ```
@@ -254,14 +254,14 @@ aws-jupyter launch \
 
 ```bash
 # Preview what will be created
-aws-jupyter launch \
+lens-jupyter launch \
   --connection session-manager \
   --subnet-type private \
   --create-nat-gateway \
   --dry-run
 
 # Launch instance
-aws-jupyter launch \
+lens-jupyter launch \
   --connection session-manager \
   --subnet-type private \
   --create-nat-gateway \
@@ -281,13 +281,13 @@ aws-jupyter launch \
 
 ```bash
 # Preview
-aws-jupyter launch \
+lens-jupyter launch \
   --connection session-manager \
   --subnet-type private \
   --dry-run
 
 # Launch
-aws-jupyter launch \
+lens-jupyter launch \
   --connection session-manager \
   --subnet-type private \
   --env minimal
@@ -305,10 +305,10 @@ aws-jupyter launch \
 
 ```bash
 # List instances
-aws-jupyter list
+lens-jupyter list
 
 # Connect via Session Manager
-aws-jupyter connect i-0abc123def456789
+lens-jupyter connect i-0abc123def456789
 
 # Port forward Jupyter Lab
 aws ssm start-session \
@@ -363,25 +363,25 @@ Total:                               ~$66/month
 
 ### Cost Optimization Tips
 
-1. **Use Spot Instances** (not yet supported by aws-jupyter, coming in v0.5.0)
+1. **Use Spot Instances** (not yet supported by lens-jupyter, coming in v0.5.0)
    - Save up to 70% on instance costs
    - Good for fault-tolerant workloads
 
 2. **Stop When Not in Use**
    ```bash
-   aws-jupyter stop i-0abc123def456789
+   lens-jupyter stop i-0abc123def456789
    ```
    - Only pay for EBS storage when stopped
    - Save ~90% of compute costs
 
 3. **Share NAT Gateway**
    - One NAT Gateway can serve multiple instances
-   - aws-jupyter reuses existing NAT Gateways
+   - lens-jupyter reuses existing NAT Gateways
 
 4. **Right-Size Instances**
    ```bash
    # Start small
-   aws-jupyter launch --instance-type m7g.medium
+   lens-jupyter launch --instance-type m7g.medium
 
    # Scale up if needed
    # (Manual resize via AWS Console for now)
@@ -409,7 +409,7 @@ Use VPC endpoints instead of NAT Gateway when:
 ```bash
 # Get your VPC and route table IDs
 VPC_ID=$(aws ec2 describe-vpcs \
-  --filters "Name=tag:Name,Values=aws-jupyter-vpc" \
+  --filters "Name=tag:Name,Values=lens-jupyter-vpc" \
   --query 'Vpcs[0].VpcId' --output text)
 
 ROUTE_TABLE_ID=$(aws ec2 describe-route-tables \
@@ -493,13 +493,13 @@ aws ec2 create-vpc-endpoint \
 
 ```bash
 # Development instances in one subnet
-aws-jupyter launch \
+lens-jupyter launch \
   --subnet-type private \
   --create-nat-gateway \
   --tags "Environment=dev"
 
 # Production instances in another subnet
-aws-jupyter launch \
+lens-jupyter launch \
   --subnet-type private \
   --create-nat-gateway \
   --tags "Environment=prod"
@@ -547,7 +547,7 @@ Private instances don't need inbound rules (Session Manager uses outbound only):
 ```bash
 # View security group rules
 aws ec2 describe-security-groups \
-  --filters "Name=group-name,Values=aws-jupyter-session-manager"
+  --filters "Name=group-name,Values=lens-jupyter-session-manager"
 
 # No inbound rules required for Session Manager!
 ```
@@ -556,10 +556,10 @@ aws ec2 describe-security-groups \
 
 ```bash
 # List all instances
-aws-jupyter list
+lens-jupyter list
 
 # Check instance details
-aws-jupyter status i-0abc123def456789
+lens-jupyter status i-0abc123def456789
 
 # Review CloudTrail logs
 aws cloudtrail lookup-events \
@@ -590,7 +590,7 @@ aws cloudtrail lookup-events \
 
 3. **Check IAM Instance Profile**
    ```bash
-   aws-jupyter status i-0abc123def456789
+   lens-jupyter status i-0abc123def456789
    # Look for "IamInstanceProfile" in output
    ```
 
@@ -603,7 +603,7 @@ aws cloudtrail lookup-events \
 1. **Check Internet Access**
    ```bash
    # Connect to instance
-   aws-jupyter connect i-0abc123def456789
+   lens-jupyter connect i-0abc123def456789
 
    # Test internet connectivity
    curl -I https://pypi.org
@@ -617,7 +617,7 @@ aws cloudtrail lookup-events \
 3. **Use Pre-Installed Packages**
    ```bash
    # Launch with comprehensive environment
-   aws-jupyter launch \
+   lens-jupyter launch \
      --subnet-type private \
      --env deep-learning  # Has many packages pre-installed
    ```
@@ -634,17 +634,17 @@ aws cloudtrail lookup-events \
 
 2. **Stop Instances When Not in Use**
    ```bash
-   aws-jupyter stop i-0abc123def456789
+   lens-jupyter stop i-0abc123def456789
    ```
    NAT Gateway charges continue, but instance costs stop
 
 3. **Use No-Internet Option**
    ```bash
-   aws-jupyter launch --subnet-type private  # No --create-nat-gateway
+   lens-jupyter launch --subnet-type private  # No --create-nat-gateway
    ```
 
 4. **Share NAT Gateway**
-   - aws-jupyter automatically reuses existing NAT Gateways
+   - lens-jupyter automatically reuses existing NAT Gateways
    - One NAT Gateway can serve many instances
 
 ## Migration from Public Subnets
@@ -653,17 +653,17 @@ aws cloudtrail lookup-events \
 
 ```bash
 # List current instances
-aws-jupyter list
+lens-jupyter list
 
 # Check instance details
-aws-jupyter status i-0abc123def456789
+lens-jupyter status i-0abc123def456789
 ```
 
 ### Step 2: Launch New Private Instance
 
 ```bash
 # Launch replacement in private subnet
-aws-jupyter launch \
+lens-jupyter launch \
   --connection session-manager \
   --subnet-type private \
   --create-nat-gateway \
@@ -689,7 +689,7 @@ aws ec2 create-image --instance-id i-old-instance --name "migration-backup"
 
 ```bash
 # Connect to new instance
-aws-jupyter connect i-new-instance
+lens-jupyter connect i-new-instance
 
 # Verify notebooks and data
 ls -lah /home/ubuntu/notebooks
@@ -702,7 +702,7 @@ sudo systemctl status jupyter
 
 ```bash
 # Once verified, terminate old instance
-aws-jupyter terminate i-old-instance
+lens-jupyter terminate i-old-instance
 ```
 
 ## Additional Resources
@@ -712,7 +712,7 @@ aws-jupyter terminate i-old-instance
 - [NAT Gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html)
 - [Private Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html)
 
-**aws-jupyter Documentation:**
+**lens-jupyter Documentation:**
 - [Main README](../README.md)
 - [Session Manager Setup](SESSION_MANAGER_SETUP.md)
 - [Troubleshooting Guide](TROUBLESHOOTING.md)

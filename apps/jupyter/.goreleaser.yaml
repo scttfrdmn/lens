@@ -1,15 +1,15 @@
 version: 2
 
-project_name: aws-jupyter
+project_name: lens-jupyter
 
 before:
   hooks:
     - go mod tidy
 
 builds:
-  - id: aws-jupyter
-    main: ./cmd/aws-jupyter
-    binary: aws-jupyter
+  - id: lens-jupyter
+    main: ./cmd/lens-jupyter
+    binary: lens-jupyter
     dir: .
     env:
       - CGO_ENABLED=0
@@ -29,9 +29,9 @@ builds:
 archives:
   - id: jupyter
     builds:
-      - aws-jupyter
+      - lens-jupyter
     name_template: >-
-      aws-jupyter_
+      lens-jupyter_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
@@ -51,7 +51,7 @@ archives:
           - zip
 
 checksum:
-  name_template: 'aws-jupyter_checksums.txt'
+  name_template: 'lens-jupyter_checksums.txt'
 
 snapshot:
   version_template: "{{ incpatch .Version }}-next"
@@ -79,43 +79,43 @@ changelog:
 release:
   github:
     owner: scttfrdmn
-    name: aws-ide
+    name: lens
   draft: false
   prerelease: auto
   mode: append
-  name_template: "aws-jupyter {{.Version}}"
+  name_template: "lens-jupyter {{.Version}}"
   header: |
-    ## aws-jupyter {{.Version}} ({{ .Date }})
+    ## lens-jupyter {{.Version}} ({{ .Date }})
 
     CLI tool for launching Jupyter Lab instances on AWS EC2 Graviton processors.
 
-    ### What's Changed in aws-jupyter
+    ### What's Changed in lens-jupyter
   footer: |
     ## Installation
 
     ### Homebrew (macOS/Linux)
     ```bash
-    brew install scttfrdmn/tap/aws-jupyter
+    brew install scttfrdmn/tap/lens-jupyter
     ```
 
     ### Direct Download
     Download the appropriate binary for your platform from the assets above.
 
-    See the [CHANGELOG](https://github.com/scttfrdmn/aws-ide/blob/{{.Tag}}/CHANGELOG.md) for detailed release notes.
+    See the [CHANGELOG](https://github.com/scttfrdmn/lens/blob/{{.Tag}}/CHANGELOG.md) for detailed release notes.
 
 brews:
-  - name: aws-jupyter
+  - name: lens-jupyter
     ids:
       - jupyter
     repository:
       owner: scttfrdmn
       name: homebrew-tap
-    homepage: https://github.com/scttfrdmn/aws-ide
+    homepage: https://github.com/scttfrdmn/lens
     description: CLI tool for launching Jupyter Lab instances on AWS EC2 Graviton processors
     license: Apache-2.0
     folder: Formula
     install: |
-      bin.install "aws-jupyter"
+      bin.install "lens-jupyter"
 
       # Install environment templates
       pkgshare.install Dir["environments/*.yaml"]
@@ -124,4 +124,4 @@ brews:
         (pkgshare/"environments").install env
       end
     test: |
-      system "#{bin}/aws-jupyter", "--version"
+      system "#{bin}/lens-jupyter", "--version"

@@ -1,14 +1,14 @@
-# AWS IDE
+# Lens
 
 A powerful CLI toolkit for launching secure cloud-based development environments on AWS EC2 with professional-grade networking and security features.
 
 ## Overview
 
-AWS IDE is a monorepo containing multiple CLI tools for managing different cloud-based IDEs on AWS:
+Lens is a monorepo containing multiple CLI tools for managing different cloud-based IDEs on AWS:
 
-- **[aws-jupyter](apps/jupyter/)** - Launch and manage Jupyter Lab instances
-- **[aws-rstudio](apps/rstudio/)** - Launch and manage RStudio Server instances
-- **[aws-vscode](apps/vscode/)** - Launch and manage VSCode Server (code-server) instances
+- **[lens-jupyter](apps/jupyter/)** - Launch and manage Jupyter Lab instances
+- **[lens-rstudio](apps/rstudio/)** - Launch and manage RStudio Server instances
+- **[lens-vscode](apps/vscode/)** - Launch and manage VSCode Server (code-server) instances
 
 ## Key Features
 
@@ -40,7 +40,7 @@ AWS IDE is a monorepo containing multiple CLI tools for managing different cloud
 - **Monthly Estimates**: Project costs based on actual usage patterns
 
 ### 🔧 Configuration & Management
-- **Unified Config**: Single config file (`~/.aws-ide/config.yaml`) shared across all tools
+- **Unified Config**: Single config file (`~/.lens/config.yaml`) shared across all tools
 - **Flexible Settings**: Configure defaults for region, instance type, networking, and more
 - **Cost Alerts**: Set monthly cost thresholds with automatic warnings
 - **Per-Tool Overrides**: App-specific settings for Jupyter, RStudio, and VSCode
@@ -52,79 +52,79 @@ AWS IDE is a monorepo containing multiple CLI tools for managing different cloud
 **Homebrew (macOS/Linux)**
 ```bash
 brew tap scttfrdmn/tap
-brew install aws-jupyter aws-rstudio aws-vscode
+brew install lens-jupyter lens-rstudio lens-vscode
 ```
 
 **Scoop (Windows)**
 ```bash
 scoop bucket add scttfrdmn https://github.com/scttfrdmn/scoop-bucket
-scoop install aws-jupyter aws-rstudio aws-vscode
+scoop install lens-jupyter lens-rstudio lens-vscode
 ```
 
 **APT (Debian/Ubuntu)**
 ```bash
 # Download and install deb packages
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-jupyter_0.6.2_linux_amd64.deb
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-rstudio_0.6.2_linux_amd64.deb
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-vscode_0.6.2_linux_amd64.deb
+wget https://github.com/scttfrdmn/lens/releases/latest/download/lens-jupyter_0.6.2_linux_amd64.deb
+wget https://github.com/scttfrdmn/lens/releases/latest/download/lens-rstudio_0.6.2_linux_amd64.deb
+wget https://github.com/scttfrdmn/lens/releases/latest/download/lens-vscode_0.6.2_linux_amd64.deb
 
-sudo dpkg -i aws-jupyter_0.6.2_linux_amd64.deb
-sudo dpkg -i aws-rstudio_0.6.2_linux_amd64.deb
-sudo dpkg -i aws-vscode_0.6.2_linux_amd64.deb
+sudo dpkg -i lens-jupyter_0.6.2_linux_amd64.deb
+sudo dpkg -i lens-rstudio_0.6.2_linux_amd64.deb
+sudo dpkg -i lens-vscode_0.6.2_linux_amd64.deb
 ```
 
 **YUM/DNF (RedHat/Fedora/Amazon Linux)**
 ```bash
 # Download and install rpm packages
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-jupyter_0.6.2_linux_amd64.rpm
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-rstudio_0.6.2_linux_amd64.rpm
-wget https://github.com/scttfrdmn/aws-ide/releases/latest/download/aws-vscode_0.6.2_linux_amd64.rpm
+wget https://github.com/scttfrdmn/lens/releases/latest/download/lens-jupyter_0.6.2_linux_amd64.rpm
+wget https://github.com/scttfrdmn/lens/releases/latest/download/lens-rstudio_0.6.2_linux_amd64.rpm
+wget https://github.com/scttfrdmn/lens/releases/latest/download/lens-vscode_0.6.2_linux_amd64.rpm
 
-sudo rpm -i aws-jupyter_0.6.2_linux_amd64.rpm
-sudo rpm -i aws-rstudio_0.6.2_linux_amd64.rpm
-sudo rpm -i aws-vscode_0.6.2_linux_amd64.rpm
+sudo rpm -i lens-jupyter_0.6.2_linux_amd64.rpm
+sudo rpm -i lens-rstudio_0.6.2_linux_amd64.rpm
+sudo rpm -i lens-vscode_0.6.2_linux_amd64.rpm
 ```
 
 ### Install from Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/scttfrdmn/aws-ide
-cd aws-ide
+git clone https://github.com/scttfrdmn/lens
+cd lens
 
 # Build Jupyter launcher
 cd apps/jupyter
-go build -o aws-jupyter ./cmd/aws-jupyter
-sudo mv aws-jupyter /usr/local/bin/
+go build -o lens-jupyter ./cmd/lens-jupyter
+sudo mv lens-jupyter /usr/local/bin/
 
 # Build RStudio launcher
 cd ../rstudio
-go build -o aws-rstudio ./cmd/aws-rstudio
-sudo mv aws-rstudio /usr/local/bin/
+go build -o lens-rstudio ./cmd/lens-rstudio
+sudo mv lens-rstudio /usr/local/bin/
 
 # Build VSCode launcher
 cd ../vscode
-go build -o aws-vscode ./cmd/aws-vscode
-sudo mv aws-vscode /usr/local/bin/
+go build -o lens-vscode ./cmd/lens-vscode
+sudo mv lens-vscode /usr/local/bin/
 ```
 
 ### Launch Your First Instance
 
 ```bash
 # Launch Jupyter Lab with all defaults
-aws-jupyter launch
+lens-jupyter launch
 
 # Launch RStudio Server
-aws-rstudio launch
+lens-rstudio launch
 
 # Launch VSCode Server
-aws-vscode launch
+lens-vscode launch
 
 # Launch with Session Manager (no SSH)
-aws-jupyter launch --connection session-manager
+lens-jupyter launch --connection session-manager
 
 # Launch with custom timeout
-aws-jupyter launch --idle-timeout 2h
+lens-jupyter launch --idle-timeout 2h
 ```
 
 ### Configuration Management
@@ -133,25 +133,25 @@ All three tools share a unified configuration system:
 
 ```bash
 # Initialize config file with defaults
-aws-jupyter config init
+lens-jupyter config init
 
 # View current configuration
-aws-jupyter config show
+lens-jupyter config show
 
 # Set defaults
-aws-jupyter config set default_region us-west-2
-aws-jupyter config set default_instance_type t4g.large
-aws-rstudio config set default_ebs_size 50
+lens-jupyter config set default_region us-west-2
+lens-jupyter config set default_instance_type t4g.large
+lens-rstudio config set default_ebs_size 50
 
 # Enable cost tracking
-aws-vscode config set enable_cost_tracking true
-aws-vscode config set cost_alert_threshold 100
+lens-vscode config set enable_cost_tracking true
+lens-vscode config set cost_alert_threshold 100
 
 # App-specific settings
-aws-vscode config set vscode.port 8080
+lens-vscode config set vscode.port 8080
 ```
 
-Configuration is stored in `~/.aws-ide/config.yaml` and shared across all tools.
+Configuration is stored in `~/.lens/config.yaml` and shared across all tools.
 
 ### Cost Tracking
 
@@ -159,13 +159,13 @@ Monitor and optimize your cloud spending:
 
 ```bash
 # View costs for all instances
-aws-jupyter costs
+lens-jupyter costs
 
 # Detailed breakdown for specific instance
-aws-jupyter costs i-1234567890abcdef0
+lens-jupyter costs i-1234567890abcdef0
 
 # Show detailed breakdowns for all instances
-aws-rstudio costs --details
+lens-rstudio costs --details
 ```
 
 **Key Metrics:**
@@ -187,7 +187,7 @@ Instance: i-abc123 (data-science)
 
 ## How It Works: SSM-Based Readiness Polling
 
-AWS IDE uses AWS Systems Manager (SSM) for secure, agentless service health checks during instance launch:
+Lens uses AWS Systems Manager (SSM) for secure, agentless service health checks during instance launch:
 
 **The Problem**: Traditional health checks require exposing service ports through security groups, creating security risks and complexity.
 
@@ -206,7 +206,7 @@ AWS IDE uses AWS Systems Manager (SSM) for secure, agentless service health chec
 - Unified health checking across all IDE types (VSCode, Jupyter, RStudio)
 - Real-time progress visibility with concurrent progress streaming
 
-All three apps (aws-jupyter, aws-rstudio, aws-vscode) use this approach by default.
+All three apps (lens-jupyter, lens-rstudio, lens-vscode) use this approach by default.
 
 ## Applications
 
@@ -245,7 +245,7 @@ VSCode Server (code-server) launcher with:
 This project is organized as a Go workspace with shared infrastructure:
 
 ```
-aws-ide/
+lens/
 ├── pkg/                    # Shared library
 │   ├── aws/               # AWS SDK integrations (EC2, IAM, networking)
 │   ├── cli/               # Common CLI utilities
@@ -269,7 +269,7 @@ aws-ide/
 
 ## AWS Authentication
 
-Before using any AWS IDE tools, configure AWS credentials:
+Before using any Lens tools, configure AWS credentials:
 
 ```bash
 # Option 1: AWS CLI (Recommended)
@@ -282,19 +282,19 @@ export AWS_DEFAULT_REGION="us-east-1"
 
 # Option 3: AWS profiles
 aws configure --profile myprofile
-aws-jupyter launch --profile myprofile
+lens-jupyter launch --profile myprofile
 ```
 
 See the [Jupyter AWS Authentication Guide](apps/jupyter/docs/AWS_AUTHENTICATION.md) for detailed setup instructions.
 
 ## Versioning
 
-AWS IDE uses **unified versioning** across all apps in the monorepo. All three tools share the same version number and are released together.
+Lens uses **unified versioning** across all apps in the monorepo. All three tools share the same version number and are released together.
 
 - **Current Release**: v0.6.2
-- **aws-jupyter**: v0.6.2 (production)
-- **aws-rstudio**: v0.6.2 (production)
-- **aws-vscode**: v0.6.2 (production)
+- **lens-jupyter**: v0.6.2 (production)
+- **lens-rstudio**: v0.6.2 (production)
+- **lens-vscode**: v0.6.2 (production)
 
 Releases use semantic versioning with Git tags: `v0.6.0`, `v0.6.1`, `v0.6.2`, etc.
 
@@ -312,9 +312,9 @@ See [VERSIONING.md](VERSIONING.md) for detailed versioning strategy and release 
 
 ```bash
 # Build all applications
-cd apps/jupyter && go build ./cmd/aws-jupyter
-cd ../rstudio && go build ./cmd/aws-rstudio
-cd ../vscode && go build ./cmd/aws-vscode
+cd apps/jupyter && go build ./cmd/lens-jupyter
+cd ../rstudio && go build ./cmd/lens-rstudio
+cd ../vscode && go build ./cmd/lens-vscode
 
 # Run tests
 cd ../../pkg && go test ./...
@@ -401,8 +401,8 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 ## Support
 
 - **Documentation**: See app-specific READMEs and docs directories
-- **Issues**: [GitHub Issues](https://github.com/scttfrdmn/aws-ide/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/scttfrdmn/aws-ide/discussions)
+- **Issues**: [GitHub Issues](https://github.com/scttfrdmn/lens/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/scttfrdmn/lens/discussions)
 
 ## Acknowledgments
 

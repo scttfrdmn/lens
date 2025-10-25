@@ -1,5 +1,5 @@
 name: ❓ Question or Support
-description: Ask a question or get help using aws-jupyter
+description: Ask a question or get help using lens-jupyter
 title: "[Question]: "
 labels: ["question", "help-wanted"]
 body:
@@ -17,7 +17,7 @@ body:
         Ask your question here. Be as specific as possible.
         Examples:
         - "How do I configure custom Python packages in an environment?"
-        - "What AWS permissions does aws-jupyter need?"
+        - "What AWS permissions does lens-jupyter need?"
         - "How do I connect to an instance using a different SSH key?"
     validations:
       required: true
@@ -60,7 +60,7 @@ body:
       placeholder: |
         Provide relevant context:
         - Operating system (macOS, Linux, Windows)
-        - aws-jupyter version (`aws-jupyter --version`)
+        - lens-jupyter version (`lens-jupyter --version`)
         - AWS region you're using
         - Authentication method (profile, SSO, etc.)
         - Any relevant error messages

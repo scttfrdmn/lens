@@ -40,7 +40,7 @@ func TestDefaultKeyStorage(t *testing.T) {
 		t.Fatalf("Failed to get home dir: %v", err)
 	}
 
-	expected := filepath.Join(home, ".lens-jupyter", "keys")
+	expected := filepath.Join(home, ".lens", "keys")
 	if ks.baseDir != expected {
 		t.Errorf("Expected baseDir %s, got %s", expected, ks.baseDir)
 	}

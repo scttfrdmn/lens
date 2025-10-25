@@ -1,9 +1,9 @@
 # GitHub Project Board Setup
 
 ## Overview
-This document describes the setup and configuration of the GitHub Project board for AWS IDE (Lens) development.
+This document describes the setup and configuration of the GitHub Project board for Lens (Lens) development.
 
-**Project**: AWS IDE Development (Project #6)
+**Project**: Lens Development (Project #6)
 **URL**: https://github.com/users/scttfrdmn/projects/6
 
 ## Custom Fields

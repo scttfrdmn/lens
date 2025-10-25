@@ -1,6 +1,6 @@
-# Contributing to AWS IDE
+# Contributing to Lens
 
-Thank you for your interest in contributing to AWS IDE! This document provides guidelines and instructions for contributing to the project.
+Thank you for your interest in contributing to Lens! This document provides guidelines and instructions for contributing to the project.
 
 ## Table of Contents
 
@@ -41,12 +41,12 @@ Before you begin, ensure you have the following installed:
 1. Fork the repository on GitHub
 2. Clone your fork locally:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/aws-ide.git
-   cd aws-ide
+   git clone https://github.com/YOUR_USERNAME/lens.git
+   cd lens
    ```
 3. Add the upstream repository:
    ```bash
-   git remote add upstream https://github.com/scttfrdmn/aws-ide.git
+   git remote add upstream https://github.com/scttfrdmn/lens.git
    ```
 
 ## Development Setup
@@ -60,9 +60,9 @@ The project uses a monorepo structure with three apps and shared infrastructure:
 make build
 
 # Build specific app
-cd apps/jupyter && go build -o ../../bin/aws-jupyter cmd/aws-jupyter/main.go
-cd apps/rstudio && go build -o ../../bin/aws-rstudio cmd/aws-rstudio/main.go
-cd apps/vscode && go build -o ../../bin/aws-vscode cmd/aws-vscode/main.go
+cd apps/jupyter && go build -o ../../bin/lens-jupyter cmd/lens-jupyter/main.go
+cd apps/rstudio && go build -o ../../bin/lens-rstudio cmd/lens-rstudio/main.go
+cd apps/vscode && go build -o ../../bin/lens-vscode cmd/lens-vscode/main.go
 ```
 
 ### Running Tests
@@ -84,7 +84,7 @@ make lint
 ### Project Structure
 
 ```
-aws-ide/
+lens/
 ├── apps/
 │   ├── jupyter/       # Jupyter Lab launcher
 │   ├── rstudio/       # RStudio Server launcher
@@ -226,7 +226,7 @@ Closes #123
 Use the `pkg/errors` package for user-friendly error messages:
 
 ```go
-import "github.com/scttfrdmn/aws-ide/pkg/errors"
+import "github.com/scttfrdmn/lens/pkg/errors"
 
 // Create friendly error
 err := errors.NewFriendlyError(
@@ -327,4 +327,4 @@ If you have questions about contributing, please:
 2. Search existing GitHub Discussions
 3. Open a new Discussion in Q&A category
 
-Thank you for contributing to AWS IDE! Your efforts help make cloud-based research tools more accessible to the academic community.
+Thank you for contributing to Lens! Your efforts help make cloud-based research tools more accessible to the academic community.

@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-Comprehensive troubleshooting guide for common issues with aws-jupyter.
+Comprehensive troubleshooting guide for common issues with lens-jupyter.
 
 ## Table of Contents
 
@@ -19,12 +19,12 @@ Comprehensive troubleshooting guide for common issues with aws-jupyter.
 
 ## Installation Issues
 
-### Command Not Found: aws-jupyter
+### Command Not Found: lens-jupyter
 
 **Problem:**
 ```bash
-$ aws-jupyter launch
-bash: aws-jupyter: command not found
+$ lens-jupyter launch
+bash: lens-jupyter: command not found
 ```
 
 **Solutions:**
@@ -43,22 +43,22 @@ bash: aws-jupyter: command not found
    export PATH=$PATH:$(go env GOPATH)/bin
    ```
 
-3. **Reinstall aws-jupyter:**
+3. **Reinstall lens-jupyter:**
    ```bash
-   go install github.com/scttfrdmn/aws-jupyter@latest
+   go install github.com/scttfrdmn/lens-jupyter@latest
    ```
 
 4. **Check installation location:**
    ```bash
-   which aws-jupyter
-   # Should show: /Users/yourname/go/bin/aws-jupyter or similar
+   which lens-jupyter
+   # Should show: /Users/yourname/go/bin/lens-jupyter or similar
    ```
 
 ### Go Version Too Old
 
 **Problem:**
 ```
-go: github.com/scttfrdmn/aws-jupyter requires go >= 1.22
+go: github.com/scttfrdmn/lens-jupyter requires go >= 1.22
 ```
 
 **Solution:**
@@ -79,7 +79,7 @@ go version
 
 **Problem:**
 ```
-go: github.com/scttfrdmn/aws-jupyter@latest: reading https://proxy.golang.org/...
+go: github.com/scttfrdmn/lens-jupyter@latest: reading https://proxy.golang.org/...
 dial tcp: lookup proxy.golang.org: no such host
 ```
 
@@ -201,19 +201,19 @@ Error: InsufficientInstanceCapacity: We currently do not have sufficient m7g.xla
 
 1. **Try different instance type:**
    ```bash
-   aws-jupyter launch --instance-type m7g.large
+   lens-jupyter launch --instance-type m7g.large
    ```
 
 2. **Try different availability zone:**
    ```bash
-   aws-jupyter launch --region us-west-2
+   lens-jupyter launch --region us-west-2
    # Or wait and retry in current region
    ```
 
 3. **Use different generation:**
    ```bash
    # Instead of m7g, try m6g
-   aws-jupyter launch --instance-type m6g.xlarge
+   lens-jupyter launch --instance-type m6g.xlarge
    ```
 
 ### AMI Not Found
@@ -228,12 +228,12 @@ Error: InvalidAMIID.NotFound: The image id '[ami-xxxxx]' does not exist
 1. **Check region:**
    ```bash
    # AMI IDs are region-specific
-   aws-jupyter launch --region us-west-2
+   lens-jupyter launch --region us-west-2
    ```
 
-2. **Update aws-jupyter:**
+2. **Update lens-jupyter:**
    ```bash
-   go install github.com/scttfrdmn/aws-jupyter@latest
+   go install github.com/scttfrdmn/lens-jupyter@latest
    ```
 
 3. **Find correct AMI:**
@@ -263,7 +263,7 @@ Error: VPCIdNotSpecified: No default VPC for this user
    # Find available VPCs
    aws ec2 describe-vpcs
 
-   # aws-jupyter will auto-detect VPCs
+   # lens-jupyter will auto-detect VPCs
    # Or create one manually and it will be used
    ```
 
@@ -278,8 +278,8 @@ Error: InsufficientFreeAddressesInSubnet: There are not enough free addresses
 
 1. **Use different availability zone:**
    ```bash
-   # aws-jupyter will try another subnet automatically
-   aws-jupyter launch
+   # lens-jupyter will try another subnet automatically
+   lens-jupyter launch
    ```
 
 2. **Create new subnet:**
@@ -313,8 +313,8 @@ Error: InstanceLimitExceeded: You have requested more instances than your curren
 
 3. **Terminate unused instances:**
    ```bash
-   aws-jupyter list
-   aws-jupyter terminate i-old-instance
+   lens-jupyter list
+   lens-jupyter terminate i-old-instance
    ```
 
 ## Connection Issues
@@ -327,17 +327,17 @@ Error: InstanceLimitExceeded: You have requested more instances than your curren
 
 1. **Verify instance is running:**
    ```bash
-   aws-jupyter list
-   aws-jupyter status i-0abc123def456789
+   lens-jupyter list
+   lens-jupyter status i-0abc123def456789
    ```
 
 2. **Check connection method:**
    ```bash
    # For Session Manager:
-   aws-jupyter connect i-0abc123def456789
+   lens-jupyter connect i-0abc123def456789
 
    # For SSH:
-   ssh -i ~/.aws-jupyter/keys/aws-jupyter-us-west-2.pem ubuntu@<public-ip>
+   ssh -i ~/.lens-jupyter/keys/lens-jupyter-us-west-2.pem ubuntu@<public-ip>
    ```
 
 3. **Wait for initialization:**
@@ -411,13 +411,13 @@ Error: TargetNotConnected: i-0abc123def456789 is not connected
 
 3. **Verify IAM instance profile:**
    ```bash
-   aws-jupyter status i-0abc123def456789
+   lens-jupyter status i-0abc123def456789
    # Look for IamInstanceProfile
    ```
 
 4. **Check SSM agent logs (if you can SSH):**
    ```bash
-   ssh -i ~/.aws-jupyter/keys/... ubuntu@<ip>
+   ssh -i ~/.lens-jupyter/keys/... ubuntu@<ip>
    sudo journalctl -u amazon-ssm-agent -f
    ```
 
@@ -460,22 +460,22 @@ Permission denied (publickey)
 
 1. **Check key permissions:**
    ```bash
-   aws-jupyter key validate
+   lens-jupyter key validate
 
    # Or manually:
-   chmod 600 ~/.aws-jupyter/keys/*.pem
+   chmod 600 ~/.lens-jupyter/keys/*.pem
    ```
 
 2. **Verify correct key:**
    ```bash
-   aws-jupyter key list
-   aws-jupyter key show
+   lens-jupyter key list
+   lens-jupyter key show
    ```
 
 3. **Use correct username:**
    ```bash
    # For Ubuntu AMIs:
-   ssh -i ~/.aws-jupyter/keys/aws-jupyter-us-west-2.pem ubuntu@<ip>
+   ssh -i ~/.lens-jupyter/keys/lens-jupyter-us-west-2.pem ubuntu@<ip>
 
    # NOT: ec2-user, admin, or root
    ```
@@ -512,28 +512,28 @@ ssh: connect to host <ip> port 22: Operation timed out
 
 3. **Check instance has public IP:**
    ```bash
-   aws-jupyter status i-0abc123def456789
+   lens-jupyter status i-0abc123def456789
    # Look for PublicIpAddress
    ```
 
 4. **Try Session Manager instead:**
    ```bash
-   aws-jupyter connect i-0abc123def456789
+   lens-jupyter connect i-0abc123def456789
    ```
 
 ### Key Not Found
 
 **Problem:**
 ```
-Error: Unable to load AWS SSH key from /Users/name/.aws-jupyter/keys/aws-jupyter-us-west-2.pem
+Error: Unable to load AWS SSH key from /Users/name/.lens-jupyter/keys/lens-jupyter-us-west-2.pem
 ```
 
 **Solutions:**
 
 1. **Check key exists:**
    ```bash
-   aws-jupyter key list
-   ls -l ~/.aws-jupyter/keys/
+   lens-jupyter key list
+   ls -l ~/.lens-jupyter/keys/
    ```
 
 2. **Download key from AWS:**
@@ -544,13 +544,13 @@ Error: Unable to load AWS SSH key from /Users/name/.aws-jupyter/keys/aws-jupyter
 
 3. **Launch with new key:**
    ```bash
-   # aws-jupyter will create new key automatically
-   aws-jupyter launch --connection ssh
+   # lens-jupyter will create new key automatically
+   lens-jupyter launch --connection ssh
    ```
 
 4. **Specify existing key:**
    ```bash
-   aws-jupyter launch --key-name my-existing-key
+   lens-jupyter launch --key-name my-existing-key
    ```
 
 ## Networking Problems
@@ -578,7 +578,7 @@ Error: Unable to load AWS SSH key from /Users/name/.aws-jupyter/keys/aws-jupyter
 
 3. **Test from instance:**
    ```bash
-   aws-jupyter connect i-0abc123def456789
+   lens-jupyter connect i-0abc123def456789
 
    # In instance:
    curl -I https://pypi.org
@@ -635,7 +635,7 @@ pip install numpy
 
 1. **Add NAT Gateway:**
    ```bash
-   aws-jupyter launch \
+   lens-jupyter launch \
      --subnet-type private \
      --create-nat-gateway
    ```
@@ -643,7 +643,7 @@ pip install numpy
 2. **Use pre-configured environment:**
    ```bash
    # Launch with environment that has packages
-   aws-jupyter launch \
+   lens-jupyter launch \
      --subnet-type private \
      --env ml-pytorch  # Has PyTorch, numpy, etc.
    ```
@@ -665,7 +665,7 @@ pip install numpy
 
 1. **Verify Jupyter is running:**
    ```bash
-   aws-jupyter connect i-0abc123def456789
+   lens-jupyter connect i-0abc123def456789
 
    # In instance:
    sudo systemctl status jupyter
@@ -681,14 +681,14 @@ pip install numpy
      --parameters '{"portNumber":["8888"],"localPortNumber":["8888"]}'
 
    # For SSH:
-   ssh -i ~/.aws-jupyter/keys/aws-jupyter-us-west-2.pem \
+   ssh -i ~/.lens-jupyter/keys/lens-jupyter-us-west-2.pem \
      -L 8888:localhost:8888 \
      ubuntu@<public-ip>
    ```
 
 3. **Get Jupyter token:**
    ```bash
-   aws-jupyter connect i-0abc123def456789
+   lens-jupyter connect i-0abc123def456789
    sudo jupyter server list
    # Copy the token from output
    ```
@@ -762,7 +762,7 @@ pip install numpy
 4. **Increase instance size:**
    ```bash
    # Stop instance, change type via console, start again
-   aws-jupyter stop i-0abc123def456789
+   lens-jupyter stop i-0abc123def456789
    # Change via AWS Console
    aws ec2 start-instances --instance-ids i-0abc123def456789
    ```
@@ -816,7 +816,7 @@ Add PassRole permission:
     {
       "Effect": "Allow",
       "Action": "iam:PassRole",
-      "Resource": "arn:aws:iam::123456789012:role/aws-jupyter-*"
+      "Resource": "arn:aws:iam::123456789012:role/lens-jupyter-*"
     }
   ]
 }
@@ -882,7 +882,7 @@ Example monthly costs:
 
 4. **Stop instances when not in use:**
    ```bash
-   aws-jupyter stop i-0abc123def456789
+   lens-jupyter stop i-0abc123def456789
    # NAT Gateway continues but instance stops
    ```
 
@@ -904,13 +904,13 @@ Example monthly costs:
 
 3. **Tag instances:**
    ```bash
-   aws-jupyter launch --tags "Owner=yourname,Project=research"
+   lens-jupyter launch --tags "Owner=yourname,Project=research"
    ```
 
 4. **Regular cleanup:**
    ```bash
    # Weekly check
-   aws-jupyter list
+   lens-jupyter list
    ```
 
 5. **Use instance scheduler:**
@@ -950,7 +950,7 @@ Example monthly costs:
 
 1. **Check instance size:**
    ```bash
-   aws-jupyter status i-0abc123def456789
+   lens-jupyter status i-0abc123def456789
    # Check InstanceType
 
    # Upgrade to larger instance (requires stop/start)
@@ -958,7 +958,7 @@ Example monthly costs:
 
 2. **Monitor resource usage:**
    ```bash
-   aws-jupyter connect i-0abc123def456789
+   lens-jupyter connect i-0abc123def456789
 
    # Check CPU/memory
    htop
@@ -994,7 +994,7 @@ Example monthly costs:
 2. **Use NAT Gateway (private subnet):**
    ```bash
    # Faster than VPC endpoints for PyPI
-   aws-jupyter launch --create-nat-gateway
+   lens-jupyter launch --create-nat-gateway
    ```
 
 3. **Use pip cache:**
@@ -1017,7 +1017,7 @@ Example monthly costs:
 1. **Use closer region:**
    ```bash
    # If in US West, use us-west-2 not eu-west-1
-   aws-jupyter launch --region us-west-2
+   lens-jupyter launch --region us-west-2
    ```
 
 2. **Check your internet:**
@@ -1028,7 +1028,7 @@ Example monthly costs:
 
 3. **Use Session Manager (can be faster):**
    ```bash
-   aws-jupyter connect i-0abc123def456789
+   lens-jupyter connect i-0abc123def456789
    ```
 
 ## Getting Help
@@ -1038,11 +1038,11 @@ Example monthly costs:
 When reporting issues, include:
 
 ```bash
-# 1. aws-jupyter version
-aws-jupyter version
+# 1. lens-jupyter version
+lens-jupyter version
 
 # 2. Instance status
-aws-jupyter status i-0abc123def456789
+lens-jupyter status i-0abc123def456789
 
 # 3. AWS CLI version
 aws --version
@@ -1054,7 +1054,7 @@ go version
 uname -a
 
 # 6. Error messages (full output)
-aws-jupyter launch --dry-run 2>&1 | tee error.log
+lens-jupyter launch --dry-run 2>&1 | tee error.log
 ```
 
 ### Common Commands for Debugging
@@ -1064,7 +1064,7 @@ aws-jupyter launch --dry-run 2>&1 | tee error.log
 aws sts get-caller-identity
 
 # List all resources
-aws-jupyter list
+lens-jupyter list
 aws ec2 describe-instances
 aws ec2 describe-key-pairs
 aws ec2 describe-security-groups
@@ -1087,7 +1087,7 @@ aws iam list-attached-user-policies --user-name $(aws iam get-user --query 'User
 ### Reporting Issues
 
 1. **Check existing issues:**
-   - https://github.com/scttfrdmn/aws-jupyter/issues
+   - https://github.com/scttfrdmn/lens-jupyter/issues
 
 2. **Search documentation:**
    - [README](../README.md)
@@ -1102,8 +1102,8 @@ aws iam list-attached-user-policies --user-name $(aws iam get-user --query 'User
 
 ### Community Support
 
-- **GitHub Discussions:** https://github.com/scttfrdmn/aws-jupyter/discussions
-- **Issue Tracker:** https://github.com/scttfrdmn/aws-jupyter/issues
+- **GitHub Discussions:** https://github.com/scttfrdmn/lens-jupyter/discussions
+- **Issue Tracker:** https://github.com/scttfrdmn/lens-jupyter/issues
 
 ### AWS Support
 
@@ -1114,7 +1114,7 @@ For AWS-specific issues:
 
 ## Additional Resources
 
-**aws-jupyter Documentation:**
+**lens-jupyter Documentation:**
 - [Main README](../README.md)
 - [Session Manager Setup](SESSION_MANAGER_SETUP.md)
 - [Private Subnet Guide](PRIVATE_SUBNET_GUIDE.md)
@@ -1128,4 +1128,4 @@ For AWS-specific issues:
 
 ---
 
-**Still having issues?** Open an issue on [GitHub](https://github.com/scttfrdmn/aws-jupyter/issues) with detailed information about your problem.
+**Still having issues?** Open an issue on [GitHub](https://github.com/scttfrdmn/lens-jupyter/issues) with detailed information about your problem.

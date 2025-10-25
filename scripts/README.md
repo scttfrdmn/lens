@@ -1,6 +1,6 @@
 # Scripts
 
-This directory contains utility scripts for maintaining the aws-jupyter project.
+This directory contains utility scripts for maintaining the lens-jupyter project.
 
 ## update-homebrew-formula.sh
 

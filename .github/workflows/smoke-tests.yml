@@ -67,9 +67,9 @@ jobs:
         if: failure()
         run: |
           echo "Cleaning up any test resources..."
-          # List any EC2 instances with CreatedBy=aws-ide-test tag
+          # List any EC2 instances with CreatedBy=lens-test tag
           aws ec2 describe-instances \
-            --filters "Name=tag:CreatedBy,Values=aws-ide-test" \
+            --filters "Name=tag:CreatedBy,Values=lens-test" \
                      "Name=instance-state-name,Values=running,stopped,stopping" \
             --query 'Reservations[].Instances[].InstanceId' \
             --output text | xargs -r aws ec2 terminate-instances --instance-ids || true

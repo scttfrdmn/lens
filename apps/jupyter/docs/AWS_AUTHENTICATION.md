@@ -1,6 +1,6 @@
 # AWS Authentication Guide
 
-This guide covers all the ways to authenticate aws-jupyter with AWS. The tool uses the standard AWS SDK credential chain, so any method that works with the AWS CLI will work with aws-jupyter.
+This guide covers all the ways to authenticate lens-jupyter with AWS. The tool uses the standard AWS SDK credential chain, so any method that works with the AWS CLI will work with lens-jupyter.
 
 ## 🚀 Quick Setup
 
@@ -11,12 +11,12 @@ This guide covers all the ways to authenticate aws-jupyter with AWS. The tool us
 aws configure --profile jupyter
 # Enter: Access Key ID, Secret Access Key, Region, Output format
 
-# Use with aws-jupyter
-aws-jupyter launch --profile jupyter
+# Use with lens-jupyter
+lens-jupyter launch --profile jupyter
 
 # Or set as environment variable
 export AWS_PROFILE=jupyter
-aws-jupyter launch
+lens-jupyter launch
 ```
 
 ### Option 2: Environment Variables
@@ -26,7 +26,7 @@ export AWS_ACCESS_KEY_ID="your-access-key-id"
 export AWS_SECRET_ACCESS_KEY="your-secret-access-key"
 export AWS_REGION="us-west-2"
 
-aws-jupyter launch
+lens-jupyter launch
 ```
 
 ### Option 3: AWS SSO (Single Sign-On)
@@ -37,7 +37,7 @@ aws configure sso --profile jupyter-sso
 
 # Login and use
 aws sso login --profile jupyter-sso
-aws-jupyter launch --profile jupyter-sso
+lens-jupyter launch --profile jupyter-sso
 ```
 
 ## 📋 Authentication Methods (Priority Order)
@@ -76,10 +76,10 @@ output = json
 EOF
 ```
 
-**Using with aws-jupyter:**
+**Using with lens-jupyter:**
 ```bash
-aws-jupyter launch --profile myprofile
-aws-jupyter list --profile myprofile --region us-east-1
+lens-jupyter launch --profile myprofile
+lens-jupyter list --profile myprofile --region us-east-1
 ```
 
 ### 2. Environment Variables
@@ -98,13 +98,13 @@ export AWS_PROFILE="myprofile"       # Use specific profile
 export AWS_DEFAULT_REGION="us-west-2" # Alternative to AWS_REGION
 ```
 
-**Using with aws-jupyter:**
+**Using with lens-jupyter:**
 ```bash
 # Credentials automatically detected
-aws-jupyter launch
+lens-jupyter launch
 
 # Override region if needed
-aws-jupyter launch --region eu-west-1
+lens-jupyter launch --region eu-west-1
 ```
 
 ### 3. AWS SSO (Single Sign-On)
@@ -131,8 +131,8 @@ aws sso login --profile jupyter-sso
 # Verify login
 aws sts get-caller-identity --profile jupyter-sso
 
-# Use with aws-jupyter
-aws-jupyter launch --profile jupyter-sso
+# Use with lens-jupyter
+lens-jupyter launch --profile jupyter-sso
 ```
 
 #### Session Management
@@ -149,16 +149,16 @@ aws sso logout
 
 ### 4. IAM Roles (EC2/ECS/Lambda)
 
-**Best for:** Running aws-jupyter on AWS infrastructure
+**Best for:** Running lens-jupyter on AWS infrastructure
 
 #### EC2 Instance Roles
 ```bash
 # No configuration needed!
-# aws-jupyter automatically uses the instance role
+# lens-jupyter automatically uses the instance role
 
 # Just run commands
-aws-jupyter launch
-aws-jupyter list
+lens-jupyter launch
+lens-jupyter list
 ```
 
 #### ECS Task Roles
@@ -169,8 +169,8 @@ aws-jupyter list
   "executionRoleArn": "arn:aws:iam::123456789012:role/MyExecutionRole"
 }
 
-# aws-jupyter automatically uses the task role
-aws-jupyter launch
+# lens-jupyter automatically uses the task role
+lens-jupyter launch
 ```
 
 ### 5. Temporary Credentials
@@ -189,8 +189,8 @@ export AWS_ACCESS_KEY_ID="ASIA..."
 export AWS_SECRET_ACCESS_KEY="abc123..."
 export AWS_SESSION_TOKEN="token123..."
 
-# Use with aws-jupyter
-aws-jupyter launch
+# Use with lens-jupyter
+lens-jupyter launch
 ```
 
 ### 6. Cross-Account Access
@@ -207,12 +207,12 @@ region = us-west-2
 EOF
 
 # Use the cross-account profile
-aws-jupyter launch --profile cross-account
+lens-jupyter launch --profile cross-account
 ```
 
 ## 🛡️ Required AWS Permissions
 
-aws-jupyter needs these IAM permissions:
+lens-jupyter needs these IAM permissions:
 
 ### Minimum Required Permissions
 ```json
@@ -303,17 +303,17 @@ aws ec2 describe-regions
 aws ec2 describe-vpcs --region us-west-2
 ```
 
-### Test with aws-jupyter
+### Test with lens-jupyter
 ```bash
 # Dry run to test configuration
-aws-jupyter launch --dry-run
-aws-jupyter launch --dry-run --profile myprofile --region us-west-2
+lens-jupyter launch --dry-run
+lens-jupyter launch --dry-run --profile myprofile --region us-west-2
 
 # List existing instances (read-only)
-aws-jupyter list
+lens-jupyter list
 
 # Test environment validation
-aws-jupyter env validate data-science
+lens-jupyter env validate data-science
 ```
 
 ## 🔧 Troubleshooting
@@ -372,7 +372,7 @@ export AWS_SDK_LOAD_CONFIG=1
 export AWS_DEBUG=1
 
 # Run with verbose output
-aws-jupyter launch --dry-run
+lens-jupyter launch --dry-run
 
 # Check credential resolution
 aws configure list --profile myprofile
@@ -409,18 +409,18 @@ export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
 export AWS_REGION=us-west-2
 
 # Use in pipeline
-aws-jupyter launch --env minimal --dry-run
+lens-jupyter launch --env minimal --dry-run
 ```
 
 ### Docker Container Setup
 ```dockerfile
 # Pass credentials as environment variables
 docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_REGION \
-  myorg/aws-jupyter:latest launch --env data-science
+  myorg/lens-jupyter:latest launch --env data-science
 
 # Or mount credential files
 docker run -v ~/.aws:/root/.aws:ro \
-  myorg/aws-jupyter:latest launch --profile myprofile
+  myorg/lens-jupyter:latest launch --profile myprofile
 ```
 
 ## 🔐 Security Best Practices
@@ -456,10 +456,10 @@ docker run -v ~/.aws:/root/.aws:ro \
 ## 📞 Need Help?
 
 - **AWS Documentation**: [AWS CLI Configuration](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)
-- **GitHub Issues**: [Report authentication problems](https://github.com/scttfrdmn/aws-jupyter/issues/new/choose)
+- **GitHub Issues**: [Report authentication problems](https://github.com/scttfrdmn/lens-jupyter/issues/new/choose)
 - **AWS Support**: For AWS account and IAM issues
 
-**Still having trouble?** Open a [GitHub issue](https://github.com/scttfrdmn/aws-jupyter/issues/new/choose) with:
+**Still having trouble?** Open a [GitHub issue](https://github.com/scttfrdmn/lens-jupyter/issues/new/choose) with:
 - Your authentication method
 - Commands you've tried
 - Error messages (sanitized)

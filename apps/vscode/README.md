@@ -1,10 +1,10 @@
-# aws-vscode
+# lens-vscode
 
 Launch VSCode Server (code-server) instances on AWS EC2 with professional-grade security and networking.
 
 ## Overview
 
-`aws-vscode` enables you to quickly spin up cloud-based VSCode environments on AWS Graviton processors, providing a full VSCode experience in your browser with automatic configuration of development tools, language runtimes, and extensions.
+`lens-vscode` enables you to quickly spin up cloud-based VSCode environments on AWS Graviton processors, providing a full VSCode experience in your browser with automatic configuration of development tools, language runtimes, and extensions.
 
 ## Features
 
@@ -24,15 +24,15 @@ Launch VSCode Server (code-server) instances on AWS EC2 with professional-grade 
 #### Homebrew (macOS/Linux)
 
 ```bash
-brew install scttfrdmn/tap/aws-vscode
+brew install scttfrdmn/tap/lens-vscode
 ```
 
 #### From Source
 
 ```bash
-git clone https://github.com/scttfrdmn/aws-ide
-cd aws-ide/apps/vscode
-go build ./cmd/aws-vscode
+git clone https://github.com/scttfrdmn/lens
+cd lens/apps/vscode
+go build ./cmd/lens-vscode
 ```
 
 ### Prerequisites
@@ -56,23 +56,23 @@ go build ./cmd/aws-vscode
 
 ```bash
 # Launch with default web-dev environment
-aws-vscode launch
+lens-vscode launch
 
 # Launch with specific environment
-aws-vscode launch --environment python-dev
+lens-vscode launch --environment python-dev
 
 # Launch in specific region
-aws-vscode launch --region us-west-2 --profile myprofile
+lens-vscode launch --region us-west-2 --profile myprofile
 ```
 
 ### Connect to Your Instance
 
 ```bash
 # Auto-connect to your instance
-aws-vscode connect
+lens-vscode connect
 
 # Or specify instance ID
-aws-vscode connect i-1234567890abcdef0
+lens-vscode connect i-1234567890abcdef0
 ```
 
 Then open http://localhost:8080 in your browser!
@@ -83,7 +83,7 @@ The VSCode Server password is randomly generated on first launch. To retrieve it
 
 ```bash
 # SSH into the instance
-aws-vscode connect i-1234567890abcdef0
+lens-vscode connect i-1234567890abcdef0
 
 # Then on the instance
 cat ~/.config/code-server/config.yaml
@@ -147,7 +147,7 @@ Combined environment for fullstack development.
 
 ### launch
 ```bash
-aws-vscode launch [flags]
+lens-vscode launch [flags]
 ```
 
 Launch a new VSCode Server instance.
@@ -168,71 +168,71 @@ Launch a new VSCode Server instance.
 **Examples:**
 ```bash
 # Launch with defaults (web-dev, SSH, public subnet)
-aws-vscode launch
+lens-vscode launch
 
 # Launch Python environment
-aws-vscode launch --env python-dev
+lens-vscode launch --env python-dev
 
 # Launch with Session Manager (no SSH)
-aws-vscode launch --connection session-manager
+lens-vscode launch --connection session-manager
 
 # Launch in private subnet with NAT Gateway
-aws-vscode launch --subnet-type private --create-nat-gateway
+lens-vscode launch --subnet-type private --create-nat-gateway
 
 # Dry run to see what would be created
-aws-vscode launch --dry-run
+lens-vscode launch --dry-run
 ```
 
 ### list
 ```bash
-aws-vscode list
+lens-vscode list
 ```
 
 List all running VSCode Server instances with status.
 
 ### connect
 ```bash
-aws-vscode connect [INSTANCE_ID]
+lens-vscode connect [INSTANCE_ID]
 ```
 
 Setup port forwarding to access VSCode Server on http://localhost:8080.
 
 ### status
 ```bash
-aws-vscode status INSTANCE_ID
+lens-vscode status INSTANCE_ID
 ```
 
 Show detailed instance information including uptime, IPs, and tunnel status.
 
 ### start/stop
 ```bash
-aws-vscode stop INSTANCE_ID
-aws-vscode start INSTANCE_ID
+lens-vscode stop INSTANCE_ID
+lens-vscode start INSTANCE_ID
 ```
 
 Stop or start an instance. Data is preserved on EBS volume.
 
 ### terminate
 ```bash
-aws-vscode terminate INSTANCE_ID
+lens-vscode terminate INSTANCE_ID
 ```
 
 Permanently delete an instance. **This action cannot be undone.**
 
 ### env
 ```bash
-aws-vscode env list
-aws-vscode env validate ENV_NAME
+lens-vscode env list
+lens-vscode env validate ENV_NAME
 ```
 
 Manage and validate environment configurations.
 
 ### key
 ```bash
-aws-vscode key list
-aws-vscode key show [KEY_NAME]
-aws-vscode key validate
-aws-vscode key cleanup
+lens-vscode key list
+lens-vscode key show [KEY_NAME]
+lens-vscode key validate
+lens-vscode key cleanup
 ```
 
 Manage SSH key pairs.
@@ -256,7 +256,7 @@ Manage SSH key pairs.
 ### Security
 - IAM instance profile for Session Manager access
 - Security groups restrict access to your IP
-- SSH keys stored in ~/.aws-vscode/keys/
+- SSH keys stored in ~/.lens-vscode/keys/
 - Password-protected VSCode Server
 
 ## Cost Optimization
@@ -266,22 +266,22 @@ Instances automatically stop after being idle to minimize costs:
 
 ```bash
 # Default: 4 hours idle timeout
-aws-vscode launch --idle-timeout 4h
+lens-vscode launch --idle-timeout 4h
 
 # Disable auto-stop
-aws-vscode launch --idle-timeout 0
+lens-vscode launch --idle-timeout 0
 ```
 
 ### Manual Management
 ```bash
 # Stop when done working
-aws-vscode stop INSTANCE_ID
+lens-vscode stop INSTANCE_ID
 
 # Start when needed again
-aws-vscode start INSTANCE_ID
+lens-vscode start INSTANCE_ID
 
 # Terminate when completely done
-aws-vscode terminate INSTANCE_ID
+lens-vscode terminate INSTANCE_ID
 ```
 
 ### Estimated Monthly Costs
@@ -321,7 +321,7 @@ aws-vscode terminate INSTANCE_ID
 
 3. Launch with your environment:
    ```bash
-   aws-vscode launch --environment my-custom
+   lens-vscode launch --environment my-custom
    ```
 
 ### Add VSCode Extensions
@@ -338,7 +338,7 @@ environment_vars:
 ### Can't connect to instance
 ```bash
 # Check instance is running
-aws-vscode status INSTANCE_ID
+lens-vscode status INSTANCE_ID
 
 # Check security group allows your IP
 # Security groups are updated when you launch, but your IP may change
@@ -359,12 +359,12 @@ sudo journalctl -u code-server -f
 ### Port 8080 already in use
 ```bash
 # Use different local port
-aws-vscode connect INSTANCE_ID --port 8090
+lens-vscode connect INSTANCE_ID --port 8090
 ```
 
 ## Comparison with Other Solutions
 
-| Feature | aws-vscode | GitHub Codespaces | VS Code Remote SSH | Gitpod |
+| Feature | lens-vscode | GitHub Codespaces | VS Code Remote SSH | Gitpod |
 |---------|------------|-------------------|-------------------|--------|
 | **Cost** | ~$7/month | $0.18/hour | Local + SSH setup | ~$9/month |
 | **Control** | Full AWS control | GitHub managed | Full control | Gitpod managed |
@@ -407,7 +407,7 @@ aws-vscode connect INSTANCE_ID --port 8090
 
 ## Contributing
 
-This is part of the [aws-ide monorepo](https://github.com/scttfrdmn/aws-ide). See the main README for contribution guidelines.
+This is part of the [lens monorepo](https://github.com/scttfrdmn/lens). See the main README for contribution guidelines.
 
 ## License
 
@@ -415,14 +415,14 @@ Apache 2.0
 
 ## Related Projects
 
-- [aws-jupyter](../jupyter) - Jupyter Lab on AWS Graviton
-- [aws-rstudio](../rstudio) - RStudio Server on AWS Graviton
+- [lens-jupyter](../jupyter) - Jupyter Lab on AWS Graviton
+- [lens-rstudio](../rstudio) - RStudio Server on AWS Graviton
 - [code-server](https://github.com/coder/code-server) - VS Code in the browser
 
 ## Support
 
-- Issues: https://github.com/scttfrdmn/aws-ide/issues
-- Discussions: https://github.com/scttfrdmn/aws-ide/discussions
+- Issues: https://github.com/scttfrdmn/lens/issues
+- Discussions: https://github.com/scttfrdmn/lens/discussions
 
 ---
 

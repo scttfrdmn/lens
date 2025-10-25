@@ -293,7 +293,7 @@ func TestKeyPairStrategy_GetDefaultKeyName(t *testing.T) {
         {
             name: "default strategy",
             strategy: DefaultKeyPairStrategy("us-west-2"),
-            want: "aws-jupyter-us-west-2",
+            want: "lens-jupyter-us-west-2",
         },
     }
     // ...
@@ -491,10 +491,10 @@ func TestRunConnect(t *testing.T) {
 
 ---
 
-### 3.2 Add Main Entry Point Tests (`cmd/aws-jupyter/main.go` - 0%)
+### 3.2 Add Main Entry Point Tests (`cmd/lens-jupyter/main.go` - 0%)
 
 ```go
-// cmd/aws-jupyter/main_test.go (new file)
+// cmd/lens-jupyter/main_test.go (new file)
 
 func TestMain_VersionFlag(t *testing.T) {
     // Test --version output
@@ -650,7 +650,7 @@ package aws
 
 // internal/cli/doc.go (new file)
 /*
-Package cli implements the command-line interface for aws-jupyter.
+Package cli implements the command-line interface for lens-jupyter.
 
 It provides commands for launching, managing, and connecting to
 Jupyter Lab instances on AWS EC2. The CLI is built using Cobra
@@ -668,13 +668,13 @@ Commands:
 
 Example:
 
-    aws-jupyter launch --env data-science --instance-type m7g.large
+    lens-jupyter launch --env data-science --instance-type m7g.large
 */
 package cli
 
 // internal/config/doc.go (new file)
 /*
-Package config handles configuration management for aws-jupyter.
+Package config handles configuration management for lens-jupyter.
 
 This includes:
   - Environment configuration loading and validation
@@ -682,7 +682,7 @@ This includes:
   - Instance state persistence
   - User data script generation
 
-Configuration files are stored in ~/.aws-jupyter/ by default.
+Configuration files are stored in ~/.lens-jupyter/ by default.
 */
 package config
 ```
@@ -724,7 +724,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 ### 5.3 Add CONTRIBUTING.md
 
 ```markdown
-# Contributing to aws-jupyter
+# Contributing to lens-jupyter
 
 ## Code Quality Standards
 
@@ -933,12 +933,12 @@ vet:
 # Build binary
 build:
 	@echo "Building..."
-	go build -v -o bin/aws-jupyter ./cmd/aws-jupyter
+	go build -v -o bin/lens-jupyter ./cmd/lens-jupyter
 
 # Install binary
 install:
 	@echo "Installing..."
-	go install ./cmd/aws-jupyter
+	go install ./cmd/lens-jupyter
 
 # Clean build artifacts
 clean:
@@ -1020,7 +1020,7 @@ help:
 - [ ] Create internal/cli/terminate_test.go (4 tests)
 - [ ] Create internal/cli/status_test.go (4 tests)
 - [ ] Create internal/cli/connect_test.go (4 tests)
-- [ ] Create cmd/aws-jupyter/main_test.go (3 tests)
+- [ ] Create cmd/lens-jupyter/main_test.go (3 tests)
 - [ ] Verify cli package coverage >70%
 - [ ] Verify overall coverage >70%
 - [ ] Commit: "test: achieve 70% test coverage across all packages"
@@ -1077,7 +1077,7 @@ help:
 - 🎯 **Overall: A+ (99%+)**
 
 **Test Coverage:**
-- cmd/aws-jupyter: 0% → 80%+
+- cmd/lens-jupyter: 0% → 80%+
 - internal/aws: 0.9% → 70%+
 - internal/cli: 35.7% → 70%+
 - internal/config: 19.2% → 70%+

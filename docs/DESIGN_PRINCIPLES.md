@@ -1,6 +1,6 @@
-# AWS IDE Design Principles
+# Lens Design Principles
 
-> **Purpose**: This document captures the foundational design decisions, architectural choices, and trade-offs that guide AWS IDE development. Every significant decision is documented with rationale, alternatives considered, and trade-offs accepted.
+> **Purpose**: This document captures the foundational design decisions, architectural choices, and trade-offs that guide Lens development. Every significant decision is documented with rationale, alternatives considered, and trade-offs accepted.
 
 **Last Updated**: 2025-10-20
 **Status**: Living Document
@@ -10,7 +10,7 @@
 
 ## Core Philosophy
 
-AWS IDE is built for **academic researchers**, not DevOps engineers. Every design decision prioritizes:
+Lens is built for **academic researchers**, not DevOps engineers. Every design decision prioritizes:
 
 1. **Ease of Use Over Power User Features** - 80% of users need simple workflows; 20% need advanced options
 2. **Cost Control Over Performance** - Researchers have tight budgets; auto-stop is more important than maximum throughput
@@ -33,9 +33,9 @@ AWS IDE is built for **academic researchers**, not DevOps engineers. Every desig
 - **Error Prevention**: Wizards validate inputs before execution; flags allow invalid combinations
 
 **Decision**:
-- ✅ `aws-jupyter` (no args) launches interactive wizard
+- ✅ `lens-jupyter` (no args) launches interactive wizard
 - ✅ Wizard asks plain-English questions with smart defaults
-- ✅ CLI flags available for advanced users: `aws-jupyter launch --instance-type t4g.xlarge`
+- ✅ CLI flags available for advanced users: `lens-jupyter launch --instance-type t4g.xlarge`
 - ✅ `--no-wizard` flag for automation/scripting
 
 **Alternatives Considered**:
@@ -88,14 +88,14 @@ AWS IDE is built for **academic researchers**, not DevOps engineers. Every desig
 
 **Rationale**:
 - **Code Reuse**: 80% of functionality is identical across tools (AWS integration, networking, cost tracking)
-- **Consistency**: Users expect `aws-jupyter`, `aws-rstudio`, `aws-vscode` to work identically
+- **Consistency**: Users expect `lens-jupyter`, `lens-rstudio`, `lens-vscode` to work identically
 - **Maintenance**: Bug fixes in `pkg/` benefit all tools immediately
 - **Testing**: Integration tests cover all tools with shared test infrastructure
 - **Versioning**: Unified version numbers across tools (v0.7.2 applies to all apps)
 
 **Decision**:
 ```
-aws-ide/
+lens/
 ├── pkg/                    # Shared library (Go module)
 │   ├── aws/               # EC2, IAM, SSM, networking
 │   ├── cli/               # Common CLI utilities
@@ -111,10 +111,10 @@ aws-ide/
 
 **Alternatives Considered**:
 - ❌ **Separate repos per tool**: Rejected due to code duplication and version drift
-- ❌ **Single binary with subcommands** (`aws-ide jupyter launch`): Rejected because:
+- ❌ **Single binary with subcommands** (`lens jupyter launch`): Rejected because:
   - Larger binary size (50MB vs 15MB per tool)
   - Users only install tools they need
-  - Package managers handle multiple binaries well (Homebrew: `brew install aws-jupyter`)
+  - Package managers handle multiple binaries well (Homebrew: `brew install lens-jupyter`)
 
 **Trade-offs Accepted**:
 - 🔄 Breaking changes in `pkg/` require updating all apps simultaneously
@@ -196,7 +196,7 @@ func PollServiceReadinessViaSSM(ctx context.Context, ssmClient *ssm.SSMClient, i
   - VSCode: CPU < 10% + no SSH sessions + no VS Code extensions active
 - ✅ Warning email 10 minutes before shutdown (if email configured)
 - ✅ Graceful shutdown (not terminate) - data preserved on EBS
-- ✅ Easy restart: `aws-jupyter start i-abc123`
+- ✅ Easy restart: `lens-jupyter start i-abc123`
 
 **Alternatives Considered**:
 - ❌ **Manual shutdown only**: Rejected because users forget (60% waste rate)
@@ -207,7 +207,7 @@ func PollServiceReadinessViaSSM(ctx context.Context, ssmClient *ssm.SSMClient, i
 
 **Trade-offs Accepted**:
 - 🔄 Rare false positives (long-running silent computation detected as idle)
-  - Mitigation: Users can disable: `--idle-timeout 0` or `aws-jupyter disable-autostop`
+  - Mitigation: Users can disable: `--idle-timeout 0` or `lens-jupyter disable-autostop`
 - 🔄 Stopped instances still incur EBS costs ($0.10/GB/month)
   - Mitigation: Clearly communicated in docs
 - 🔄 Restart takes 30-60 seconds
@@ -285,7 +285,7 @@ type FriendlyError struct {
      With auto-stop (2h/day): ~$3.20/month
   ```
 - ✅ Warning for expensive instances: `⚠️ This instance costs $3.20/hour. Continue? (y/N)`
-- ✅ `aws-jupyter costs` shows running costs:
+- ✅ `lens-jupyter costs` shows running costs:
   ```
   Instance: i-abc123 (data-science)
     Type: t4g.large
@@ -342,9 +342,9 @@ type FriendlyError struct {
     - jupyterlab-git
   ```
 - ✅ Custom environments supported: `--env ./my-environment.yaml`
-- ✅ Environment generation from local machine: `aws-jupyter env generate` (v0.9.0)
-- ✅ Environment export: `aws-jupyter env export > my-current-env.yaml` (v0.9.0)
-- ✅ Environment import creates identical setup: `aws-jupyter launch --env exported.yaml`
+- ✅ Environment generation from local machine: `lens-jupyter env generate` (v0.9.0)
+- ✅ Environment export: `lens-jupyter env export > my-current-env.yaml` (v0.9.0)
+- ✅ Environment import creates identical setup: `lens-jupyter launch --env exported.yaml`
 
 **Alternatives Considered**:
 - ❌ **Docker containers**: Rejected because:
@@ -373,7 +373,7 @@ type FriendlyError struct {
 **Principle**: Each tool is a self-contained binary; no daemons, servers, or background services.
 
 **Rationale**:
-- **Simplicity**: Single binary install = `brew install aws-jupyter` → done
+- **Simplicity**: Single binary install = `brew install lens-jupyter` → done
 - **Reliability**: No daemon crashes, no port conflicts, no service management
 - **Portability**: Works on any platform with Go support
 - **Offline Capability**: CLI works without network (for local commands like `config`, `env list`)
@@ -381,7 +381,7 @@ type FriendlyError struct {
 **Decision**:
 - ✅ Each tool is a single static binary (~15MB)
 - ✅ No background processes
-- ✅ State stored in files: `~/.aws-ide/state.yaml`, `~/.aws-ide/config.yaml`
+- ✅ State stored in files: `~/.lens/state.yaml`, `~/.lens/config.yaml`
 - ✅ Direct AWS API calls (no intermediary services)
 
 **Alternatives Considered**:
@@ -495,7 +495,7 @@ These patterns violate our design principles:
 
 ❌ **CLI-only interface with complex flags**
 - Violates DP-1 (Wizard-First)
-- Example: `aws-jupyter launch --instance-type t4g.xlarge --region us-west-2 --env data-science --idle-timeout 2h --connection session-manager --subnet-type public`
+- Example: `lens-jupyter launch --instance-type t4g.xlarge --region us-west-2 --env data-science --idle-timeout 2h --connection session-manager --subnet-type public`
 
 ❌ **Exposing AWS service names to users**
 - Violates DP-6 (Plain-English)

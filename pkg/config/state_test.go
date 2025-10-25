@@ -65,9 +65,9 @@ func TestGetConfigDir(t *testing.T) {
 		t.Error("Config dir should not be empty")
 	}
 
-	// Should end with .lens-jupyter
-	if filepath.Base(configDir) != ".lens-jupyter" {
-		t.Errorf("Expected config dir to end with '.lens-jupyter', got %s", configDir)
+	// Should end with .lens
+	if filepath.Base(configDir) != ".lens" {
+		t.Errorf("Expected config dir to end with '.lens', got %s", configDir)
 	}
 
 	// Should be under home directory
@@ -76,7 +76,7 @@ func TestGetConfigDir(t *testing.T) {
 		t.Fatalf("Failed to get home dir: %v", err)
 	}
 
-	expected := filepath.Join(home, ".lens-jupyter")
+	expected := filepath.Join(home, ".lens")
 	if configDir != expected {
 		t.Errorf("Expected config dir %s, got %s", expected, configDir)
 	}

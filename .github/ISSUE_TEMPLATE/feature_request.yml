@@ -1,5 +1,5 @@
 name: ✨ Feature Request
-description: Suggest a new feature or enhancement for AWS IDE
+description: Suggest a new feature or enhancement for Lens
 title: "[Feature]: "
 labels: ["enhancement", "triage"]
 body:
@@ -14,7 +14,7 @@ body:
       label: Who is this feature for?
       description: |
         Select the primary user persona(s) who would benefit from this feature.
-        See [Persona Walkthroughs](https://github.com/scttfrdmn/aws-ide/tree/main/docs/USER_SCENARIOS) for detailed descriptions.
+        See [Persona Walkthroughs](https://github.com/scttfrdmn/lens/tree/main/docs/USER_SCENARIOS) for detailed descriptions.
       multiple: true
       options:
         - Solo Researcher (individual, limited budget, simple needs)
@@ -31,7 +31,7 @@ body:
     attributes:
       label: Roadmap Phase
       description: |
-        Which development phase does this feature align with? See [ROADMAP.md](https://github.com/scttfrdmn/aws-ide/blob/main/ROADMAP.md) for phase details.
+        Which development phase does this feature align with? See [ROADMAP.md](https://github.com/scttfrdmn/lens/blob/main/ROADMAP.md) for phase details.
       options:
         - "v0.7.0 - User Experience & Accessibility"
         - "v0.8.0 - Additional Research Tools"
@@ -51,9 +51,9 @@ body:
       description: Select all that apply
       multiple: true
       options:
-        - aws-jupyter
-        - aws-rstudio
-        - aws-vscode
+        - lens-jupyter
+        - lens-rstudio
+        - lens-vscode
         - All apps
         - Shared infrastructure (pkg/)
     validations:
@@ -87,7 +87,7 @@ body:
       description: |
         Describe the problem or pain point this feature would address.
         Use "As a [persona], I need [action] because [reason]" format.
-        See [USER_REQUIREMENTS.md](https://github.com/scttfrdmn/aws-ide/blob/main/docs/USER_REQUIREMENTS.md) for examples.
+        See [USER_REQUIREMENTS.md](https://github.com/scttfrdmn/lens/blob/main/docs/USER_REQUIREMENTS.md) for examples.
       placeholder: |
         As a [Solo Researcher/Graduate Student/Lab PI/Instructor/Manager], I need to [action] because [reason].
 
@@ -112,7 +112,7 @@ body:
         
         Example usage:
         \`\`\`bash
-        aws-jupyter launch --new-feature ...
+        lens-jupyter launch --new-feature ...
         \`\`\`
         
         This would allow users to...

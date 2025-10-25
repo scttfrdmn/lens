@@ -63,7 +63,7 @@
 
 ---
 
-## Current Situation (Before AWS IDE)
+## Current Situation (Before Lens)
 
 ### Decentralized Cloud Chaos (2023-2024)
 
@@ -181,13 +181,13 @@
 
 ## Discovery & Evaluation (Fall 2024)
 
-### Jennifer Hears About AWS IDE
+### Jennifer Hears About Lens
 
 **November 2024**: Jennifer attends EDUCAUSE conference
 
 **Session**: "Simplifying Academic Cloud Computing"
 - Speaker: Prof. James Chen (we met him earlier!)
-- Topic: How AWS IDE reduced lab support burden by 90%
+- Topic: How Lens reduced lab support burden by 90%
 - Key points:
   - Auto-stop prevents cost overruns
   - Plain-English interface (faculty don't need AWS expertise)
@@ -261,20 +261,20 @@ aws organizations create-account \
 **Week 2**: Pilot kickoff meeting (all 15 researchers + PIs)
 
 **Jennifer's presentation** (30 minutes):
-> "Welcome to the AWS IDE pilot. Why are we doing this?
+> "Welcome to the Lens pilot. Why are we doing this?
 > 1. **Cost control**: Auto-stop prevents runaway costs
 > 2. **Ease of use**: Wizard guides you through setup - no AWS expertise needed
 > 3. **Security**: Built-in compliance features (Session Manager, audit logs)
 > 4. **Support**: We expect 50% fewer support tickets
 >
-> Your role: Use AWS IDE for 2 months, give us honest feedback."
+> Your role: Use Lens for 2 months, give us honest feedback."
 
 **Researcher questions**:
 
 **Q**: "Can I still use my personal AWS account if I want?"
-**A**: "Yes, but we're asking you to try AWS IDE first. We think you'll prefer it."
+**A**: "Yes, but we're asking you to try Lens first. We think you'll prefer it."
 
-**Q**: "What if I need something AWS IDE doesn't support?"
+**Q**: "What if I need something Lens doesn't support?"
 **A**: "Let us know - we can file feature requests or help with workarounds."
 
 **Q**: "How much does this cost me?"
@@ -283,7 +283,7 @@ aws organizations create-account \
 **Setup session** (1 hour): All 15 researchers install and launch first instance
 
 **Results**:
-- 15 minutes: All 15 researchers have AWS IDE installed
+- 15 minutes: All 15 researchers have Lens installed
 - 25 minutes: 13/15 launched first instance successfully
 - 2 researchers had AWS credential issues (Tom helped, fixed in 10 minutes)
 - **35 minutes**: All 15 researchers have running Jupyter Lab instances
@@ -361,13 +361,13 @@ Security officer (Carlos) audits all 15 pilot researcher accounts:
 **Pass rate**: 13/15 (87%) vs baseline 40% in personal AWS accounts
 
 **Carlos's assessment**:
-> "This is a massive improvement. Session Manager alone eliminates my #1 security concern (SSH key leaks). CloudTrail gives me audit logs for compliance. The 2 failures are researcher education issues, not AWS IDE problems. I recommend campus-wide rollout with security training."
+> "This is a massive improvement. Session Manager alone eliminates my #1 security concern (SSH key leaks). CloudTrail gives me audit logs for compliance. The 2 failures are researcher education issues, not Lens problems. I recommend campus-wide rollout with security training."
 
 ### Qualitative Feedback
 
 **Researcher survey** (end of February):
 
-**Question**: "How satisfied are you with AWS IDE?"
+**Question**: "How satisfied are you with Lens?"
 
 | Response | Count | % |
 |----------|-------|---|
@@ -394,7 +394,7 @@ Security officer (Carlos) audits all 15 pilot researcher accounts:
 
 **Prof. Patel (Engineering)**: "My group loves it. The auto-stop feature gives me peace of mind. We're training neural networks without worrying about forgot-to-terminate disasters."
 
-**Prof. Johnson (Public Health)**: "Security audit passed - that's a first for our group. Previously we avoided cloud because HIPAA compliance was too complex. AWS IDE makes it straightforward."
+**Prof. Johnson (Public Health)**: "Security audit passed - that's a first for our group. Previously we avoided cloud because HIPAA compliance was too complex. Lens makes it straightforward."
 
 ---
 
@@ -404,7 +404,7 @@ Security officer (Carlos) audits all 15 pilot researcher accounts:
 
 **Jennifer to CIO** (March 15, 2025):
 
-**Memo**: "AWS IDE Pilot Results & Recommendation"
+**Memo**: "Lens Pilot Results & Recommendation"
 
 **Executive Summary**:
 - **Support tickets**: 87% reduction (200 → 26 tickets/month)
@@ -424,7 +424,7 @@ Security officer (Carlos) audits all 15 pilot researcher accounts:
 - Support team overwhelmed (2,400 tickets/year, 6-week backlog)
 - Faculty frustrated (complex AWS, long turnaround, fear of cost overruns)
 
-**Slide 2**: AWS IDE Solution
+**Slide 2**: Lens Solution
 - Centralized platform with distributed autonomy
 - Auto-stop prevents cost overruns (100% elimination in pilot)
 - Plain-English interface (87% support ticket reduction)
@@ -449,7 +449,7 @@ Security officer (Carlos) audits all 15 pilot researcher accounts:
 
 **Slide 6**: Recommendation
 - Approve $800,000/year AWS budget
-- Mandate AWS IDE for all institutional cloud computing (phase out personal accounts over 12 months)
+- Mandate Lens for all institutional cloud computing (phase out personal accounts over 12 months)
 - Hire 1 additional cloud architect (backfill for support reduction)
 
 **Provost questions**:
@@ -458,7 +458,7 @@ Security officer (Carlos) audits all 15 pilot researcher accounts:
 **A**: "Security and compliance. We can't audit what we don't control. After 2 HIPAA/export control incidents last year, we need institutional oversight."
 
 **Q**: "What if faculty resist?"
-**A**: "Pilot feedback was 93% positive. We're making it easier, not harder. Faculty want simple, safe, budget-friendly cloud - AWS IDE delivers."
+**A**: "Pilot feedback was 93% positive. We're making it easier, not harder. Faculty want simple, safe, budget-friendly cloud - Lens delivers."
 
 **Q**: "What about the $800K budget?"
 **A**: "We're already spending ~$430K with limited visibility. $800K gives us headroom to support 3x more researchers with full control. And we're saving $270K/year in support costs."
@@ -580,7 +580,7 @@ aws cur put-report-definition \
   --report-definition '{ ... }'
 ```
 
-#### 4. AWS IDE Environment Catalog
+#### 4. Lens Environment Catalog
 
 **Jennifer's team creates domain-specific environments**:
 
@@ -612,7 +612,7 @@ aws cur put-report-definition \
 
 #### 1. Documentation Website
 
-Jennifer's team creates: **research-computing.university.edu/aws-ide**
+Jennifer's team creates: **research-computing.university.edu/lens**
 
 **Pages**:
 - Quick Start (15-minute setup guide)
@@ -626,14 +626,14 @@ Jennifer's team creates: **research-computing.university.edu/aws-ide**
 #### 2. Training Sessions
 
 **Weekly workshops** (May-August):
-- "AWS IDE 101" (Tuesdays, 2-3 PM) - for beginners
-- "Advanced AWS IDE" (Thursdays, 2-3 PM) - for experts
+- "Lens 101" (Tuesdays, 2-3 PM) - for beginners
+- "Advanced Lens" (Thursdays, 2-3 PM) - for experts
 - Attendance: 300+ researchers over 4 months
 
 #### 3. Faculty Champions Program
 
 **Jennifer recruits 10 faculty "champions"** (including pilot PIs):
-- Each champions AWS IDE in their college
+- Each champions Lens in their college
 - Provides peer support to colleagues
 - Attends monthly "champion meetings" with Jennifer
 - Incentive: $1,000 professional development fund
@@ -641,10 +641,10 @@ Jennifer's team creates: **research-computing.university.edu/aws-ide**
 #### 4. Email Campaign
 
 **Monthly emails** to all faculty/grad students:
-- May: "AWS IDE is here - get started in 15 minutes"
+- May: "Lens is here - get started in 15 minutes"
 - June: "Success stories from your colleagues"
-- July: "AWS IDE saves researchers $150K in cost overruns"
-- August: "Join 500+ researchers already using AWS IDE"
+- July: "Lens saves researchers $150K in cost overruns"
+- August: "Join 500+ researchers already using Lens"
 
 ### Phase 3: Adoption Tracking (May-August 2025)
 
@@ -695,14 +695,14 @@ Jennifer's team creates: **research-computing.university.edu/aws-ide**
 
 ### Cost Visibility & Control
 
-**Before AWS IDE** (FY 2024):
+**Before Lens** (FY 2024):
 - Central account spending: $180,000 (known)
 - Departmental accounts: $250,000 (estimated from finance reports)
 - Personal accounts: Unknown ($50,000-500,000 range)
 - **Total estimated**: $430,000-930,000/year
 - **Visibility**: ~40%
 
-**After AWS IDE** (FY 2025, projected):
+**After Lens** (FY 2025, projected):
 - All spending in central account: 100% visible
 - Actual spending (first 6 months): $355,600
 - Projected annual: $711,200
@@ -722,7 +722,7 @@ Jennifer's team creates: **research-computing.university.edu/aws-ide**
 
 **Security audit results** (August 2025):
 
-| Metric | Before AWS IDE | After AWS IDE | Improvement |
+| Metric | Before Lens | After Lens | Improvement |
 |--------|---------------|---------------|-------------|
 | Instances with Session Manager | 45% | 98% | +118% |
 | Instances in private subnets (HIPAA) | 60% | 100% | +67% |
@@ -773,12 +773,12 @@ Jennifer's team creates: **research-computing.university.edu/aws-ide**
 
 **ORC team survey** (anonymous):
 
-**Before AWS IDE** (FY 2024):
+**Before Lens** (FY 2024):
 - Workload: 4.8/10 (overwhelming)
 - Job satisfaction: 5.2/10 (burnout)
 - Considering leaving: 62.5% (5/8 staff)
 
-**After AWS IDE** (FY 2025):
+**After Lens** (FY 2025):
 - Workload: 7.5/10 (manageable)
 - Job satisfaction: 8.2/10 (engaged)
 - Considering leaving: 12.5% (1/8 staff, unrelated reason - spouse relocation)
@@ -796,7 +796,7 @@ Jennifer's team creates: **research-computing.university.edu/aws-ide**
 |----------|-------|-------|
 | **Costs** | | |
 | AWS spending | $711,200 | All researchers combined |
-| AWS IDE licenses | $0 | Open source |
+| Lens licenses | $0 | Open source |
 | Additional staff | $0 | No new hires needed (support reduction) |
 | **Subtotal Costs** | **$711,200** | |
 | | | |
@@ -818,7 +818,7 @@ Jennifer's team creates: **research-computing.university.edu/aws-ide**
 
 **Papers published** (FY 2025 vs FY 2024):
 - Papers with "computational analysis" in methods: 340 (vs 280 in FY 2024) = +21%
-- Papers acknowledging AWS IDE: 85 (new)
+- Papers acknowledging Lens: 85 (new)
 - Papers with reproducible environments (supplementary materials): 62 (vs 15 in FY 2024) = +313%
 
 **Grant success rate**:
@@ -834,7 +834,7 @@ Jennifer's team creates: **research-computing.university.edu/aws-ide**
 **Recruit faculty candidates** (spring 2025 hiring):
 
 **Before**: "Do you have GPU cluster access?"
-**Now**: "Do you have cloud computing support?" → "Yes, full AWS access with institutional support via AWS IDE"
+**Now**: "Do you have cloud computing support?" → "Yes, full AWS access with institutional support via Lens"
 
 **Faculty retention**:
 - 3 faculty cited research computing infrastructure as reason to stay (retention bonuses totaling $450K)
@@ -869,7 +869,7 @@ Jennifer's team creates: **research-computing.university.edu/aws-ide**
 
 **Challenge 3**: HPC-cloud hybrid workflows
 - **Solution**: Built connectors between on-prem cluster and AWS (data transfer, job submission)
-- **Result**: Researchers use HPC for big jobs, AWS IDE for interactive analysis
+- **Result**: Researchers use HPC for big jobs, Lens for interactive analysis
 
 **Challenge 4**: GPU quota limits
 - **Solution**: Implemented approval workflow for GPU instances (5-minute turnaround)
@@ -877,12 +877,12 @@ Jennifer's team creates: **research-computing.university.edu/aws-ide**
 
 ### Organizational Changes
 
-**Before AWS IDE**:
+**Before Lens**:
 - ORC team: 100% reactive (responding to tickets)
 - Support model: "Help researchers figure out AWS"
 - Satisfaction: 50% (faculty frustrated, staff burned out)
 
-**After AWS IDE**:
+**After Lens**:
 - ORC team: 70% proactive (building infrastructure, curating environments, training)
 - Support model: "Enable researcher self-sufficiency"
 - Satisfaction: 90% faculty, 82% staff
@@ -1004,7 +1004,7 @@ Key: Grant, Value: NSF-12345
 ```
 
 **Automated tagging**:
-- AWS IDE auto-tags instances with user info
+- Lens auto-tags instances with user info
 - Lambda function enriches tags with department/PI from LDAP
 - Cost Allocation Tags enabled in billing
 
@@ -1045,7 +1045,7 @@ Key: Grant, Value: NSF-12345
 
 ## Conclusion
 
-AWS IDE transformed the university's research computing infrastructure from decentralized chaos to centralized visibility with distributed autonomy:
+Lens transformed the university's research computing infrastructure from decentralized chaos to centralized visibility with distributed autonomy:
 
 ### Key Outcomes (12 Months)
 - ✅ **83% support ticket reduction** (2,400 → 400 tickets/year)
@@ -1089,8 +1089,8 @@ AWS IDE transformed the university's research computing infrastructure from dece
 - Institution: From hidden cloud sprawl to managed platform
 
 **Jennifer's reflection** (12-month retrospective):
-> "One year ago, we had no visibility into cloud spending, 3 security incidents, and an overwhelmed support team. Today, we support 550+ researchers with 100% cost visibility, zero incidents, and a happy team. AWS IDE didn't just solve our technical problems - it changed how we think about research computing. We went from trying to control everything to enabling autonomy within smart guardrails. That's the future of academic IT."
+> "One year ago, we had no visibility into cloud spending, 3 security incidents, and an overwhelmed support team. Today, we support 550+ researchers with 100% cost visibility, zero incidents, and a happy team. Lens didn't just solve our technical problems - it changed how we think about research computing. We went from trying to control everything to enabling autonomy within smart guardrails. That's the future of academic IT."
 
-Jennifer represents the **Research Computing Manager persona**: institutional-level oversight, managing hundreds of researchers, balancing security/compliance with researcher autonomy, limited support staff, need for cost visibility and control. AWS IDE addresses all requirements while transforming IT from bottleneck to enabler.
+Jennifer represents the **Research Computing Manager persona**: institutional-level oversight, managing hundreds of researchers, balancing security/compliance with researcher autonomy, limited support staff, need for cost visibility and control. Lens addresses all requirements while transforming IT from bottleneck to enabler.
 
 **Related GitHub Issues**: #12, #13, #14, #15, #16, #17, #19, #20, #21, #28, #29

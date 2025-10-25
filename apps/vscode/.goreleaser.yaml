@@ -1,15 +1,15 @@
 version: 2
 
-project_name: aws-vscode
+project_name: lens-vscode
 
 before:
   hooks:
     - go mod tidy
 
 builds:
-  - id: aws-vscode
-    main: ./cmd/aws-vscode
-    binary: aws-vscode
+  - id: lens-vscode
+    main: ./cmd/lens-vscode
+    binary: lens-vscode
     dir: .
     env:
       - CGO_ENABLED=0
@@ -29,9 +29,9 @@ builds:
 archives:
   - id: vscode
     builds:
-      - aws-vscode
+      - lens-vscode
     name_template: >-
-      aws-vscode_
+      lens-vscode_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
@@ -51,7 +51,7 @@ archives:
           - zip
 
 checksum:
-  name_template: 'aws-vscode_checksums.txt'
+  name_template: 'lens-vscode_checksums.txt'
 
 snapshot:
   version_template: "{{ incpatch .Version }}-next"
@@ -79,43 +79,43 @@ changelog:
 release:
   github:
     owner: scttfrdmn
-    name: aws-ide
+    name: lens
   draft: false
   prerelease: auto
   mode: append
-  name_template: "aws-vscode {{.Version}}"
+  name_template: "lens-vscode {{.Version}}"
   header: |
-    ## aws-vscode {{.Version}} ({{ .Date }})
+    ## lens-vscode {{.Version}} ({{ .Date }})
 
     CLI tool for launching VSCode Server (code-server) instances on AWS EC2 Graviton processors.
 
-    ### What's Changed in aws-vscode
+    ### What's Changed in lens-vscode
   footer: |
     ## Installation
 
     ### Homebrew (macOS/Linux)
     ```bash
-    brew install scttfrdmn/tap/aws-vscode
+    brew install scttfrdmn/tap/lens-vscode
     ```
 
     ### Direct Download
     Download the appropriate binary for your platform from the assets above.
 
-    See the [CHANGELOG](https://github.com/scttfrdmn/aws-ide/blob/{{.Tag}}/CHANGELOG.md) for detailed release notes.
+    See the [CHANGELOG](https://github.com/scttfrdmn/lens/blob/{{.Tag}}/CHANGELOG.md) for detailed release notes.
 
 brews:
-  - name: aws-vscode
+  - name: lens-vscode
     ids:
       - vscode
     repository:
       owner: scttfrdmn
       name: homebrew-tap
-    homepage: https://github.com/scttfrdmn/aws-ide
+    homepage: https://github.com/scttfrdmn/lens
     description: CLI tool for launching VSCode Server (code-server) instances on AWS EC2 Graviton processors
     license: Apache-2.0
     folder: Formula
     install: |
-      bin.install "aws-vscode"
+      bin.install "lens-vscode"
 
       # Install environment templates
       pkgshare.install Dir["environments/*.yaml"]
@@ -124,4 +124,4 @@ brews:
         (pkgshare/"environments").install env
       end
     test: |
-      system "#{bin}/aws-vscode", "--version"
+      system "#{bin}/lens-vscode", "--version"

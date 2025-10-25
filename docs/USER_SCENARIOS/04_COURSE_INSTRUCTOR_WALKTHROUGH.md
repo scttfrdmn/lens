@@ -55,7 +55,7 @@
 
 ---
 
-## Current Situation (Before AWS IDE)
+## Current Situation (Before Lens)
 
 ### Previous Teaching Approach (Fall 2024)
 
@@ -174,23 +174,23 @@
 
 ---
 
-## AWS IDE Workflow (Spring 2025)
+## Lens Workflow (Spring 2025)
 
 ### Pre-Semester Preparation
 
-#### December 2024: Prof. Lee Discovers AWS IDE
+#### December 2024: Prof. Lee Discovers Lens
 
-**Conference talk**: Hears Prof. Chen present on using AWS IDE for teaching
+**Conference talk**: Hears Prof. Chen present on using Lens for teaching
 **Intrigued**: "Auto-stop would solve budget concerns. Identical environments would solve 'works on my machine'."
 
 **Evaluation** (Christmas break):
 
 ```bash
 # Prof. Lee tests on personal MacBook
-brew install aws-jupyter
+brew install lens-jupyter
 
 # Launches with wizard
-aws-jupyter
+lens-jupyter
 
 # Estimates costs
 # 30 students × 3 hours/week × 15 weeks × $0.05/hour = $675
@@ -269,7 +269,7 @@ EOF
 
 ```bash
 # TAs each launch environment
-aws-jupyter launch --env cs301-data-science-spring2025.yaml --instance-type t4g.medium
+lens-jupyter launch --env cs301-data-science-spring2025.yaml --instance-type t4g.medium
 
 # Output (2 minutes later):
 ✓ Your environment is ready!
@@ -293,7 +293,7 @@ aws-jupyter launch --env cs301-data-science-spring2025.yaml --instance-type t4g.
 #### Tuesday Lecture (Jan 14, 2025)
 
 **Prof. Lee's introduction**:
-> "Welcome to CS 301! This semester, we're using AWS IDE - cloud-based Jupyter Lab. Why cloud?
+> "Welcome to CS 301! This semester, we're using Lens - cloud-based Jupyter Lab. Why cloud?
 > 1. **No installation headaches**: No Anaconda, no 'works on my machine' problems
 > 2. **Identical environments**: Everyone has the exact same packages
 > 3. **More powerful**: Cloud instances faster than most laptops
@@ -315,7 +315,7 @@ aws-jupyter launch --env cs301-data-science-spring2025.yaml --instance-type t4g.
 
 **Step 1** (5 minutes): "Everyone go to github.com/university-cs/cs301-spring2025"
 - Repository has installation instructions for Mac, Windows, Linux
-- Students install AWS IDE (Homebrew, Scoop, apt)
+- Students install Lens (Homebrew, Scoop, apt)
 
 **Step 2** (10 minutes): "Now we set up AWS credentials"
 - Prof. Lee projects screen
@@ -329,7 +329,7 @@ aws-jupyter launch --env cs301-data-science-spring2025.yaml --instance-type t4g.
 
 ```bash
 # Prof. Lee projects command
-aws-jupyter launch --env cs301-data-science-spring2025.yaml
+lens-jupyter launch --env cs301-data-science-spring2025.yaml
 ```
 
 **Real-time results**:
@@ -372,9 +372,9 @@ plt.show()
 **Prof. Lee's closing** (5 minutes):
 > "Great! You're all set up. A few important things:
 > - Your instance will auto-stop after 2 hours idle. This is good - saves money.
-> - When you're done working, run: `aws-jupyter stop`
-> - To restart next time: `aws-jupyter start`
-> - Check your costs anytime: `aws-jupyter costs`
+> - When you're done working, run: `lens-jupyter stop`
+> - To restart next time: `lens-jupyter start`
+> - Check your costs anytime: `lens-jupyter costs`
 >
 > Next Tuesday, we dive into pandas DataFrames. See you then!"
 
@@ -395,7 +395,7 @@ plt.show()
 - **No office hours queue** for "my setup is broken"
 
 **Thursday lab**:
-- Students arrive, restart instances: `aws-jupyter start` (30 seconds)
+- Students arrive, restart instances: `lens-jupyter start` (30 seconds)
 - 50 minutes: Hands-on exercises
 - End of lab: "Remember to stop your instances!"
 
@@ -404,7 +404,7 @@ plt.show()
 - Tuesday: Teach lecture
 - Wednesday: Office hours (concepts only, no troubleshooting)
 - Thursday: Teach lab
-- Friday: Grade assignments (by running student code in own AWS IDE instance)
+- Friday: Grade assignments (by running student code in own Lens instance)
 
 **Time spent on infrastructure**: ~0 hours/week (vs 4 hours/week previously)
 
@@ -424,7 +424,7 @@ plt.show()
 **Comparison to nightmare scenario**:
 - If no auto-stop: 72 hours × $0.0336/hr = $2.42
 - If student used expensive instance (t3.xlarge): 72 hours × $0.1664/hr = $11.98
-- **With AWS IDE auto-stop**: $0.57 (95% cost avoidance)
+- **With Lens auto-stop**: $0.57 (95% cost avoidance)
 
 **Prof. Lee's takeaway**: "Auto-stop just saved a student from a $12 mistake. This is protecting my budget."
 
@@ -438,7 +438,7 @@ plt.show()
 
 ```bash
 # Monday: Student starts assignment
-aws-jupyter start  # 30 seconds
+lens-jupyter start  # 30 seconds
 
 # Open Jupyter, work for 2 hours
 # Write scraping script, test on website
@@ -452,27 +452,27 @@ aws-jupyter start  # 30 seconds
 
 ```bash
 # Restart instance
-aws-jupyter start  # 30 seconds
+lens-jupyter start  # 30 seconds
 
 # Continue working (2 hours)
 # Finish analysis, create visualizations
 # Download final notebook
 
 # Stop manually
-aws-jupyter stop
+lens-jupyter stop
 ```
 
 **Key points**:
 - **Zero "works on my machine"**: All 30 students have identical environments
 - **No package installation friction**: Beautiful Soup pre-installed
-- **Reproducibility**: Prof. Lee can run any student's notebook in his own AWS IDE instance
+- **Reproducibility**: Prof. Lee can run any student's notebook in his own Lens instance
 
 **Grading experience** (Friday):
 
 Prof. Lee launches his instance with course environment:
 
 ```bash
-aws-jupyter launch --env cs301-data-science-spring2025.yaml
+lens-jupyter launch --env cs301-data-science-spring2025.yaml
 ```
 
 - Uploads first student's notebook
@@ -493,12 +493,12 @@ aws-jupyter launch --env cs301-data-science-spring2025.yaml
 - Training took 6 hours on CPU → many students couldn't complete
 - Prof. Lee watered down project to fit Colab constraints
 
-**This semester (AWS IDE)**:
+**This semester (Lens)**:
 
 Students use GPU instances:
 
 ```bash
-aws-jupyter launch --instance-type g4dn.xlarge --env cs301-data-science-spring2025.yaml
+lens-jupyter launch --instance-type g4dn.xlarge --env cs301-data-science-spring2025.yaml
 ```
 
 **Configuration**:
@@ -569,13 +569,13 @@ aws-jupyter launch --instance-type g4dn.xlarge --env cs301-data-science-spring20
 
 ### Pain #1: Installation Hell (Week 1 Chaos)
 
-**Before AWS IDE**:
+**Before Lens**:
 - Week 1: 8 hours troubleshooting 27/30 students' installations
 - MacOS M1/M2: ARM64 package conflicts
 - Windows: PATH issues, antivirus interference
 - Ongoing: 60 hours/semester helping students fix broken environments
 
-**With AWS IDE**:
+**With Lens**:
 - Week 1: 18 minutes to get 30/30 students working
 - Zero OS-specific issues (cloud instances are Linux-based)
 - Ongoing: 0 hours environment troubleshooting
@@ -592,13 +592,13 @@ aws-jupyter launch --instance-type g4dn.xlarge --env cs301-data-science-spring20
 
 ### Pain #2: "Works on My Machine" Syndrome
 
-**Before AWS IDE**:
+**Before Lens**:
 - Every assignment: 5-10 students couldn't run example code
 - Different Anaconda versions, package conflicts
 - Grading nightmare: Prof. Lee couldn't run student code 30% of the time
 - Collaboration impossible (students had different environments)
 
-**With AWS IDE**:
+**With Lens**:
 - All 30 students have byte-for-byte identical environments
 - Example code runs on everyone's machine
 - Grading seamless: Prof. Lee launches same environment, runs all notebooks successfully
@@ -622,13 +622,13 @@ aws-jupyter launch --instance-type g4dn.xlarge --env cs301-data-science-spring20
 
 ### Pain #3: Colab Limitations and Disconnections
 
-**Before AWS IDE (using Colab)**:
+**Before Lens (using Colab)**:
 - Disconnections every 90 minutes (lost work, frustration)
 - GPU quota limits (final projects limited)
 - Inconsistent environment (auto-updates broke assignments mid-semester)
 - Cannot install custom packages persistently
 
-**With AWS IDE**:
+**With Lens**:
 - Sessions persist until manually stopped (students work 4+ hours uninterrupted)
 - Dedicated GPU (no quotas, no throttling)
 - Frozen environment (package versions locked for semester)
@@ -637,7 +637,7 @@ aws-jupyter launch --instance-type g4dn.xlarge --env cs301-data-science-spring20
 **Real example** (Final project):
 - Student training neural network (1.5 hours)
 - Colab would have disconnected 2× (lost training progress)
-- AWS IDE: Uninterrupted training, model completes
+- Lens: Uninterrupted training, model completes
 - Cost: $0.79 (1.5 hours × $0.526/hr)
 
 **Success Metric**:
@@ -652,12 +652,12 @@ aws-jupyter launch --instance-type g4dn.xlarge --env cs301-data-science-spring20
 
 ### Pain #4: Budget Anxiety and Cost Overruns
 
-**Before AWS IDE**:
+**Before Lens**:
 - No AWS usage (previous semester) due to fear of student cost overruns
 - Colab "free" but severe limitations
 - Anaconda "free" but 8 hours Week 1 setup = $800 value of Prof. Lee's time
 
-**With AWS IDE**:
+**With Lens**:
 - Auto-stop prevents cost overruns
 - Spent $249 of $2,000 budget (87.5% under)
 - GPU usage possible within budget
@@ -683,13 +683,13 @@ aws-jupyter launch --instance-type g4dn.xlarge --env cs301-data-science-spring20
 
 ### Pain #5: Grading Burden and Academic Integrity
 
-**Before AWS IDE**:
+**Before Lens**:
 - 30% of student code wouldn't run on Prof. Lee's machine (different environments)
 - Spent 2-3 hours per assignment troubleshooting why code won't run
 - Academic integrity concerns: Did student actually write this, or copy from web? (Can't verify if code doesn't run)
 - Grading time: 10 hours/assignment (5 hours running code + 5 hours actual grading)
 
-**With AWS IDE**:
+**With Lens**:
 - Prof. Lee launches identical environment
 - All student code runs perfectly
 - Can execute every student's notebook start-to-finish
@@ -699,7 +699,7 @@ aws-jupyter launch --instance-type g4dn.xlarge --env cs301-data-science-spring20
 
 ```bash
 # Prof. Lee Friday afternoon
-aws-jupyter launch --env cs301-data-science-spring2025.yaml
+lens-jupyter launch --env cs301-data-science-spring2025.yaml
 
 # Download all 30 student notebooks from LMS
 # Run each notebook:
@@ -708,7 +708,7 @@ aws-jupyter launch --env cs301-data-science-spring2025.yaml
 # - Grade
 
 # Stop instance
-aws-jupyter stop
+lens-jupyter stop
 ```
 
 **Grading time**: 3 hours (vs 10 hours previously)
@@ -728,7 +728,7 @@ aws-jupyter stop
 
 ### Teaching Quality Impact
 
-| Metric | Fall 2024 (Colab/Anaconda) | Spring 2025 (AWS IDE) | Improvement |
+| Metric | Fall 2024 (Colab/Anaconda) | Spring 2025 (Lens) | Improvement |
 |--------|----------------------------|----------------------|-------------|
 | Week 1 setup time | 8 hours | 18 minutes | 96% faster |
 | Students working after Week 1 | 27/30 (90%) | 30/30 (100%) | +10% |
@@ -741,7 +741,7 @@ aws-jupyter stop
 
 **End-of-semester course evaluation**:
 
-**Question**: "The course computing environment (AWS IDE) was:"
+**Question**: "The course computing environment (Lens) was:"
 
 | Response | Count | % |
 |----------|-------|---|
@@ -752,14 +752,14 @@ aws-jupyter stop
 
 **Student comments**:
 - "Way better than Anaconda hell last semester (I took CS 201). Setup took 15 minutes, everything just worked."
-- "I'm on a Windows laptop and usually have package problems. AWS IDE saved me so much frustration."
+- "I'm on a Windows laptop and usually have package problems. Lens saved me so much frustration."
 - "Auto-stop is genius - I forgot to stop twice and it only cost like 10 cents total."
 - "Being able to use GPUs for final project was amazing. Would have been impossible on my laptop."
 - "Prof. Lee actually taught data science instead of spending time troubleshooting installations."
 
 **Negative feedback** (1 student):
 - "I wish we could keep our environments after semester ends. Mine auto-deleted after 30 days."
-  - Prof. Lee's note: This is AWS IDE default cleanup, could be configured differently
+  - Prof. Lee's note: This is Lens default cleanup, could be configured differently
 
 ### Budget Performance
 
@@ -772,9 +772,9 @@ aws-jupyter stop
 **Department Chair reaction**:
 > "David, you submitted $249 in cloud computing expenses for a 30-student course. Your budget was $2,000. Can you explain?"
 >
-> **Prof. Lee**: "AWS IDE has auto-stop built-in, so students only pay for time actually used. Plus ARM-based instances are cheaper. We accomplished more than last semester (GPU-enabled final projects) at 12% of budget."
+> **Prof. Lee**: "Lens has auto-stop built-in, so students only pay for time actually used. Plus ARM-based instances are cheaper. We accomplished more than last semester (GPU-enabled final projects) at 12% of budget."
 >
-> **Chair**: "This is impressive. I'm approving your request to use AWS IDE for CS 402 (Machine Learning) next fall. That course needs GPUs heavily - let's budget $3,000 and see where you land."
+> **Chair**: "This is impressive. I'm approving your request to use Lens for CS 402 (Machine Learning) next fall. That course needs GPUs heavily - let's budget $3,000 and see where you land."
 
 ### Prof. Lee's Time Savings
 
@@ -789,7 +789,7 @@ aws-jupyter stop
 **ROI Analysis**:
 - Time saved: 157.7 hours
 - Value @ $50/hour (teaching rate): **$7,885**
-- AWS IDE cost: $249
+- Lens cost: $249
 - **Net value**: $7,885 - $249 = **$7,636 (3,066% ROI)**
 
 **Prof. Lee's quality of life**:
@@ -818,9 +818,9 @@ aws-jupyter stop
 - Don't move forward until 100% students working
 
 **Ongoing**: "Stop Reminder Routine"
-- End every lab session with: "Remember: `aws-jupyter stop`"
+- End every lab session with: "Remember: `lens-jupyter stop`"
 - Emphasize auto-stop is safety net, not primary shutdown method
-- Weekly cost check-in: "Run `aws-jupyter costs` and make sure you're under $15/month"
+- Weekly cost check-in: "Run `lens-jupyter costs` and make sure you're under $15/month"
 
 **Grading**: "Run Every Notebook"
 - Launch course environment
@@ -832,12 +832,12 @@ aws-jupyter stop
 1. **Class management dashboard** (feature request):
    - Prof. Lee wants to see all 30 students' instances at once
    - Current: Must ask students individually
-   - Desired: `aws-jupyter class-status --students cs301-roster.csv`
+   - Desired: `lens-jupyter class-status --students cs301-roster.csv`
 
 2. **Bulk environment distribution** (#16):
    - Current: Students manually launch with `--env` flag
    - Desired: Prof. Lee provisions 30 accounts with environment pre-configured
-   - Students just run `aws-jupyter start` on Day 1
+   - Students just run `lens-jupyter start` on Day 1
 
 3. **Cost limits per student** (#19):
    - Current: Honor system ($15/month guideline)
@@ -850,7 +850,7 @@ aws-jupyter stop
 
 5. **Assignment templates** (feature request):
    - Desired: Pre-configured notebooks with starter code
-   - Distribute via `aws-jupyter assignment import week03-assignment.ipynb`
+   - Distribute via `lens-jupyter assignment import week03-assignment.ipynb`
 
 ---
 
@@ -898,7 +898,7 @@ aws-jupyter stop
 
 ## Conclusion
 
-AWS IDE transformed Prof. Lee's teaching experience from "IT support technician" to "data science educator":
+Lens transformed Prof. Lee's teaching experience from "IT support technician" to "data science educator":
 
 ### Key Outcomes
 - ✅ **96% setup time reduction** (8 hours → 18 minutes)
@@ -911,7 +911,7 @@ AWS IDE transformed Prof. Lee's teaching experience from "IT support technician"
 ### ROI Summary
 - **Time value**: $7,885 (157 hours × $50/hour)
 - **Budget savings**: $1,751 (returned to department)
-- **AWS IDE cost**: $249
+- **Lens cost**: $249
 - **Net value**: $9,636 benefit
 - **ROI**: 3,869%
 
@@ -923,13 +923,13 @@ AWS IDE transformed Prof. Lee's teaching experience from "IT support technician"
 5. **GPU access**: Challenging final projects possible
 
 **Prof. Lee's quote** (end of semester):
-> "I've taught this course 4 times. This was the best semester yet. I actually taught data science instead of troubleshooting package installations. Students completed more challenging projects (GPU-enabled neural networks) at lower cost ($249 vs $2,000 budget). And I got 157 hours back - that's 4 weeks of my life I can spend on research, advising, or family. AWS IDE should be the standard for teaching data science."
+> "I've taught this course 4 times. This was the best semester yet. I actually taught data science instead of troubleshooting package installations. Students completed more challenging projects (GPU-enabled neural networks) at lower cost ($249 vs $2,000 budget). And I got 157 hours back - that's 4 weeks of my life I can spend on research, advising, or family. Lens should be the standard for teaching data science."
 
 **Department adoption**:
-- Fall 2025: 3 more CS professors adopting AWS IDE for their courses
+- Fall 2025: 3 more CS professors adopting Lens for their courses
 - Department now budgeting centrally ($10,000/year for all courses)
-- University IT considering campus-wide AWS IDE deployment
+- University IT considering campus-wide Lens deployment
 
-Prof. Lee represents the **Course Instructor persona**: teaching 30+ students with diverse technical backgrounds and OS environments, tight budget, no time for infrastructure support, needs reproducibility for grading and academic integrity. AWS IDE addresses all requirements while saving massive time and money.
+Prof. Lee represents the **Course Instructor persona**: teaching 30+ students with diverse technical backgrounds and OS environments, tight budget, no time for infrastructure support, needs reproducibility for grading and academic integrity. Lens addresses all requirements while saving massive time and money.
 
 **Related GitHub Issues**: #1, #2, #4, #12, #13, #16, #19, #20, #28

@@ -330,7 +330,7 @@ aws-qgis terminate <instance-id>
 
 **Current Apps**:
 ```bash
-aws-jupyter connect i-xxxxx
+lens-jupyter connect i-xxxxx
 # → SSM/SSH port forward localhost:8888 → instance:8888
 # → Open http://localhost:8888
 # → User sees Jupyter immediately
@@ -504,7 +504,7 @@ wget https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2023.12.0-daily-a
 sudo apt install ./rstudio-2023.12.0-daily-amd64.deb
 ```
 
-**Note**: This would be an alternative to the existing aws-rstudio (Server version). May not be worth the complexity since RStudio Server is excellent.
+**Note**: This would be an alternative to the existing lens-rstudio (Server version). May not be worth the complexity since RStudio Server is excellent.
 
 ---
 

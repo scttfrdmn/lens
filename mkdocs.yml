@@ -1,9 +1,9 @@
-site_name: AWS IDE Documentation
-site_url: https://scttfrdmn.github.io/aws-ide
+site_name: Lens Documentation
+site_url: https://scttfrdmn.github.io/lens
 site_description: Cloud-based development environments for academic research
 site_author: Scott Friedman
-repo_url: https://github.com/scttfrdmn/aws-ide
-repo_name: scttfrdmn/aws-ide
+repo_url: https://github.com/scttfrdmn/lens
+repo_name: scttfrdmn/lens
 edit_uri: edit/main/docs/
 
 theme:
@@ -107,9 +107,9 @@ markdown_extensions:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/scttfrdmn/aws-ide
+      link: https://github.com/scttfrdmn/lens
     - icon: fontawesome/solid/comments
-      link: https://github.com/scttfrdmn/aws-ide/discussions
+      link: https://github.com/scttfrdmn/lens/discussions
   version:
     provider: mike
     default: latest
@@ -136,9 +136,9 @@ nav:
       - Quick Start: getting-started/quickstart.md
       - AWS Setup: getting-started/aws-setup.md
   - User Guides:
-      - aws-jupyter: user-guides/jupyter.md
-      - aws-rstudio: user-guides/rstudio.md
-      - aws-vscode: user-guides/vscode.md
+      - lens-jupyter: user-guides/jupyter.md
+      - lens-rstudio: user-guides/rstudio.md
+      - lens-vscode: user-guides/vscode.md
       - Environments: user-guides/environments.md
       - Cost Management: user-guides/cost-management.md
       - Troubleshooting: user-guides/troubleshooting.md
@@ -157,8 +157,8 @@ nav:
       - ML Training: examples/ml-training.md
       - Bioinformatics: examples/bioinformatics.md
   - About:
-      - Roadmap: https://github.com/scttfrdmn/aws-ide/blob/main/ROADMAP.md
-      - Changelog: https://github.com/scttfrdmn/aws-ide/blob/main/CHANGELOG.md
-      - License: https://github.com/scttfrdmn/aws-ide/blob/main/LICENSE
+      - Roadmap: https://github.com/scttfrdmn/lens/blob/main/ROADMAP.md
+      - Changelog: https://github.com/scttfrdmn/lens/blob/main/CHANGELOG.md
+      - License: https://github.com/scttfrdmn/lens/blob/main/LICENSE
 
 copyright: Copyright &copy; 2025 Scott Friedman

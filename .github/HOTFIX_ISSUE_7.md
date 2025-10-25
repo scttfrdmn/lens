@@ -1,6 +1,6 @@
 # Hotfix Plan: Issue #7 - State Changes Not Recorded
 
-**Issue:** https://github.com/scttfrdmn/aws-ide/issues/7
+**Issue:** https://github.com/scttfrdmn/lens/issues/7
 **Priority:** 🔥 CRITICAL
 **Date:** 2025-10-25
 **Status:** ✅ COMPLETED
@@ -216,7 +216,7 @@ Added 4 comprehensive test functions:
 === RUN   TestStateChange_EmptyStateString
 --- PASS: TestStateChange_EmptyStateString (0.00s)
 PASS
-ok  	github.com/scttfrdmn/aws-ide/pkg/config	0.240s
+ok  	github.com/scttfrdmn/lens/pkg/config	0.240s
 ```
 
 ---
@@ -227,9 +227,9 @@ ok  	github.com/scttfrdmn/aws-ide/pkg/config	0.240s
 ```bash
 make build
 # ✅ Result: All 3 apps built successfully
-# ✓ Built: bin/aws-jupyter
-# ✓ Built: bin/aws-rstudio
-# ✓ Built: bin/aws-vscode
+# ✓ Built: bin/lens-jupyter
+# ✓ Built: bin/lens-rstudio
+# ✓ Built: bin/lens-vscode
 ```
 
 ### 2. Test Verification
@@ -241,22 +241,22 @@ cd pkg/config && go test -v -run "TestRecordStateChange|TestStateChange"
 ### 3. Manual Testing (Recommended)
 ```bash
 # Test launch records "running" state
-aws-jupyter launch --env data-science
-cat ~/.aws-jupyter/state.json | jq '.instances | .[] | .state_changes'
+lens-jupyter launch --env data-science
+cat ~/.lens-jupyter/state.json | jq '.instances | .[] | .state_changes'
 # Expected: [{"state": "running", "timestamp": "..."}]
 
 # Test stop records "stopped" state
-aws-jupyter stop <instance-id>
-cat ~/.aws-jupyter/state.json | jq '.instances | .[] | .state_changes'
+lens-jupyter stop <instance-id>
+cat ~/.lens-jupyter/state.json | jq '.instances | .[] | .state_changes'
 # Expected: [{"state": "running", ...}, {"state": "stopped", ...}]
 
 # Test start records new "running" state
-aws-jupyter start <instance-id>
-cat ~/.aws-jupyter/state.json | jq '.instances | .[] | .state_changes'
+lens-jupyter start <instance-id>
+cat ~/.lens-jupyter/state.json | jq '.instances | .[] | .state_changes'
 # Expected: 3 state changes (running, stopped, running)
 
 # Test terminate records "terminated" state before removal
-aws-jupyter terminate <instance-id>
+lens-jupyter terminate <instance-id>
 # Note: Instance removed from state after termination recorded
 ```
 
@@ -344,14 +344,14 @@ This fix unblocks v0.11.0 Cost Management features:
 ## [0.7.3] - 2025-10-25
 
 ### Fixed
-- **CRITICAL:** State changes now recorded during start/stop/terminate operations ([#7](https://github.com/scttfrdmn/aws-ide/issues/7))
+- **CRITICAL:** State changes now recorded during start/stop/terminate operations ([#7](https://github.com/scttfrdmn/lens/issues/7))
   - Cost tracking was fundamentally broken due to missing state change recording
   - Added `RecordStateChange()` calls in all lifecycle operations:
     - Launch: Records "running" state after successful launch
     - Start: Records "running" state after instance starts
     - Stop: Records "stopped" state after instance stops
     - Terminate: Records "terminated" state before removal
-  - Affects all 3 apps: aws-jupyter, aws-rstudio, aws-vscode
+  - Affects all 3 apps: lens-jupyter, lens-rstudio, lens-vscode
   - Added 4 comprehensive unit tests for state change functionality
   - **Impact:** Lab PIs, Graduate Students, and Instructors can now accurately track costs
   - **Unblocks:** v0.11.0 Cost Management features (budget alerts, cost reporting, optimization)

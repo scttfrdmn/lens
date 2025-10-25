@@ -152,7 +152,7 @@ Every launch requires re-selecting instance type, environment, region, and other
 ✅ Users can override individual settings if needed
 
 **Proposed Solution:**
-- Store last launch config in `~/.aws-ide/preferences.yaml`
+- Store last launch config in `~/.lens/preferences.yaml`
 - Wizard asks: "Use same settings as last time? (Y/n)"
 - If yes → launch immediately with previous config
 - If no → proceed through wizard questions
@@ -737,7 +737,7 @@ Each lab reinvents the wheel creating domain-specific environments. No way to di
 
 **Proposed Solution:**
 GitHub repository for community environments:
-- `aws-ide/environments` repo
+- `lens/environments` repo
 - Directory structure: `biology/genomics/GATK-pipeline.yml`
 - Metadata: description, author, domain, tools included
 - CLI integration:
@@ -778,7 +778,7 @@ No way to share access to running instance. Researchers must share AWS credentia
 **Proposed Solution:**
 New commands for all apps:
 - `lens-jupyter share --instance i-abc123 --access read-only --expires 24h`
-  - Generates URL: `https://share.aws-ide.io/abc123-token`
+  - Generates URL: `https://share.lens.io/abc123-token`
   - Creates temporary IAM policy with SSM Session Manager access
   - Recipient clicks URL → authenticated via Session Manager → read-only terminal
 - `lens-jupyter share --access full --expires 1h`
@@ -815,7 +815,7 @@ Each lab member configures independently. No way to enforce defaults (region, in
 
 **Proposed Solution:**
 Hierarchical configuration system:
-- Lab configuration: `~/.aws-ide/lab-config.yml`
+- Lab configuration: `~/.lens/lab-config.yml`
 ```yaml
 lab:
   name: "Chen Lab"
@@ -869,7 +869,7 @@ S3 sync integration:
 ```yaml
 backup:
   enabled: true
-  s3_bucket: s3://my-research-bucket/aws-ide-backups/
+  s3_bucket: s3://my-research-bucket/lens-backups/
   sync_folders:
     - ~/notebooks
     - ~/data
@@ -1306,7 +1306,7 @@ Production specs:
 
 **Description:**
 ```
-As the AWS IDE project maintainer, I need to recruit 100+ academic researchers to beta test the tool, because real-world usage will reveal issues and missing features.
+As the Lens project maintainer, I need to recruit 100+ academic researchers to beta test the tool, because real-world usage will reveal issues and missing features.
 
 **Current Pain Point:**
 Tool is developed in relative isolation. Need real feedback from diverse research domains and institutions.
@@ -1340,8 +1340,8 @@ Academic Beta Testing Program:
 
 **Phase 2: Onboarding (Month 2)**
 - Onboarding workshops (virtual):
-  - "Getting Started with AWS IDE" (for all users)
-  - "Teaching with AWS IDE" (for instructors)
+  - "Getting Started with Lens" (for all users)
+  - "Teaching with Lens" (for instructors)
   - "Managing Lab Costs" (for PIs)
 - Provide beta testing resources:
   - AWS credits ($500/tester for computing costs)
@@ -1359,7 +1359,7 @@ Academic Beta Testing Program:
   - Where do users get stuck?
   - What errors occur frequently?
 - Community building:
-  - Beta tester showcase: published papers using AWS IDE
+  - Beta tester showcase: published papers using Lens
   - Environment sharing: best practices and templates
   - Peer support: experienced users help newcomers
 
@@ -1369,11 +1369,11 @@ Academic Beta Testing Program:
   - Top 20 feature requests (prioritize for v1.0)
   - Usability issues (fix before v1.0)
 - User satisfaction survey:
-  - Would you recommend AWS IDE? (NPS score)
+  - Would you recommend Lens? (NPS score)
   - Rate overall experience (1-5 stars)
   - What's missing for your research?
 - Document success stories:
-  - "How AWS IDE enabled my Nature paper"
+  - "How Lens enabled my Nature paper"
   - "We saved $12K this year vs commercial tools"
   - "My students published their first papers"
 

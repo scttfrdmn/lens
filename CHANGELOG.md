@@ -14,14 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This hotfix release fixes a critical bug in cost tracking that prevented accurate cost calculations.
 
 ### Fixed
-- **CRITICAL:** State changes now recorded during start/stop/terminate operations ([#7](https://github.com/scttfrdmn/aws-ide/issues/7))
+- **CRITICAL:** State changes now recorded during start/stop/terminate operations ([#7](https://github.com/scttfrdmn/lens/issues/7))
   - Cost tracking was fundamentally broken due to missing state change recording
   - Added `RecordStateChange()` calls in all lifecycle operations:
     - **Launch:** Records "running" state after successful launch (all 3 apps)
     - **Start:** Records "running" state after instance starts
     - **Stop:** Records "stopped" state after instance stops
     - **Terminate:** Records "terminated" state before removal
-  - Affects all 3 apps: `aws-jupyter`, `aws-rstudio`, `aws-vscode`
+  - Affects all 3 apps: `lens-jupyter`, `lens-rstudio`, `lens-vscode`
   - Added 4 comprehensive unit tests for state change functionality
   - **Impact:** Lab PIs, Graduate Students, and Instructors can now accurately track costs and measure savings from stop/start cycles
   - **Unblocks:** v0.11.0 Cost Management features (budget alerts, cost reporting, usage optimization)
@@ -49,13 +49,13 @@ This patch release fixes git commit attribution and updates all commits to use G
 
 ### ✨ User Experience Enhancements
 
-Focus on making AWS IDE more accessible to non-technical researchers.
+Focus on making Lens more accessible to non-technical researchers.
 
 ### Added
 - **Notification Hook System**: Infrastructure for status notifications (email, Slack, desktop)
 - **Preference Memory**: Remembers user choices for faster future launches
-- **Quickstart Command**: Instant launch with sensible defaults (`aws-jupyter quickstart`)
-- **Wizard as Default**: Running `aws-jupyter` without arguments launches the interactive wizard
+- **Quickstart Command**: Instant launch with sensible defaults (`lens-jupyter quickstart`)
+- **Wizard as Default**: Running `lens-jupyter` without arguments launches the interactive wizard
 
 ### Improved
 - First-time user experience with saved preferences
@@ -116,7 +116,7 @@ This release adds four major features plus a configuration management system to 
 - Introduced platform versioning (`pkg/v1.0.0`) for shared infrastructure stability tracking
 - Added `pkg/version.go` with platform version constant
 - Updated all app `--version` outputs to show both app and platform versions
-  - Example: `aws-jupyter version v0.6.0 (platform: v1.0.0, ...)`
+  - Example: `lens-jupyter version v0.6.0 (platform: v1.0.0, ...)`
 - Created comprehensive [VERSIONING.md](VERSIONING.md) documentation
 - Platform v1.0.0 establishes stable API contract for shared infrastructure
 
@@ -170,7 +170,7 @@ This release adds four major features plus a configuration management system to 
 - Foundation for Phase 2: S3 upload and SSM import
 
 #### Other Improvements from Unreleased
-- **aws-rstudio Feature Parity**: Complete command set matching aws-jupyter
+- **lens-rstudio Feature Parity**: Complete command set matching lens-jupyter
   - All 10 CLI commands implemented (launch, list, status, connect, stop, start, terminate, env, key, generate)
   - 4 R-specific environments: minimal, tidyverse, bioconductor, shiny
   - 27 unit tests (933 lines) covering env, generate, list, and launch commands
@@ -200,7 +200,7 @@ This release adds four major features plus a configuration management system to 
   - Displays cloud-init logs every 20 seconds during instance setup
   - Shows service readiness progress with elapsed time
   - Enhanced user experience with clear status updates
-- **aws-vscode**: New VSCode Server (code-server) CLI tool (beta)
+- **lens-vscode**: New VSCode Server (code-server) CLI tool (beta)
   - Complete CLI structure with all subcommands (launch, list, connect, stop, start, terminate, status, env, key)
   - **Full launch command implementation** with all features:
     - Environment selection (web-dev, python-dev, go-dev, fullstack)
@@ -229,7 +229,7 @@ This release adds four major features plus a configuration management system to 
   - All tests use isolated temp directories with proper cleanup
 
 ### Fixed
-- **aws-rstudio**: Port hardcoded incorrectly in list.go (was 8888, now correctly 8787)
+- **lens-rstudio**: Port hardcoded incorrectly in list.go (was 8888, now correctly 8787)
   - RStudio uses port 8787, not Jupyter's port 8888
   - Fixed during unit test development
 
@@ -241,8 +241,8 @@ This release adds four major features plus a configuration management system to 
   - All apps now check service readiness from inside the instance via SSM
   - No longer depends on externally accessible service ports for health checks
   - More secure launch process with reduced security group exposure
-- Updated root README to include aws-vscode
-- Updated project roadmap to reflect aws-vscode alpha status
+- Updated root README to include lens-vscode
+- Updated project roadmap to reflect lens-vscode alpha status
 
 ### Fixed
 - golangci-lint errcheck violations in pkg/cli/delete-ami.go
@@ -250,9 +250,9 @@ This release adds four major features plus a configuration management system to 
 - All code now passes golangci-lint with zero issues
 - **IAM instance profile naming conflict**: Each app now creates app-specific IAM resources
   - pkg/aws/iam.go: GetOrCreateSessionManagerRole() now accepts appPrefix parameter
-  - Apps create separate roles: aws-jupyter-*, aws-vscode-*, aws-rstudio-*
+  - Apps create separate roles: lens-jupyter-*, lens-vscode-*, lens-rstudio-*
   - Allows multiple IDE types to coexist without IAM resource conflicts
-- **aws-vscode**: AWS CLI installation upgraded from v1 to v2
+- **lens-vscode**: AWS CLI installation upgraded from v1 to v2
   - User-data script now installs AWS CLI v2 (required for auto-stop functionality)
   - Added architecture detection (arm64/x86_64) for correct installer selection
   - Auto-stop system requires AWS CLI v2 for `aws ec2 stop-instances` command
@@ -261,14 +261,14 @@ This release adds four major features plus a configuration management system to 
   - Detects IAM-related errors and waits for eventual consistency (2s, 4s, 8s, 16s delays)
   - Prevents "Invalid IAM Instance Profile" errors immediately after profile creation
   - User no longer needs to manually wait and retry launch commands
-- **aws-vscode**: code-server installation failure (HOME not set)
+- **lens-vscode**: code-server installation failure (HOME not set)
   - Added `export HOME=/root` before running code-server installer
   - Fixes "sh: HOME: parameter not set" error in cloud-init
   - VSCode Server now installs and starts successfully on instance launch
   - Tested end-to-end: Successfully launched and connected to instance i-0ee8065b2c30a96ac
 
 ### Known Issues
-- **aws-vscode**: Extensions marketplace not available
+- **lens-vscode**: Extensions marketplace not available
   - code-server (open-source) doesn't include Microsoft's extension marketplace
   - Extensions can be installed via command line: `code-server --install-extension <extension-id>`
   - Workaround: Use Open VSX Registry or manually install .vsix files
@@ -277,15 +277,15 @@ This release adds four major features plus a configuration management system to 
 
 ### 🎉 Monorepo Transformation: Multi-IDE Platform
 
-This release transforms aws-jupyter into AWS IDE, a monorepo supporting multiple cloud-based IDE types.
+This release transforms lens-jupyter into Lens, a monorepo supporting multiple cloud-based IDE types.
 
 ### Major Changes
 
 #### **Monorepo Architecture**
 - Transformed single-app project into Go workspace monorepo
 - Created `pkg/` module for shared AWS infrastructure
-- Created `apps/jupyter/` with complete aws-jupyter implementation
-- Created `apps/rstudio/` with basic aws-rstudio implementation
+- Created `apps/jupyter/` with complete lens-jupyter implementation
+- Created `apps/rstudio/` with basic lens-rstudio implementation
 - All apps share infrastructure while maintaining independence
 
 #### **Code Organization**
@@ -307,7 +307,7 @@ This release transforms aws-jupyter into AWS IDE, a monorepo supporting multiple
 - Consolidated docs into app-specific directories
 - Removed duplicate documentation
 
-#### **aws-rstudio (New)**
+#### **lens-rstudio (New)**
 - Basic implementation with core commands
 - Shares all infrastructure with Jupyter
 - Supports launch, list, status, connect, stop, terminate
@@ -316,14 +316,14 @@ This release transforms aws-jupyter into AWS IDE, a monorepo supporting multiple
 - Feature parity work in progress (see ROADMAP)
 
 ### Added
-- **aws-rstudio CLI**: New command-line tool for RStudio Server
+- **lens-rstudio CLI**: New command-line tool for RStudio Server
 - **Shared pkg/ library**: Reusable AWS infrastructure code
 - **Go workspace**: Multi-module project structure
 - **Monorepo CI/CD**: Matrix builds for all modules
 - **RStudio README**: Complete documentation for RStudio launcher
 
 ### Changed
-- **Project name**: aws-jupyter → AWS IDE (aws-ide)
+- **Project name**: lens-jupyter → Lens (lens)
 - **Repository structure**: Single app → Monorepo
 - **Code location**: `internal/` → `pkg/` (shared) and `apps/*/internal/` (app-specific)
 - **Documentation**: Root docs → `apps/*/docs/`
@@ -344,15 +344,15 @@ This release transforms aws-jupyter into AWS IDE, a monorepo supporting multiple
 ### Migration Notes
 
 **For Existing Users:**
-- `aws-jupyter` functionality unchanged - all features preserved
-- Binary location changed: `./aws-jupyter` → `./apps/jupyter/aws-jupyter`
-- Install path unchanged: `/usr/local/bin/aws-jupyter`
-- Configuration compatible: `~/.aws-jupyter/` still used
+- `lens-jupyter` functionality unchanged - all features preserved
+- Binary location changed: `./lens-jupyter` → `./apps/jupyter/lens-jupyter`
+- Install path unchanged: `/usr/local/bin/lens-jupyter`
+- Configuration compatible: `~/.lens-jupyter/` still used
 - State files compatible: No migration needed
 
 **For Developers:**
-- Update imports: `github.com/scttfrdmn/aws-jupyter/internal/...` → `github.com/scttfrdmn/aws-ide/pkg/...`
-- Build from app directory: `cd apps/jupyter && go build ./cmd/aws-jupyter`
+- Update imports: `github.com/scttfrdmn/lens-jupyter/internal/...` → `github.com/scttfrdmn/lens/pkg/...`
+- Build from app directory: `cd apps/jupyter && go build ./cmd/lens-jupyter`
 - Run tests per module: `cd pkg && go test ./...` or `cd apps/jupyter && go test ./...`
 - CI/CD uses matrix builds for each module
 
@@ -431,7 +431,7 @@ This release marks a significant milestone with comprehensive code quality impro
 - Connection method selection (SSH or Session Manager)
 - Security group customization based on connection method
 - SSH key pair management with economical reuse strategy
-- Regional key pair naming (aws-jupyter-{region})
+- Regional key pair naming (lens-jupyter-{region})
 - Secure local key storage with proper permissions (600)
 
 #### **Environment System**
@@ -512,8 +512,8 @@ This release marks a significant milestone with comprehensive code quality impro
 - Comprehensive README with installation and usage instructions
 - Project documentation and contributing guidelines
 
-[Unreleased]: https://github.com/scttfrdmn/aws-ide/compare/v0.6.0...HEAD
-[0.6.0]: https://github.com/scttfrdmn/aws-ide/compare/v0.5.0...v0.6.0
-[0.5.0]: https://github.com/scttfrdmn/aws-ide/compare/v0.2.0...v0.5.0
-[0.2.0]: https://github.com/scttfrdmn/aws-ide/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/scttfrdmn/aws-ide/releases/tag/v0.1.0
+[Unreleased]: https://github.com/scttfrdmn/lens/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/scttfrdmn/lens/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/scttfrdmn/lens/compare/v0.2.0...v0.5.0
+[0.2.0]: https://github.com/scttfrdmn/lens/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/scttfrdmn/lens/releases/tag/v0.1.0

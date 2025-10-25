@@ -1,11 +1,11 @@
-# AWS IDE Roadmap
+# Lens Roadmap
 
-This document outlines the future development plans for the AWS IDE project. The project follows semantic versioning and is organized into phases.
+This document outlines the future development plans for the Lens project. The project follows semantic versioning and is organized into phases.
 
 ## 📊 Current Status: Production-Ready Platform
 
 **Project Evolution:**
-- ✅ **v0.1.0-v0.4.0**: aws-jupyter (single app) - Feature complete
+- ✅ **v0.1.0-v0.4.0**: lens-jupyter (single app) - Feature complete
 - ✅ **v0.5.0**: Monorepo established with RStudio feature parity
 - ✅ **v0.6.0**: Comprehensive testing infrastructure
 - ✅ **v0.6.1**: Unified config system and cost tracking
@@ -193,7 +193,7 @@ Establish comprehensive testing infrastructure with unit, integration, and E2E t
 **Priority:** 🔥 CRITICAL - Non-technical researchers need this
 
 ### Goals
-Make AWS IDE accessible to non-technical academic researchers with guided setup and plain-language interactions.
+Make Lens accessible to non-technical academic researchers with guided setup and plain-language interactions.
 
 ### Tasks
 
@@ -212,9 +212,9 @@ Make AWS IDE accessible to non-technical academic researchers with guided setup 
   - [x] Auto-stop configuration with idle timeout options
   - [x] Optional instance naming
 - [ ] Add `quickstart` command for each app
-  - [ ] `aws-jupyter quickstart` → instant launch with sensible defaults
-  - [ ] `aws-rstudio quickstart` → instant R environment
-  - [ ] `aws-vscode quickstart` → instant coding environment
+  - [ ] `lens-jupyter quickstart` → instant launch with sensible defaults
+  - [ ] `lens-rstudio quickstart` → instant R environment
+  - [ ] `lens-vscode quickstart` → instant coding environment
 
 **Better Error Messages** 🎯 HIGH PRIORITY ✅ COMPLETE
 - [x] Created pkg/errors package for beginner-friendly error handling
@@ -256,8 +256,8 @@ Make AWS IDE accessible to non-technical academic researchers with guided setup 
 
 **Default Behavior Improvements**
 - [ ] Make wizard the default when no arguments provided
-  - [ ] `aws-jupyter` → launches wizard
-  - [ ] `aws-jupyter launch` → uses last settings or defaults
+  - [ ] `lens-jupyter` → launches wizard
+  - [ ] `lens-jupyter launch` → uses last settings or defaults
 - [ ] Remember user preferences
   - [ ] Last used environment, instance type, region
   - [ ] Offer to reuse settings: "Use same settings as last time? (Y/n)"
@@ -401,8 +401,8 @@ Make it easy for researchers to create reproducible, domain-specific environment
   - [ ] Common genomics tools pre-installed
 - [ ] Conda forge channel support
 - [ ] Environment export/import
-  - [ ] `aws-jupyter env export` → saves environment.yml
-  - [ ] `aws-jupyter env import environment.yml` → recreates environment
+  - [ ] `lens-jupyter env export` → saves environment.yml
+  - [ ] `lens-jupyter env import environment.yml` → recreates environment
 
 **System Package Management** 🎯 MEDIUM PRIORITY
 - [ ] Declarative package installation in environments
@@ -447,8 +447,8 @@ Make it easy for researchers to create reproducible, domain-specific environment
   - [ ] Search by research domain
 
 **Easy Package Installation Commands**
-- [ ] `aws-jupyter packages install pandas matplotlib seaborn`
-- [ ] `aws-rstudio packages install tidyverse ggplot2`
+- [ ] `lens-jupyter packages install pandas matplotlib seaborn`
+- [ ] `lens-rstudio packages install tidyverse ggplot2`
 - [ ] Automatic dependency resolution
 - [ ] Conflict detection and resolution
 
@@ -631,7 +631,7 @@ Achieve production-grade stability and completeness for academic research use.
   - [ ] Binary size <50MB
 - [ ] **Community**
   - [ ] Environment template repository
-  - [ ] User showcase (research enabled by AWS IDE)
+  - [ ] User showcase (research enabled by Lens)
   - [ ] Active discussion forum for researchers
 
 ### Success Criteria for Academic Adoption
@@ -769,8 +769,8 @@ We follow [Semantic Versioning 2.0.0](https://semver.org/):
 ## 💬 Feedback
 
 Have suggestions for the roadmap?
-- Open an issue: https://github.com/scttfrdmn/aws-ide/issues
-- Start a discussion: https://github.com/scttfrdmn/aws-ide/discussions
+- Open an issue: https://github.com/scttfrdmn/lens/issues
+- Start a discussion: https://github.com/scttfrdmn/lens/discussions
 
 We prioritize features based on:
 1. **Academic researcher needs** - Ease of use for non-technical users

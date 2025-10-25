@@ -1,6 +1,6 @@
 # AWS Session Manager Setup Guide
 
-This guide covers everything you need to know about using AWS Session Manager with aws-jupyter for secure, SSH-key-free access to your Jupyter Lab instances.
+This guide covers everything you need to know about using AWS Session Manager with lens-jupyter for secure, SSH-key-free access to your Jupyter Lab instances.
 
 ## Table of Contents
 
@@ -186,13 +186,13 @@ session-manager-plugin
 
 ```bash
 # Basic launch with Session Manager
-aws-jupyter launch --connection session-manager
+lens-jupyter launch --connection session-manager
 
 # Preview what will be created
-aws-jupyter launch --connection session-manager --dry-run
+lens-jupyter launch --connection session-manager --dry-run
 
 # With custom environment and instance type
-aws-jupyter launch \
+lens-jupyter launch \
   --connection session-manager \
   --env ml-pytorch \
   --instance-type m7g.xlarge
@@ -202,17 +202,17 @@ aws-jupyter launch \
 
 ```bash
 # List all instances
-aws-jupyter list
+lens-jupyter list
 
 # Get detailed status
-aws-jupyter status i-0abc123def456789
+lens-jupyter status i-0abc123def456789
 ```
 
 ### 3. Connect to Instance
 
 ```bash
-# Using aws-jupyter (recommended)
-aws-jupyter connect i-0abc123def456789
+# Using lens-jupyter (recommended)
+lens-jupyter connect i-0abc123def456789
 
 # Using AWS CLI directly
 aws ssm start-session --target i-0abc123def456789 --profile myprofile
@@ -225,8 +225,8 @@ aws ssm start-session --target i-0abc123def456789 --profile myprofile
 Start an interactive shell session:
 
 ```bash
-# Using aws-jupyter
-aws-jupyter connect i-0abc123def456789
+# Using lens-jupyter
+lens-jupyter connect i-0abc123def456789
 
 # Using AWS CLI
 aws ssm start-session --target i-0abc123def456789
@@ -260,7 +260,7 @@ aws ssm start-session \
 
 **Tip**: Get the Jupyter token after connecting via interactive shell:
 ```bash
-aws-jupyter connect i-0abc123def456789
+lens-jupyter connect i-0abc123def456789
 # In the instance shell:
 sudo jupyter server list
 ```
@@ -302,7 +302,7 @@ export PATH=$PATH:/usr/local/sessionmanagerplugin/bin
 1. Verify your IAM permissions include `ssm:StartSession`
 2. Check the instance has the Session Manager role attached:
    ```bash
-   aws-jupyter status i-0abc123def456789
+   lens-jupyter status i-0abc123def456789
    ```
 3. Ensure the instance is in the "running" state
 
@@ -318,7 +318,7 @@ export PATH=$PATH:/usr/local/sessionmanagerplugin/bin
 **Solution**:
 ```bash
 # Check instance status
-aws-jupyter status i-0abc123def456789
+lens-jupyter status i-0abc123def456789
 
 # Verify SSM agent connectivity
 aws ssm describe-instance-information \
@@ -360,7 +360,7 @@ aws ec2 create-vpc-endpoint \
   --route-table-ids rtb-12345
 ```
 
-**Tip**: aws-jupyter automatically configures Session Manager when you use `--create-nat-gateway`, which is easier than managing VPC endpoints.
+**Tip**: lens-jupyter automatically configures Session Manager when you use `--create-nat-gateway`, which is easier than managing VPC endpoints.
 
 ## Advanced Configuration
 
@@ -517,7 +517,7 @@ aws ssm describe-sessions --filters "key=SessionId,value=session-id"
 - [Session Manager Prerequisites](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-prerequisites.html)
 - [Port Forwarding Guide](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html#sessions-start-port-forwarding)
 
-**aws-jupyter Documentation**:
+**lens-jupyter Documentation**:
 - [Main README](../README.md)
 - [Private Subnet Guide](PRIVATE_SUBNET_GUIDE.md)
 - [Troubleshooting Guide](TROUBLESHOOTING.md)
@@ -529,7 +529,7 @@ If you encounter issues:
 
 1. Check the [Troubleshooting Guide](TROUBLESHOOTING.md)
 2. Review [AWS Session Manager documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html)
-3. Open an issue on [GitHub](https://github.com/scttfrdmn/aws-jupyter/issues)
+3. Open an issue on [GitHub](https://github.com/scttfrdmn/lens-jupyter/issues)
 
 ---
 

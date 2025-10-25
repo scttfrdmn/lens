@@ -1,6 +1,6 @@
-# Contributing to aws-jupyter
+# Contributing to lens-jupyter
 
-🎉 **Thank you for your interest in contributing to aws-jupyter!**
+🎉 **Thank you for your interest in contributing to lens-jupyter!**
 
 This project is currently in active development, and we welcome contributions of all kinds - from bug reports and feature requests to code contributions and documentation improvements.
 
@@ -18,10 +18,10 @@ This project is currently in active development, and we welcome contributions of
 ## 🚀 Quick Start
 
 1. **Fork the repository** on GitHub
-2. **Clone your fork**: `git clone git@github.com:YOUR_USERNAME/aws-jupyter.git`
+2. **Clone your fork**: `git clone git@github.com:YOUR_USERNAME/lens-jupyter.git`
 3. **Install dependencies**: `go mod tidy`
 4. **Run tests**: `go test ./...`
-5. **Build the project**: `go build -o aws-jupyter cmd/aws-jupyter/main.go`
+5. **Build the project**: `go build -o lens-jupyter cmd/lens-jupyter/main.go`
 
 ## 🛠 Development Setup
 
@@ -36,8 +36,8 @@ This project is currently in active development, and we welcome contributions of
 
 ```bash
 # Clone the repository
-git clone git@github.com:scttfrdmn/aws-jupyter.git
-cd aws-jupyter
+git clone git@github.com:scttfrdmn/lens-jupyter.git
+cd lens-jupyter
 
 # Install dependencies
 go mod tidy
@@ -52,15 +52,15 @@ pip install pre-commit
 pre-commit install
 
 # Build and test
-go build -o aws-jupyter cmd/aws-jupyter/main.go
+go build -o lens-jupyter cmd/lens-jupyter/main.go
 go test ./...
 ```
 
 ## 📁 Project Structure
 
 ```
-aws-jupyter/
-├── cmd/aws-jupyter/        # Main CLI entry point
+lens-jupyter/
+├── cmd/lens-jupyter/        # Main CLI entry point
 ├── internal/
 │   ├── aws/                # AWS EC2 client and operations
 │   ├── cli/                # CLI commands (launch, list, etc.)
@@ -259,7 +259,7 @@ Common questions and answers:
 **Q: How do I test AWS operations without real AWS resources?**
 A: We're working on AWS mocking. For now, use `--dry-run` mode and unit test the logic around AWS calls.
 
-**Q: What AWS permissions does aws-jupyter need?**
+**Q: What AWS permissions does lens-jupyter need?**
 A: See the [AWS Authentication Guide](docs/AWS_AUTHENTICATION.md) for detailed permission requirements.
 
 **Q: How do I add a new CLI command?**
@@ -281,13 +281,13 @@ A: Look at existing commands in `internal/cli/` for patterns. Each command needs
 - **No external dependencies** for core functionality where possible
 - **AWS SDK v2** for all AWS operations
 - **Cobra** for CLI framework (industry standard)
-- **Local state management** using JSON files in `~/.aws-jupyter/`
+- **Local state management** using JSON files in `~/.lens-jupyter/`
 - **YAML configuration** for environments (human-readable)
 
 ---
 
 ## 💡 Thank You!
 
-Your contributions make aws-jupyter better for everyone. Whether you're fixing typos, adding features, or helping other contributors, your efforts are appreciated! 🙏
+Your contributions make lens-jupyter better for everyone. Whether you're fixing typos, adding features, or helping other contributors, your efforts are appreciated! 🙏
 
 **Questions?** Don't hesitate to open an issue or start a discussion. We're here to help!

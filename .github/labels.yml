@@ -1,4 +1,4 @@
-# AWS IDE Label Configuration
+# Lens Label Configuration
 # Organized hierarchically: Type -> Priority -> Area -> Persona -> Use Case -> Status -> Resolution
 
 # ============================================================================
@@ -46,15 +46,15 @@
 # ============================================================================
 # AREA LABELS - Which part of the codebase?
 # ============================================================================
-- name: "area: aws-jupyter"
+- name: "area: lens-jupyter"
   description: Issues specific to Jupyter Lab launcher
   color: "5319e7"
 
-- name: "area: aws-rstudio"
+- name: "area: lens-rstudio"
   description: Issues specific to RStudio Server launcher
   color: "5319e7"
 
-- name: "area: aws-vscode"
+- name: "area: lens-vscode"
   description: Issues specific to VSCode Server launcher
   color: "5319e7"
 
@@ -110,7 +110,7 @@
 # PERSONA LABELS - Who is the user?
 # ============================================================================
 - name: "persona: solo-researcher"
-  description: Individual researcher using AWS IDE
+  description: Individual researcher using Lens
   color: "c5def5"
 
 - name: "persona: research-lab"

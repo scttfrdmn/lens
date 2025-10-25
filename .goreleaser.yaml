@@ -1,6 +1,6 @@
 version: 2
 
-project_name: aws-ide
+project_name: lens
 
 before:
   hooks:
@@ -10,9 +10,9 @@ before:
     - go mod tidy -C pkg
 
 builds:
-  - id: aws-jupyter
-    main: ./apps/jupyter/cmd/aws-jupyter
-    binary: aws-jupyter
+  - id: lens-jupyter
+    main: ./apps/jupyter/cmd/lens-jupyter
+    binary: lens-jupyter
     dir: .
     env:
       - CGO_ENABLED=0
@@ -29,9 +29,9 @@ builds:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
 
-  - id: aws-rstudio
-    main: ./apps/rstudio/cmd/aws-rstudio
-    binary: aws-rstudio
+  - id: lens-rstudio
+    main: ./apps/rstudio/cmd/lens-rstudio
+    binary: lens-rstudio
     dir: .
     env:
       - CGO_ENABLED=0
@@ -48,9 +48,9 @@ builds:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
 
-  - id: aws-vscode
-    main: ./apps/vscode/cmd/aws-vscode
-    binary: aws-vscode
+  - id: lens-vscode
+    main: ./apps/vscode/cmd/lens-vscode
+    binary: lens-vscode
     dir: .
     env:
       - CGO_ENABLED=0
@@ -70,9 +70,9 @@ builds:
 archives:
   - id: jupyter
     builds:
-      - aws-jupyter
+      - lens-jupyter
     name_template: >-
-      aws-jupyter_
+      lens-jupyter_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
@@ -93,9 +93,9 @@ archives:
 
   - id: rstudio
     builds:
-      - aws-rstudio
+      - lens-rstudio
     name_template: >-
-      aws-rstudio_
+      lens-rstudio_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
@@ -116,9 +116,9 @@ archives:
 
   - id: vscode
     builds:
-      - aws-vscode
+      - lens-vscode
     name_template: >-
-      aws-vscode_
+      lens-vscode_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
@@ -166,17 +166,17 @@ changelog:
 release:
   github:
     owner: scttfrdmn
-    name: aws-ide
+    name: lens
   draft: false
   prerelease: auto
   mode: replace
   header: |
     ## Release {{ .Tag }} ({{ .Date }})
 
-    AWS IDE is a monorepo containing multiple cloud-based IDE launchers:
-    - **aws-jupyter**: Launch Jupyter Lab instances on AWS EC2 (Production)
-    - **aws-rstudio**: Launch RStudio Server instances on AWS EC2 (Production)
-    - **aws-vscode**: Launch VSCode Server instances on AWS EC2 (Beta)
+    Lens is a monorepo containing multiple cloud-based IDE launchers:
+    - **lens-jupyter**: Launch Jupyter Lab instances on AWS EC2 (Production)
+    - **lens-rstudio**: Launch RStudio Server instances on AWS EC2 (Production)
+    - **lens-vscode**: Launch VSCode Server instances on AWS EC2 (Beta)
 
     All tools share infrastructure from the `pkg/` module for consistent behavior.
   footer: |
@@ -184,12 +184,12 @@ release:
 
     Those were the changes on {{ .Tag }}!
 
-    See the [CHANGELOG](https://github.com/scttfrdmn/aws-ide/blob/{{ .Tag }}/CHANGELOG.md) for detailed release notes.
+    See the [CHANGELOG](https://github.com/scttfrdmn/lens/blob/{{ .Tag }}/CHANGELOG.md) for detailed release notes.
 
 # Homebrew formulas for both tools
 # Note: 'brews' is the correct field name for Homebrew tap formulas
 brews:
-  - name: aws-jupyter
+  - name: lens-jupyter
     ids:
       - jupyter
     repository:
@@ -197,11 +197,11 @@ brews:
       name: homebrew-tap
       branch: main
     directory: Formula
-    homepage: https://github.com/scttfrdmn/aws-ide
+    homepage: https://github.com/scttfrdmn/lens
     description: CLI tool for launching Jupyter Lab instances on AWS EC2 Graviton processors
     license: Apache-2.0
     install: |
-      bin.install "aws-jupyter"
+      bin.install "lens-jupyter"
 
       # Install environment templates
       pkgshare.install Dir["apps/jupyter/environments/*.yaml"]
@@ -210,9 +210,9 @@ brews:
         (pkgshare/"environments").install env
       end
     test: |
-      system "#{bin}/aws-jupyter", "--version"
+      system "#{bin}/lens-jupyter", "--version"
 
-  - name: aws-rstudio
+  - name: lens-rstudio
     ids:
       - rstudio
     repository:
@@ -220,11 +220,11 @@ brews:
       name: homebrew-tap
       branch: main
     directory: Formula
-    homepage: https://github.com/scttfrdmn/aws-ide
+    homepage: https://github.com/scttfrdmn/lens
     description: CLI tool for launching RStudio Server instances on AWS EC2 Graviton processors
     license: Apache-2.0
     install: |
-      bin.install "aws-rstudio"
+      bin.install "lens-rstudio"
 
       # Install environment templates
       pkgshare.install Dir["apps/rstudio/environments/*.yaml"]
@@ -233,9 +233,9 @@ brews:
         (pkgshare/"environments").install env
       end
     test: |
-      system "#{bin}/aws-rstudio", "--version"
+      system "#{bin}/lens-rstudio", "--version"
 
-  - name: aws-vscode
+  - name: lens-vscode
     ids:
       - vscode
     repository:
@@ -243,11 +243,11 @@ brews:
       name: homebrew-tap
       branch: main
     directory: Formula
-    homepage: https://github.com/scttfrdmn/aws-ide
+    homepage: https://github.com/scttfrdmn/lens
     description: CLI tool for launching VSCode Server instances on AWS EC2 Graviton processors (Beta)
     license: Apache-2.0
     install: |
-      bin.install "aws-vscode"
+      bin.install "lens-vscode"
 
       # Install environment templates
       pkgshare.install Dir["apps/vscode/environments/*.yaml"]
@@ -256,37 +256,37 @@ brews:
         (pkgshare/"environments").install env
       end
     test: |
-      system "#{bin}/aws-vscode", "--version"
+      system "#{bin}/lens-vscode", "--version"
 
 # Scoop manifests for Windows
 scoops:
-  - name: aws-jupyter
+  - name: lens-jupyter
     ids:
       - jupyter
     repository:
       owner: scttfrdmn
       name: scoop-bucket
-    homepage: https://github.com/scttfrdmn/aws-ide
+    homepage: https://github.com/scttfrdmn/lens
     description: CLI tool for launching Jupyter Lab instances on AWS EC2 Graviton processors
     license: Apache-2.0
 
-  - name: aws-rstudio
+  - name: lens-rstudio
     ids:
       - rstudio
     repository:
       owner: scttfrdmn
       name: scoop-bucket
-    homepage: https://github.com/scttfrdmn/aws-ide
+    homepage: https://github.com/scttfrdmn/lens
     description: CLI tool for launching RStudio Server instances on AWS EC2 Graviton processors
     license: Apache-2.0
 
-  - name: aws-vscode
+  - name: lens-vscode
     ids:
       - vscode
     repository:
       owner: scttfrdmn
       name: scoop-bucket
-    homepage: https://github.com/scttfrdmn/aws-ide
+    homepage: https://github.com/scttfrdmn/lens
     description: CLI tool for launching VSCode Server instances on AWS EC2 Graviton processors (Beta)
     license: Apache-2.0
 
@@ -294,10 +294,10 @@ scoops:
 nfpms:
   - id: jupyter-packages
     builds:
-      - aws-jupyter
-    package_name: aws-jupyter
+      - lens-jupyter
+    package_name: lens-jupyter
     vendor: Scott Friedman
-    homepage: https://github.com/scttfrdmn/aws-ide
+    homepage: https://github.com/scttfrdmn/lens
     maintainer: Scott Friedman <scttfrdmn@users.noreply.github.com>
     description: CLI tool for launching Jupyter Lab instances on AWS EC2 Graviton processors
     license: Apache-2.0
@@ -307,14 +307,14 @@ nfpms:
     bindir: /usr/bin
     contents:
       - src: apps/jupyter/environments/*.yaml
-        dst: /usr/share/aws-jupyter/environments/
+        dst: /usr/share/lens-jupyter/environments/
 
   - id: rstudio-packages
     builds:
-      - aws-rstudio
-    package_name: aws-rstudio
+      - lens-rstudio
+    package_name: lens-rstudio
     vendor: Scott Friedman
-    homepage: https://github.com/scttfrdmn/aws-ide
+    homepage: https://github.com/scttfrdmn/lens
     maintainer: Scott Friedman <scttfrdmn@users.noreply.github.com>
     description: CLI tool for launching RStudio Server instances on AWS EC2 Graviton processors
     license: Apache-2.0
@@ -324,14 +324,14 @@ nfpms:
     bindir: /usr/bin
     contents:
       - src: apps/rstudio/environments/*.yaml
-        dst: /usr/share/aws-rstudio/environments/
+        dst: /usr/share/lens-rstudio/environments/
 
   - id: vscode-packages
     builds:
-      - aws-vscode
-    package_name: aws-vscode
+      - lens-vscode
+    package_name: lens-vscode
     vendor: Scott Friedman
-    homepage: https://github.com/scttfrdmn/aws-ide
+    homepage: https://github.com/scttfrdmn/lens
     maintainer: Scott Friedman <scttfrdmn@users.noreply.github.com>
     description: CLI tool for launching VSCode Server instances on AWS EC2 Graviton processors (Beta)
     license: Apache-2.0
@@ -341,4 +341,4 @@ nfpms:
     bindir: /usr/bin
     contents:
       - src: apps/vscode/environments/*.yaml
-        dst: /usr/share/aws-vscode/environments/
+        dst: /usr/share/lens-vscode/environments/

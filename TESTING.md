@@ -1,17 +1,17 @@
 # Testing Guide
 
-This document describes the testing methodology and practices for the AWS IDE project.
+This document describes the testing methodology and practices for the Lens project.
 
 ## Overview
 
-AWS IDE uses a multi-layered testing approach:
+Lens uses a multi-layered testing approach:
 - **Unit tests**: Fast, isolated tests with no AWS API dependencies
 - **Integration tests**: Tests with mocked AWS services
 - **End-to-end tests**: Real AWS infrastructure testing
 
 ## SSM-Based Readiness Polling Tests
 
-All three applications (aws-jupyter, aws-rstudio, aws-vscode) have been tested end-to-end with SSM-based readiness polling.
+All three applications (lens-jupyter, lens-rstudio, lens-vscode) have been tested end-to-end with SSM-based readiness polling.
 
 ### Test Methodology
 
@@ -105,25 +105,25 @@ When testing SSM readiness polling:
 ```bash
 # Test VSCode with SSM readiness polling
 cd apps/vscode
-go build -o aws-vscode ./cmd/aws-vscode
-AWS_PROFILE=aws ./aws-vscode launch --profile aws | tee /tmp/vscode-ssm-test.log
+go build -o lens-vscode ./cmd/lens-vscode
+AWS_PROFILE=aws ./lens-vscode launch --profile aws | tee /tmp/vscode-ssm-test.log
 
 # Verify service is accessible
 # (Output will show URL to connect)
 
 # Clean up
-AWS_PROFILE=aws ./aws-vscode terminate <instance-id>
+AWS_PROFILE=aws ./lens-vscode terminate <instance-id>
 
 # Test Jupyter
 cd ../jupyter
-go build -o aws-jupyter ./cmd/aws-jupyter
-AWS_PROFILE=aws ./aws-jupyter launch --profile aws | tee /tmp/jupyter-ssm-test.log
+go build -o lens-jupyter ./cmd/lens-jupyter
+AWS_PROFILE=aws ./lens-jupyter launch --profile aws | tee /tmp/jupyter-ssm-test.log
 # ... verify and clean up
 
 # Test RStudio (note: may need longer timeout)
 cd ../rstudio
-go build -o aws-rstudio ./cmd/aws-rstudio
-AWS_PROFILE=aws ./aws-rstudio launch --profile aws | tee /tmp/rstudio-ssm-test.log
+go build -o lens-rstudio ./cmd/lens-rstudio
+AWS_PROFILE=aws ./lens-rstudio launch --profile aws | tee /tmp/rstudio-ssm-test.log
 # ... verify and clean up
 ```
 
@@ -198,7 +198,7 @@ Integration tests use LocalStack to emulate AWS services locally, allowing reali
 **LocalStack vs Moto:**
 - **LocalStack**: Full AWS cloud stack in Docker, language-agnostic, realistic service emulation
 - **Moto**: Python library for mocking AWS, better for Python projects
-- **Choice**: LocalStack is ideal for Go projects like aws-ide
+- **Choice**: LocalStack is ideal for Go projects like lens
 
 ### Setup with Docker
 
@@ -314,7 +314,7 @@ golangci-lint run
 Test fixtures and data are stored in:
 - `pkg/*/testdata/`: Test files for unit tests
 - `/tmp/*-test.log`: E2E test output logs
-- `~/.aws-ide-test/`: Test state directory (isolated from production)
+- `~/.lens-test/`: Test state directory (isolated from production)
 
 ## Debugging Tests
 

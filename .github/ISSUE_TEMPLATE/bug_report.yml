@@ -1,5 +1,5 @@
 name: 🐛 Bug Report
-description: Report a bug or unexpected behavior in AWS IDE
+description: Report a bug or unexpected behavior in Lens
 title: "[Bug]: "
 labels: ["bug", "triage"]
 body:
@@ -14,7 +14,7 @@ body:
       label: Your Role (optional)
       description: |
         Helps us understand context and prioritize fixes that affect specific user groups.
-        See [Persona Walkthroughs](https://github.com/scttfrdmn/aws-ide/tree/main/docs/USER_SCENARIOS) for descriptions.
+        See [Persona Walkthroughs](https://github.com/scttfrdmn/lens/tree/main/docs/USER_SCENARIOS) for descriptions.
       options:
         - Solo Researcher
         - Graduate Student
@@ -30,11 +30,11 @@ body:
     id: app
     attributes:
       label: Which app is affected?
-      description: Select the AWS IDE application where you encountered the bug
+      description: Select the Lens application where you encountered the bug
       options:
-        - aws-jupyter (Jupyter Lab)
-        - aws-rstudio (RStudio Server)
-        - aws-vscode (VSCode Server)
+        - lens-jupyter (Jupyter Lab)
+        - lens-rstudio (RStudio Server)
+        - lens-vscode (VSCode Server)
         - Multiple apps
         - Not sure
     validations:
@@ -65,7 +65,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: "Run \`aws-jupyter --version\` (or aws-rstudio/aws-vscode) and paste the output"
+      description: "Run \`lens-jupyter --version\` (or lens-rstudio/lens-vscode) and paste the output"
       placeholder: "v0.7.2 (platform: v1.0.0, commit: abc1234, date: 2025-10-19)"
     validations:
       required: true
@@ -74,7 +74,7 @@ body:
     id: os
     attributes:
       label: Operating System
-      description: What OS are you running AWS IDE on?
+      description: What OS are you running Lens on?
       options:
         - macOS (Apple Silicon/M-series)
         - macOS (Intel)
@@ -128,7 +128,7 @@ body:
       label: Steps to Reproduce
       description: Detailed steps to reproduce the behavior
       placeholder: |
-        1. Run \`aws-jupyter\`
+        1. Run \`lens-jupyter\`
         2. Select "Data science with Python"
         3. Choose t3.medium instance
         4. Click through wizard...
