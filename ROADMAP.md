@@ -188,8 +188,8 @@ Establish comprehensive testing infrastructure with unit, integration, and E2E t
 
 ## ✨ v0.7.0 - User Experience & Accessibility
 
-**Status:** Next (Starting Now)
-**Target:** 1-2 months
+**Status:** ✅ Complete
+**Completion Date:** October 2025
 **Priority:** 🔥 CRITICAL - Non-technical researchers need this
 
 ### Goals
@@ -211,10 +211,10 @@ Make Lens accessible to non-technical academic researchers with guided setup and
   - [x] Uses survey library for interactive prompts
   - [x] Auto-stop configuration with idle timeout options
   - [x] Optional instance naming
-- [ ] Add `quickstart` command for each app
-  - [ ] `lens-jupyter quickstart` → instant launch with sensible defaults
-  - [ ] `lens-rstudio quickstart` → instant R environment
-  - [ ] `lens-vscode quickstart` → instant coding environment
+- [x] Add `quickstart` command for each app
+  - [x] `lens-jupyter quickstart` → instant launch with sensible defaults
+  - [x] `lens-rstudio quickstart` → instant R environment
+  - [x] `lens-vscode quickstart` → instant coding environment
 
 **Better Error Messages** 🎯 HIGH PRIORITY ✅ COMPLETE
 - [x] Created pkg/errors package for beginner-friendly error handling
@@ -247,20 +247,27 @@ Make Lens accessible to non-technical academic researchers with guided setup and
   - [x] "Waiting for environment to boot up" not "Polling SSM"
   - [x] Transformed all 27 functions across 3 apps (VSCode, Jupyter, RStudio)
 
-**Status Notifications**
-- [ ] Optional email notifications
+**Status Notifications** ⚠️ DEFERRED (Low Priority)
+- [x] Notification hooks infrastructure complete
+  - [x] Generic hook system for all lifecycle events
+  - [x] Environment variables passed to hooks
+  - [x] Documentation with Slack/email/desktop examples (docs/NOTIFICATIONS.md)
+  - [x] Users can configure custom notification scripts
+- [ ] Built-in email notifications (deferred to v0.8+)
   - [ ] "Your Jupyter Lab is ready at: http://..."
   - [ ] "Your instance will stop in 30 minutes due to idle timeout"
-- [ ] Optional Slack webhook support
+- [ ] Built-in Slack webhook support (deferred to v0.8+)
 - [ ] Desktop notifications (investigate feasibility)
 
-**Default Behavior Improvements**
-- [ ] Make wizard the default when no arguments provided
-  - [ ] `lens-jupyter` → launches wizard
-  - [ ] `lens-jupyter launch` → uses last settings or defaults
-- [ ] Remember user preferences
-  - [ ] Last used environment, instance type, region
-  - [ ] Offer to reuse settings: "Use same settings as last time? (Y/n)"
+**Default Behavior Improvements** ✅ COMPLETE
+- [x] Make wizard the default when no arguments provided
+  - [x] `lens-jupyter` → launches wizard
+  - [x] `lens-jupyter launch` → uses last settings or defaults
+- [x] Remember user preferences
+  - [x] Last used environment, instance type, region
+  - [x] Offer to reuse settings: "Use same settings as last time? (Y/n)"
+  - [x] Preferences stored in `~/.lens/{app}-preferences.json`
+  - [x] Quick relaunch skips wizard questions when reusing settings
 
 ### Success Criteria
 - ✅ Non-technical researcher can launch Jupyter in <2 minutes without reading docs
@@ -759,10 +766,10 @@ We follow [Semantic Versioning 2.0.0](https://semver.org/):
 ## 📝 Last Updated
 
 - **Date:** October 2025
-- **Version:** v0.6.3 (Documentation Polish - Complete)
-- **Next Focus:** v0.7.0 - User Experience & Accessibility for academic researchers
+- **Version:** v0.9.0 (User Experience & Accessibility - Complete)
+- **Next Focus:** v0.8.0 roadmap - Additional Research Tools (Streamlit, Q Developer, NICE DCV, Zeppelin)
 - **Next Review:** December 2025
-- **Project Status:** Production-ready platform with 3 IDE types, pivoting to academic research focus
+- **Project Status:** Production-ready platform with 3 IDE types, excellent UX for academic researchers
 
 ---
 

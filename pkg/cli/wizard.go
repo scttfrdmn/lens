@@ -38,11 +38,55 @@ func RunLaunchWizard(cfg WizardConfig) (*WizardResult, error) {
 	fmt.Println()
 	fmt.Println("═══════════════════════════════════════════════════════════════")
 	fmt.Printf("  Welcome to %s! Let's set up your cloud environment.\n", cfg.AppName)
-	if prefs.HasPreferences() {
-		fmt.Println("  (Your previous choices will be suggested as defaults)")
-	}
 	fmt.Println("═══════════════════════════════════════════════════════════════")
 	fmt.Println()
+
+	// If user has preferences, offer to reuse them immediately
+	useLastSettings := false
+	if prefs.HasPreferences() {
+		fmt.Println("📋 You've launched before! Here are your previous settings:")
+		fmt.Println()
+		if prefs.LastEnvironment != "" {
+			fmt.Printf("  Environment:     %s\n", prefs.LastEnvironment)
+		}
+		if prefs.LastInstanceType != "" {
+			fmt.Printf("  Computer power:  %s\n", prefs.LastInstanceType)
+		}
+		if prefs.LastEBSSize > 0 {
+			fmt.Printf("  Storage:         %d GB\n", prefs.LastEBSSize)
+		}
+		if prefs.LastIdleTimeout != "" {
+			fmt.Printf("  Auto-stop:       After %s of inactivity\n", prefs.LastIdleTimeout)
+		}
+		fmt.Println()
+
+		var reuseSettings bool
+		reusePrompt := &survey.Confirm{
+			Message: "Use same settings as last time?",
+			Default: true,
+			Help:    "This is the fastest way to launch. You can customize settings in the next step if needed.",
+		}
+		err = survey.AskOne(reusePrompt, &reuseSettings)
+		if err != nil {
+			return nil, err
+		}
+
+		if reuseSettings {
+			// User wants to reuse settings - populate result from preferences
+			result.Environment = prefs.LastEnvironment
+			result.InstanceType = prefs.LastInstanceType
+			result.EBSSize = prefs.LastEBSSize
+			result.IdleTimeout = prefs.LastIdleTimeout
+			useLastSettings = true
+		} else {
+			fmt.Println()
+			fmt.Println("No problem! Let's customize your settings...")
+			fmt.Println()
+		}
+	}
+
+	// Only ask these questions if not using last settings
+	if !useLastSettings {
 
 	// Question 1: What type of work do you want to do?
 	envPrompt, envOptions := buildEnvironmentPrompt(cfg)
@@ -131,7 +175,9 @@ func RunLaunchWizard(cfg WizardConfig) (*WizardResult, error) {
 
 	fmt.Println()
 
-	// Question 5: Give it a name (optional)
+	} // End of !useLastSettings block
+
+	// Question 5: Give it a name (optional) - always ask, regardless of using last settings
 	var instanceName string
 	namePrompt := &survey.Input{
 		Message: "Give your instance a name (optional, press Enter to skip):",
