@@ -626,7 +626,7 @@ func saveInstanceToState(instance *types.Instance, env *config.Environment, keyI
 		securityGroup = *instance.SecurityGroups[0].GroupId
 	}
 
-	state.Instances[*instance.InstanceId] = &config.Instance{
+	instanceConfig := &config.Instance{
 		ID:            *instance.InstanceId,
 		Environment:   env.Name,
 		InstanceType:  env.InstanceType,
@@ -641,6 +641,11 @@ func saveInstanceToState(instance *types.Instance, env *config.Environment, keyI
 		S3Bucket:      s3Bucket,
 		S3MountPath:   s3SyncPath,
 	}
+
+	// Record initial state as "running"
+	instanceConfig.RecordStateChange("running")
+
+	state.Instances[*instance.InstanceId] = instanceConfig
 
 	return state.Save()
 }

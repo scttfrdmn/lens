@@ -65,10 +65,14 @@ func runStop(instanceID string, hibernate bool) error {
 		} else {
 			fmt.Printf("SSH tunnel (PID %d) stopped\n", instance.TunnelPID)
 			instance.TunnelPID = 0
-			if err := state.Save(); err != nil {
-				fmt.Printf("Warning: Failed to update state: %v\n", err)
-			}
 		}
+	}
+
+	// Record state change to "stopped"
+	instance.RecordStateChange("stopped")
+
+	if err := state.Save(); err != nil {
+		fmt.Printf("Warning: Failed to update state: %v\n", err)
 	}
 
 	fmt.Printf("Instance %s stopped successfully\n", instanceID)

@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.3] - 2025-10-25
+
+### 🐛 Critical Bug Fix
+
+This hotfix release fixes a critical bug in cost tracking that prevented accurate cost calculations.
+
+### Fixed
+- **CRITICAL:** State changes now recorded during start/stop/terminate operations ([#7](https://github.com/scttfrdmn/aws-ide/issues/7))
+  - Cost tracking was fundamentally broken due to missing state change recording
+  - Added `RecordStateChange()` calls in all lifecycle operations:
+    - **Launch:** Records "running" state after successful launch (all 3 apps)
+    - **Start:** Records "running" state after instance starts
+    - **Stop:** Records "stopped" state after instance stops
+    - **Terminate:** Records "terminated" state before removal
+  - Affects all 3 apps: `aws-jupyter`, `aws-rstudio`, `aws-vscode`
+  - Added 4 comprehensive unit tests for state change functionality
+  - **Impact:** Lab PIs, Graduate Students, and Instructors can now accurately track costs and measure savings from stop/start cycles
+  - **Unblocks:** v0.11.0 Cost Management features (budget alerts, cost reporting, usage optimization)
+
+### Technical Details
+- Modified 6 files: 3 shared CLI commands + 3 app-specific launch commands
+- Added tests: `TestRecordStateChange`, `TestRecordStateChange_MultipleStates`, `TestStateChangePersistence`, `TestStateChange_EmptyStateString`
+- All tests passing, build verified across all 3 apps
+
 ## [0.7.2] - 2025-10-19
 
 ### 🔒 Security & Privacy Release

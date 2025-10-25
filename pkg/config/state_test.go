@@ -430,3 +430,177 @@ func TestSaveState_RoundTrip(t *testing.T) {
 		t.Errorf("LaunchedAt time mismatch: %v vs %v", inst1.LaunchedAt, now)
 	}
 }
+
+func TestRecordStateChange(t *testing.T) {
+	instance := &Instance{
+		ID:          "i-test123",
+		Environment: "data-science",
+	}
+
+	// Initially, StateChanges should be empty
+	if len(instance.StateChanges) != 0 {
+		t.Errorf("Expected 0 state changes initially, got %d", len(instance.StateChanges))
+	}
+
+	// Record first state change
+	instance.RecordStateChange("running")
+
+	if len(instance.StateChanges) != 1 {
+		t.Fatalf("Expected 1 state change, got %d", len(instance.StateChanges))
+	}
+
+	if instance.StateChanges[0].State != "running" {
+		t.Errorf("Expected state 'running', got '%s'", instance.StateChanges[0].State)
+	}
+
+	// Timestamp should be recent (within last second)
+	timeSince := time.Since(instance.StateChanges[0].Timestamp)
+	if timeSince > time.Second {
+		t.Errorf("State change timestamp should be recent, but was %v ago", timeSince)
+	}
+
+	// Record second state change
+	time.Sleep(10 * time.Millisecond) // Ensure different timestamp
+	instance.RecordStateChange("stopped")
+
+	if len(instance.StateChanges) != 2 {
+		t.Fatalf("Expected 2 state changes, got %d", len(instance.StateChanges))
+	}
+
+	if instance.StateChanges[1].State != "stopped" {
+		t.Errorf("Expected state 'stopped', got '%s'", instance.StateChanges[1].State)
+	}
+
+	// Second timestamp should be after first
+	if !instance.StateChanges[1].Timestamp.After(instance.StateChanges[0].Timestamp) {
+		t.Error("Second state change timestamp should be after first")
+	}
+}
+
+func TestRecordStateChange_MultipleStates(t *testing.T) {
+	instance := &Instance{
+		ID: "i-lifecycle-test",
+	}
+
+	// Simulate instance lifecycle
+	states := []string{"running", "stopped", "running", "terminated"}
+
+	for i, state := range states {
+		instance.RecordStateChange(state)
+
+		if len(instance.StateChanges) != i+1 {
+			t.Errorf("After recording %d states, expected %d state changes, got %d",
+				i+1, i+1, len(instance.StateChanges))
+		}
+
+		if instance.StateChanges[i].State != state {
+			t.Errorf("State change %d: expected '%s', got '%s'",
+				i, state, instance.StateChanges[i].State)
+		}
+
+		// Small delay to ensure different timestamps
+		if i < len(states)-1 {
+			time.Sleep(10 * time.Millisecond)
+		}
+	}
+
+	// Verify timestamps are in chronological order
+	for i := 1; i < len(instance.StateChanges); i++ {
+		if !instance.StateChanges[i].Timestamp.After(instance.StateChanges[i-1].Timestamp) {
+			t.Errorf("State change %d timestamp should be after state change %d",
+				i, i-1)
+		}
+	}
+}
+
+func TestStateChangePersistence(t *testing.T) {
+	// Create temporary home directory
+	tmpDir := t.TempDir()
+	originalHome := os.Getenv("HOME")
+
+	if err := os.Setenv("HOME", tmpDir); err != nil {
+		t.Fatalf("Failed to set HOME: %v", err)
+	}
+	defer func() {
+		if err := os.Setenv("HOME", originalHome); err != nil {
+			t.Logf("Warning: failed to restore HOME: %v", err)
+		}
+	}()
+
+	// Create config directory
+	if err := EnsureConfigDir(); err != nil {
+		t.Fatalf("Failed to ensure config dir: %v", err)
+	}
+
+	// Create instance and record state changes
+	state := &LocalState{
+		Instances: map[string]*Instance{},
+	}
+
+	instance := &Instance{
+		ID:          "i-persist-test",
+		Environment: "data-science",
+		LaunchedAt:  time.Now(),
+	}
+
+	// Record state changes
+	instance.RecordStateChange("running")
+	time.Sleep(10 * time.Millisecond)
+	instance.RecordStateChange("stopped")
+
+	state.Instances[instance.ID] = instance
+
+	// Save state
+	if err := state.Save(); err != nil {
+		t.Fatalf("Failed to save state: %v", err)
+	}
+
+	// Load state
+	loaded, err := LoadState()
+	if err != nil {
+		t.Fatalf("Failed to load state: %v", err)
+	}
+
+	// Verify state changes persisted
+	loadedInstance, ok := loaded.Instances["i-persist-test"]
+	if !ok {
+		t.Fatal("Instance should exist in loaded state")
+	}
+
+	if len(loadedInstance.StateChanges) != 2 {
+		t.Fatalf("Expected 2 state changes in loaded instance, got %d",
+			len(loadedInstance.StateChanges))
+	}
+
+	if loadedInstance.StateChanges[0].State != "running" {
+		t.Errorf("First state change: expected 'running', got '%s'",
+			loadedInstance.StateChanges[0].State)
+	}
+
+	if loadedInstance.StateChanges[1].State != "stopped" {
+		t.Errorf("Second state change: expected 'stopped', got '%s'",
+			loadedInstance.StateChanges[1].State)
+	}
+
+	// Verify timestamps persisted correctly
+	if loadedInstance.StateChanges[1].Timestamp.Before(loadedInstance.StateChanges[0].Timestamp) {
+		t.Error("Second timestamp should be after first after persistence")
+	}
+}
+
+func TestStateChange_EmptyStateString(t *testing.T) {
+	instance := &Instance{
+		ID: "i-empty-state",
+	}
+
+	// Record empty state (edge case)
+	instance.RecordStateChange("")
+
+	if len(instance.StateChanges) != 1 {
+		t.Fatalf("Expected 1 state change, got %d", len(instance.StateChanges))
+	}
+
+	if instance.StateChanges[0].State != "" {
+		t.Errorf("Expected empty state, got '%s'", instance.StateChanges[0].State)
+	}
+}

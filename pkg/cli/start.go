@@ -82,12 +82,16 @@ func runStart(instanceID string) error {
 		return fmt.Errorf("failed to get updated instance info: %w", err)
 	}
 
-	// Update state with new public IP
+	// Update state with new public IP and record state change
 	if instanceInfo.PublicIpAddress != nil {
 		instance.PublicIP = *instanceInfo.PublicIpAddress
-		if err := state.Save(); err != nil {
-			fmt.Printf("Warning: Failed to update state: %v\n", err)
-		}
+	}
+
+	// Record state change to "running"
+	instance.RecordStateChange("running")
+
+	if err := state.Save(); err != nil {
+		fmt.Printf("Warning: Failed to update state: %v\n", err)
 	}
 
 	fmt.Printf("\n✓ Instance %s started successfully!\n", instanceID)

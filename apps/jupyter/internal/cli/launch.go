@@ -596,7 +596,7 @@ func saveInstanceToState(instance *types.Instance, env *config.Environment, keyI
 		securityGroup = *instance.SecurityGroups[0].GroupId
 	}
 
-	state.Instances[*instance.InstanceId] = &config.Instance{
+	instanceConfig := &config.Instance{
 		ID:            *instance.InstanceId,
 		Environment:   env.Name,
 		InstanceType:  env.InstanceType,
@@ -609,6 +609,11 @@ func saveInstanceToState(instance *types.Instance, env *config.Environment, keyI
 		SecurityGroup: securityGroup,
 		AMIBase:       env.AMIBase,
 	}
+
+	// Record initial state as "running"
+	instanceConfig.RecordStateChange("running")
+
+	state.Instances[*instance.InstanceId] = instanceConfig
 
 	return state.Save()
 }

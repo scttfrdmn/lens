@@ -75,6 +75,9 @@ func runTerminate(instanceID string, force bool) error {
 		}
 	}
 
+	// Record state change to "terminated" before removing from state
+	instance.RecordStateChange("terminated")
+
 	// Remove instance from local state
 	delete(state.Instances, instanceID)
 	if err := state.Save(); err != nil {
