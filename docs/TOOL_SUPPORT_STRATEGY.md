@@ -44,28 +44,110 @@ Lens aims to support the full spectrum of research software - from open-source c
 
 **Implementation**: Standard app template
 
-#### 2. **AWS Marketplace (Pay-as-you-go)**
+#### 2. **Cloud-Authenticated (Modern Pattern)**
+- User logs in with institutional/vendor credentials
+- License validated automatically via cloud
+- No license configuration needed
+- Examples: MATLAB (MathWorks account), ArcGIS (ArcGIS Online), Mathematica (Wolfram ID)
+
+**Implementation**: Just install software + DCV desktop (SIMPLEST!)
+
+#### 3. **AWS Marketplace (Pay-as-you-go)**
 - Software cost included in EC2 hourly rate
 - Automatic billing through AWS
 - No license management needed
-- Examples: MATLAB (marketplace), ArcGIS Enterprise, SAS, Mathematica
+- Examples: Various commercial tools
 
 **Implementation**: AMI marketplace integration required
 
-#### 3. **BYOL (Bring Your Own License)**
-- User provides license key/file
-- May need license server configuration
-- Lower instance costs (no software markup)
-- Examples: MATLAB (BYOL), ArcGIS Desktop, Stata, SPSS
+#### 4. **Legacy BYOL (License Files/Servers)**
+- Older software with traditional licensing
+- User provides license key/file or server address
+- Becoming less common
+- Examples: Older versions of commercial software, some specialized tools
 
-**Implementation**: License configuration system required
+**Implementation**: License configuration system (only if needed)
 
-#### 4. **Subscription/Cloud Native**
+#### 5. **Subscription/Cloud Native**
 - Vendor-hosted licensing
 - May require API keys or account setup
 - Examples: Some cloud-based research platforms
 
 **Implementation**: Case-by-case integration
+
+---
+
+## ⚡ Simplified Licensing Reality
+
+**Modern commercial tools** (MATLAB, ArcGIS, Mathematica, etc.) increasingly use **cloud authentication**:
+1. Install software on AMI
+2. User launches application via DCV
+3. User logs in with credentials (university email, MathWorks account, etc.)
+4. Application validates license automatically via cloud
+
+**This means**: Most commercial tools are as simple to support as open-source tools - just need the software installed and DCV working. No complex license management needed!
+
+---
+
+## Tool Authentication Patterns
+
+Understanding which tools use modern cloud authentication vs legacy licensing helps prioritize implementation.
+
+### ✅ Cloud Authentication (Simple - Just Install + DCV)
+
+**Commercial Tools - Users Log In:**
+- **MATLAB** - MathWorks account or institutional credentials (OAuth/SAML)
+- **Mathematica** - Wolfram ID account login
+- **ArcGIS Pro** - ArcGIS Online credentials (most common for academic users)
+- **Geneious** - Geneious account with subscription
+- **Origin** - OriginLab account login (newer versions)
+- **GraphPad Prism** - GraphPad account login
+
+**How it works:**
+1. Launch tool via DCV desktop
+2. Tool prompts for login when opened
+3. User enters credentials
+4. Tool validates with vendor's cloud service
+5. Ready to use!
+
+**Implementation effort**: LOW - Just install software on AMI
+
+### 🔓 Open Source (Simplest - No Authentication)
+
+**No licensing concerns:**
+- QGIS, ParaView, ImageJ/Fiji, Octave, OpenRefine
+- Blender, MeshLab, CloudCompare
+- CellProfiler, Cytoscape, UGENE
+- SNAP, Maxima, OpenFOAM
+
+**Implementation effort**: LOWEST - Install and go
+
+### 🔐 Legacy License Files/Servers (Complex - Deferred to v0.16+)
+
+**Require Configuration:**
+- **Stata** - License file or network license server
+- **SPSS** - License file or license server
+- **SAS** - License file (though has cloud options)
+- **Ansys** - License server typically
+- **COMSOL** - License file or server
+- **ENVI/ERDAS** - License files
+
+**How it works:**
+1. User provides license file or server address
+2. Lens uploads/configures license
+3. Tool validates against file/server
+4. Ready to use
+
+**Implementation effort**: HIGHER - Needs license management infrastructure
+
+### 💰 AWS Marketplace (Medium Complexity)
+
+**License included in hourly cost:**
+- Various tools available with pay-as-you-go pricing
+- MATLAB, Mathematica, and others have marketplace options
+- No license management needed, but higher hourly costs
+
+**Implementation effort**: MEDIUM - Need marketplace AMI integration
 
 ---
 
@@ -245,36 +327,41 @@ tools:
 - Includes pricing/cost information
 - License requirement documentation
 
-### 2. License Configuration Manager
+### 2. License Manager (Minimal - Most Tools Don't Need This!)
 
-**Purpose**: Handle different licensing scenarios
+**Purpose**: Handle licensing for tools that need it
 
-**Capabilities**:
-- Prompt for license keys/files
-- Upload license files to instance
-- Configure license servers
-- Validate licenses before launch
-- Store encrypted license info in `~/.lens/licenses/`
+**Reality Check**: Modern commercial tools (MATLAB, ArcGIS, Mathematica) use cloud authentication - users just log in with credentials. License management is mostly unnecessary!
 
-**Example Flow**:
+**Only needed for**:
+- Legacy tools with license files
+- Some specialized on-premise tools
+- Tools without cloud authentication
+
+**Capabilities** (if needed):
+- Store optional license file references
+- Document login procedures per tool
+- Provide pre-launch reminders ("Have your MathWorks credentials ready")
+
+**Example Flow** (Modern MATLAB):
 ```bash
 $ lens-matlab launch
 
-Selecting MATLAB deployment option:
-1. AWS Marketplace (includes license, $X.XX/hr)
-2. Bring Your Own License (requires license, $Y.YY/hr)
+✓ Launching MATLAB R2024b
+✓ Desktop ready at https://54.123.45.67:8443
 
-Choice: 2
+💡 Reminder: You'll need to log in with your MathWorks or institutional
+   credentials when MATLAB starts.
 
-License Configuration:
-1. License file
-2. License server
-3. Network license
+Opening desktop...
+```
 
-Choice: 1
+**Example Flow** (Legacy tool with license file):
+```bash
+$ lens-legacy-tool launch --license-file ~/tool.lic
 
-License file path: ~/matlab.lic
-✓ License file validated
+✓ Uploading license file...
+✓ Launching tool...
 ```
 
 ### 3. NICE DCV Integration
@@ -328,26 +415,15 @@ By MathWorks
 
 Category: Mathematics, Engineering, Data Science
 Access: Desktop GUI (NICE DCV)
+License: Cloud Authentication (log in with MathWorks/institutional credentials)
 
-Deployment Options:
-1. Campus License Server (Recommended for Academic Users)
-   - Most common for universities and research institutions
-   - Requires campus license server address (e.g., license.university.edu:27000)
-   - Cost: Base instance only (~$0.17/hr for c6i.xlarge)
-   - No software markup
-   - AMI: ami-yyyyy (auto-selected)
+How it works:
+1. Launch MATLAB desktop
+2. Log in with your credentials (university email or MathWorks account)
+3. License validated automatically via cloud
+4. Start working!
 
-2. AWS Marketplace
-   - License included in instance cost
-   - Cost: +$0.50/hour over base instance (~$0.67/hr total)
-   - Good for users without campus access
-   - AMI: ami-xxxxx (auto-selected)
-
-3. License File (BYOL)
-   - For personal/professional MATLAB licenses
-   - Requires .lic license file
-   - Cost: Base instance only
-   - AMI: ami-yyyyy (auto-selected)
+No license configuration needed - just have your credentials ready.
 
 Recommended Instance Types:
 - Light work: t3.large ($0.0832/hr)
@@ -384,7 +460,9 @@ To launch:
 - Can install ImageJ and analyze images
 - GPU tools can use GPU acceleration
 
-### Phase 2: v0.11.0 - Open Source GUI Tools (2-3 months)
+**Note**: v0.11.0-v0.13.0 focus on package managers, collaboration, and cost management (see ROADMAP.md)
+
+### Phase 2: v0.14.0 - Open Source GUI Tools
 
 **Goal**: Add pre-configured open-source GUI tools
 
@@ -406,73 +484,88 @@ To launch:
    - Octave with web UI option
    - Environments: `mathematics`, `signal-processing`
 
+5. **lens-openrefine** (Data cleaning)
+   - Web-based interface
+   - Sample datasets and transformations
+
 **Infrastructure**:
 - AMI catalog system (alpha)
 - Tool discovery commands
 - Shared DCV base images
 
-### Phase 3: v0.12.0 - AWS Marketplace Tools (3-4 months)
+**Why This Is Simple**: All open source tools - just install and go!
 
-**Goal**: Support commercial tools via AWS Marketplace
+### Phase 3: v0.15.0 - Cloud-Authenticated Commercial Tools ⚡
+
+**Goal**: Support modern commercial tools with cloud authentication
+
+**Why This Is Easy**: These tools handle licensing via user login - just install software + DCV!
 
 **New Applications**:
-1. **lens-matlab** (marketplace + BYOL)
-   - AWS Marketplace AMI integration
-   - BYOL license file support
+1. **lens-matlab** (Cloud auth - MathWorks account)
+   - User logs in with MathWorks or institutional credentials
+   - No license configuration needed
    - Environments: `engineering`, `data-science`, `control-systems`
 
-2. **lens-mathematica** (marketplace + BYOL)
-   - Wolfram Cloud integration
+2. **lens-mathematica** (Cloud auth - Wolfram ID)
+   - User logs in with Wolfram account
+   - Automatic license validation
    - Environments: `symbolic-math`, `data-science`
 
-**Infrastructure**:
-- AMI marketplace search/selection
-- Pricing calculator with software costs
-- License configuration manager (basic)
-
-### Phase 4: v0.13.0 - BYOL Commercial Tools (3-4 months)
-
-**Goal**: Support BYOL licensing for major commercial tools
-
-**New Applications**:
-1. **lens-arcgis** (marketplace + BYOL)
-   - ArcGIS Pro or ArcGIS Desktop
-   - License server configuration
+3. **lens-arcgis** (Cloud auth - ArcGIS Online)
+   - User logs in with ArcGIS Online credentials
    - Environments: `urban-planning`, `environmental`, `remote-sensing`
 
-2. **lens-stata** (BYOL)
-   - License file or server
-   - Environments: `econometrics`, `panel-data`, `survey-analysis`
-
-3. **lens-spss** (BYOL)
-   - License configuration
-   - Environments: `social-science`, `survey-research`
+4. **lens-geneious** (Cloud auth - Geneious account)
+   - Subscription-based cloud authentication
+   - Environments: `bioinformatics`, `genomics`
 
 **Infrastructure**:
-- Advanced license manager (server config)
-- License validation
-- Multi-seat license support
+- AMI marketplace search/selection (for marketplace options)
+- Pricing calculator with software costs
+- Simple pre-launch credential reminders (no complex license manager needed!)
 
-### Phase 5: v0.14.0 - Specialized Domain Tools (4-5 months)
+**User Experience**:
+```bash
+$ lens-matlab launch
 
-**Goal**: Support highly specialized research tools
+✓ Launching MATLAB R2024b
+✓ Desktop ready!
+
+💡 Reminder: Log in with your MathWorks or institutional credentials when MATLAB starts.
+
+Opening desktop...
+```
+
+### Phase 4: v0.16.0 - Legacy License & Specialized Tools ⏸️
+
+**Goal**: Support tools requiring traditional license files/servers (lower priority)
 
 **New Applications**:
-1. **lens-geneious** (Bioinformatics)
-2. **lens-pymol** (Molecular visualization)
-3. **lens-ansys** (Engineering simulation)
-4. **lens-comsol** (Multiphysics)
+1. **lens-stata** (BYOL - license file)
+   - Upload license file at launch
+   - Environments: `econometrics`, `panel-data`, `survey-analysis`
 
-**Infrastructure**:
-- Tool catalog (stable)
-- Community AMI contributions
-- Custom AMI builder for labs
+2. **lens-spss** (BYOL - license file/server)
+   - Configure license file or server
+   - Environments: `social-science`, `survey-research`
+
+3. **Specialized tools** (Various licensing)
+   - PyMOL, Ansys, COMSOL, etc.
+   - Custom configuration per tool
+
+**Infrastructure** (only if needed):
+- License file upload/storage
+- License server configuration
+- License validation helpers
+
+**Why Later**: Requires more complex license management. Many vendors migrating to cloud authentication anyway.
 
 ---
 
 ## Tool Priority Matrix
 
-### Tier 1: Must-Have (v0.10-0.11)
+### Tier 1: Open Source GUI Tools (v0.14)
 **Criteria**: Open source + high academic demand
 
 1. **QGIS** - Most popular open GIS tool
@@ -481,26 +574,26 @@ To launch:
 4. **Octave** - MATLAB alternative for teaching
 5. **OpenRefine** - Data cleaning is universal need
 
-### Tier 2: High-Value Commercial (v0.12)
-**Criteria**: High demand + AWS Marketplace available
+**Why These First**: Open source means no licensing complexity. Just install and go!
 
-1. **MATLAB** - Most requested commercial tool
-2. **Mathematica** - Popular in physics/math
+### Tier 2: Cloud-Authenticated Commercial (v0.15) 🎯 FOCUS
+**Criteria**: High demand + modern cloud authentication
 
-### Tier 3: BYOL Commercial (v0.13)
-**Criteria**: Many institutions have licenses
+1. **MATLAB** - Most requested (MathWorks account login)
+2. **Mathematica** - Popular in physics/math (Wolfram ID)
+3. **ArcGIS** - Geography/GIS (ArcGIS Online credentials)
+4. **Geneious** - Bioinformatics (subscription-based)
 
-1. **ArcGIS** - Standard in geography departments
-2. **Stata** - Standard in economics
-3. **SPSS** - Standard in social sciences
+**Why These Second**: Simple to support - just install software + DCV. User logs in with credentials. No license configuration needed!
 
-### Tier 4: Specialized (v0.14+)
-**Criteria**: Specific domains, smaller user bases
+### Tier 3: Legacy License Tools (v0.16+) ⏸️ DEFERRED
+**Criteria**: Older licensing models (license files/servers)
 
-1. Engineering: Ansys, COMSOL
-2. Bioinformatics: Geneious, PyMOL
-3. Remote Sensing: ENVI, ERDAS
-4. Statistics: GraphPad Prism, OriginPro
+1. **Stata** - Economics (license files)
+2. **SPSS** - Social sciences (license files/servers)
+3. **Specialized tools** - Ansys, COMSOL, PyMOL, etc.
+
+**Why Later**: Require license configuration system. Less urgent as many vendors are migrating to cloud authentication.
 
 ---
 
@@ -550,29 +643,30 @@ To launch:
 
 ## User Experience Examples
 
-### Example 1: MATLAB (Campus License - Most Common)
+### Example 1: MATLAB (Cloud Authentication - Simplest!)
 ```bash
 $ lens-matlab launch
 
-MATLAB Deployment Options:
-1. Campus License Server (recommended for academic users)
-2. AWS Marketplace (license included) - $0.50/hr software + instance
-3. License File (BYOL)
-
-Select: 1
-
-Campus License Server Configuration:
-Enter license server address: license.university.edu:27000
-
-✓ Testing license server connection...
-✓ License server reachable (10 licenses available)
 ✓ Launching MATLAB R2024b
 ✓ Instance i-xxxxx starting (c6i.xlarge, $0.17/hr)
 ✓ MATLAB desktop ready!
 
 🌐 Browser: https://54.123.45.67:8443
-   Auto-opening in 5 seconds...
+   Opening MATLAB desktop...
+
+---
+MATLAB window opens via DCV:
+
+MATLAB Login Screen:
+Email: user@university.edu
+Password: ********
+
+✓ Signed in
+✓ License validated automatically via MathWorks cloud
+MATLAB R2024b ready!
 ```
+
+**Note**: User authenticates directly in MATLAB - no pre-configuration needed!
 
 ### Example 2: QGIS (Open Source)
 ```bash
@@ -590,24 +684,30 @@ Select: 2
 ✓ Desktop ready at https://54.123.45.67:8443
 ```
 
-### Example 3: ArcGIS (BYOL)
+### Example 3: ArcGIS (Cloud Authentication)
 ```bash
 $ lens-arcgis launch
 
-ArcGIS Pro requires a license. Choose licensing method:
-1. License file
-2. Named user (ArcGIS Online)
-3. Concurrent use license server
-
-Select: 3
-
-License server address: license.university.edu:27000
-
-✓ Testing license server connection...
-✓ License server reachable
 ✓ Launching ArcGIS Pro 3.2
-✓ Desktop ready at https://54.123.45.67:8443
+✓ Instance i-xxxxx starting (c6i.xlarge, $0.17/hr)
+✓ ArcGIS desktop ready!
+
+🌐 Browser: https://54.123.45.67:8443
+   Opening ArcGIS desktop...
+
+---
+ArcGIS Pro window opens via DCV:
+
+ArcGIS Pro Sign In:
+ArcGIS Online username: researcher@university.edu
+Password: ********
+
+✓ Signed in
+✓ License validated via ArcGIS Online
+ArcGIS Pro ready!
 ```
+
+**Note**: Most users authenticate via ArcGIS Online. Legacy license server support available in v0.16+ if needed.
 
 ### Example 4: Tool Discovery
 ```bash
@@ -620,8 +720,8 @@ Found 3 GIS tools:
    Cost: Instance only (~$0.17/hr)
 
 2. ArcGIS Pro 3.2 (lens-arcgis)
-   Professional GIS software
-   Cost: Instance + license (BYOL) or Marketplace
+   Professional GIS software (cloud authentication)
+   Cost: Instance (~$0.17/hr) + ArcGIS Online subscription
 
 3. GRASS GIS 8.3 (lens-tool launch grass-gis)
    Open source GIS and remote sensing
@@ -652,18 +752,26 @@ tools:
     gpu_support: true
 
     deployment_options:
+      - id: "cloud-auth"
+        name: "Cloud Authentication (Recommended)"
+        license: "user-login"
+        ami_id: "ami-xxxxx"  # MATLAB with MathWorks login support
+        cost_markup: 0.0
+        authentication: "User logs in with MathWorks/institutional credentials"
+
       - id: "marketplace"
         name: "AWS Marketplace"
         license: "included"
         ami_search_pattern: "MATLAB-R{version}-*"
         cost_markup: 0.50  # per hour
 
-      - id: "byol"
-        name: "Bring Your Own License"
-        license: "user"
-        ami_id: "ami-xxxxx"  # or search pattern
+      - id: "legacy-license"
+        name: "Legacy License File (v0.16+)"
+        license: "user-provided"
+        ami_id: "ami-xxxxx"
         cost_markup: 0.0
         license_types: ["file", "server"]
+        note: "Most users should use cloud-auth instead"
 
     recommended_instances:
       light: ["t3.large", "t3.xlarge"]
@@ -681,7 +789,9 @@ tools:
         toolboxes: ["Statistics", "Machine Learning", "Deep Learning"]
 ```
 
-### License Storage
+### License Storage (Optional - Legacy Tools Only)
+
+**Note**: Most modern tools (MATLAB, ArcGIS, Mathematica, Geneious) use cloud authentication and don't need license storage. This is only for legacy tools in v0.16+.
 
 **Security**: Encrypt license files at rest
 
@@ -690,19 +800,19 @@ tools:
 **Format**:
 ```
 ~/.lens/licenses/
-├── matlab.lic (encrypted)
-├── arcgis-server.conf (encrypted)
-└── stata.lic (encrypted)
+├── stata.lic (encrypted)
+├── spss-server.conf (encrypted)
+└── ansys.lic (encrypted)
 ```
 
-**Config Reference**:
+**Config Reference** (for legacy tools):
 ```yaml
 # in ~/.lens/config.yaml
 licenses:
-  matlab:
+  stata:
     type: "file"
-    path: "~/.lens/licenses/matlab.lic"
-  arcgis:
+    path: "~/.lens/licenses/stata.lic"
+  spss:
     type: "server"
     server: "license.university.edu:27000"
 ```
@@ -711,22 +821,24 @@ licenses:
 
 ## Success Metrics
 
-### v0.11 (Open Source Tools)
+### v0.14 (Open Source GUI Tools)
 - ✅ 5+ open-source GUI tools supported
 - ✅ Users can launch and use QGIS without AWS knowledge
 - ✅ ImageJ workflows work end-to-end
 - ✅ ParaView can visualize large datasets (10GB+)
+- ✅ Octave provides free MATLAB alternative
 
-### v0.12 (Marketplace Tools)
-- ✅ MATLAB marketplace integration working
-- ✅ Users can compare marketplace vs BYOL costs
-- ✅ Automatic marketplace AMI discovery
-- ✅ Pricing calculator includes software costs
+### v0.15 (Cloud-Authenticated Commercial Tools)
+- ✅ MATLAB launches successfully with MathWorks login
+- ✅ Users authenticate directly in application (no pre-config)
+- ✅ ArcGIS Pro working with ArcGIS Online credentials
+- ✅ Mathematica and Geneious cloud auth working
+- ✅ Documentation clearly explains "just log in" workflow
 
-### v0.13 (BYOL Tools)
-- ✅ ArcGIS license file/server configuration working
-- ✅ Stata and SPSS license setup working
-- ✅ License validation before launch
+### v0.16 (Legacy License Tools)
+- ✅ Stata license file upload working
+- ✅ SPSS license server configuration working
+- ✅ License validation helpers available
 - ✅ Clear documentation for IT admins
 
 ### v1.0 (Production)
@@ -744,15 +856,15 @@ licenses:
    - Rebuild our AMIs quarterly?
    - Let users specify versions?
 
-2. **License Validation**: How much validation do we do?
-   - Validate license files before launch?
-   - Or launch and let tool validate?
-   - What about network license servers?
+2. **Cloud Authentication Flow**: How do we optimize the login experience?
+   - Pre-populate credential helpers?
+   - Document institutional login flows (SAML/OAuth)?
+   - Provide troubleshooting for common auth issues?
 
 3. **Cost Transparency**: How do we show costs clearly?
    - Separate software vs infrastructure costs?
    - Show monthly projections?
-   - Compare marketplace vs BYOL?
+   - Compare marketplace vs cloud-auth BYOL?
 
 4. **GPU Instances**: When do we recommend GPU?
    - For ParaView: optional but better
@@ -773,17 +885,18 @@ licenses:
    - Test with manual QGIS installation
    - Design AMI catalog format
 
-2. **Short-term** (v0.11.0):
+2. **Short-term** (v0.14.0):
    - Build AMIs for top 5 open-source tools
    - Implement tool catalog system
-   - Add `lens-qgis` command
+   - Add `lens-qgis`, `lens-paraview`, `lens-imagej` commands
 
-3. **Medium-term** (v0.12.0):
-   - AWS Marketplace API integration
-   - License configuration manager
-   - Add `lens-matlab` command
+3. **Medium-term** (v0.15.0) 🎯:
+   - Build MATLAB AMI with cloud auth support
+   - Add credential reminder system
+   - Add `lens-matlab`, `lens-arcgis`, `lens-mathematica` commands
+   - Document institutional login flows
 
-4. **Long-term** (v0.13.0+):
-   - BYOL license support
+4. **Long-term** (v0.16.0+):
+   - Legacy license file/server support
    - Community AMI contributions
    - Tool ecosystem platform

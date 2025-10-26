@@ -678,32 +678,32 @@ Add pre-configured open-source GUI applications that are widely used in academic
 
 ---
 
-## 💼 v0.15.0 - Commercial Tools (AWS Marketplace)
+## 💼 v0.15.0 - Cloud-Authenticated Commercial Tools
 
 **Status:** Planned for v0.15.0 Release
 **Target:** 7-9 months
-**Priority:** HIGH - High-demand commercial tools
+**Priority:** HIGH - High-demand commercial tools with simple licensing
 
 **📖 See Also**: `docs/TOOL_SUPPORT_STRATEGY.md` - Tool Priority Tier 2
 
 ### Goals
-Support high-demand commercial research tools via AWS Marketplace integration.
+Support high-demand commercial research tools that use modern cloud authentication (user logs in with credentials - simple!).
 
-### Infrastructure
-- [ ] AWS Marketplace AMI discovery and selection
-- [ ] Automatic pricing calculation (instance + software costs)
-- [ ] Marketplace subscription handling
-- [ ] Cost comparison (marketplace vs BYOL)
+### Why This Is Easy
+Modern commercial tools handle licensing via cloud authentication:
+1. Install software on AMI
+2. Launch via DCV desktop
+3. User logs in with institutional/vendor credentials
+4. Software validates license automatically
+
+**No license configuration system needed!** Just DCV + installed software.
 
 ### Applications
 
 **lens-matlab** 🎯 HIGHEST PRIORITY
-- [ ] MATLAB via AWS Marketplace or Campus License
-- [ ] Deployment options:
-  - [ ] AWS Marketplace (license included, pay-per-hour)
-  - [ ] Campus License Server (cloud-based, most academic users)
-  - [ ] License File (BYOL for individual licenses)
-- [ ] Automatic license server configuration
+- [ ] MATLAB desktop via NICE DCV
+- [ ] Cloud authentication (user logs in with MathWorks/institutional credentials)
+- [ ] No license configuration needed - MATLAB handles authentication
 - [ ] Environments:
   - [ ] `engineering` - Simulink, Control System, Signal Processing
   - [ ] `data-science` - Statistics, Machine Learning, Deep Learning
@@ -712,48 +712,62 @@ Support high-demand commercial research tools via AWS Marketplace integration.
 - [ ] GPU support for deep learning workloads
 
 **lens-mathematica** 🎯 HIGH PRIORITY
-- [ ] Wolfram Mathematica via marketplace or license
+- [ ] Wolfram Mathematica desktop via DCV
+- [ ] Cloud authentication (user logs in with Wolfram ID)
 - [ ] Wolfram Cloud integration
 - [ ] Environments:
   - [ ] `symbolic-math` - Symbolic computation
   - [ ] `data-science` - Statistical analysis
   - [ ] `physics` - Mathematical physics tools
 
+**lens-arcgis** 🎯 HIGH PRIORITY
+- [ ] ArcGIS Pro desktop via DCV
+- [ ] Cloud authentication (ArcGIS Online or enterprise portal credentials)
+- [ ] Environments:
+  - [ ] `urban-planning` - City and regional planning
+  - [ ] `environmental` - Environmental analysis
+  - [ ] `remote-sensing` - Satellite imagery analysis
+
+**lens-geneious** 🎯 MEDIUM PRIORITY
+- [ ] Geneious Prime for bioinformatics
+- [ ] Cloud authentication (Geneious account)
+- [ ] Environments:
+  - [ ] `genomics` - DNA/RNA sequence analysis
+  - [ ] `molecular-biology` - General molecular biology
+
 ### Success Criteria
-- ✅ Marketplace integration working
-- ✅ Campus license server configuration seamless
-- ✅ Clear cost comparison between deployment options
-- ✅ MATLAB working for academic researchers
-- ✅ Documentation for IT admins on license setup
+- ✅ 3-4 major cloud-authenticated commercial tools working
+- ✅ User can log in with credentials and start working immediately
+- ✅ No complex license configuration needed
+- ✅ Documentation shows login process for each tool
+- ✅ AMIs built with latest software versions
 
 ---
 
-## 🗺️ v0.16.0 - Specialized Domain Tools
+## 🗺️ v0.16.0 - Legacy License & Specialized Tools
 
 **Status:** Planned for v0.16.0 Release
 **Target:** 9-12 months
-**Priority:** MEDIUM - Specialized research needs
+**Priority:** LOW-MEDIUM - Legacy licensing and niche tools
 
 **📖 See Also**: `docs/TOOL_SUPPORT_STRATEGY.md` - Tool Priority Tiers 3 & 4
 
 ### Goals
-Support specialized tools for specific research domains.
+Support tools that still use traditional licensing (license files/servers) and other specialized domain tools.
+
+**Note**: This phase requires building license configuration infrastructure - deferred until after cloud-authenticated tools are done.
 
 ### Applications by Domain
 
-**GIS & Geography**
-- [ ] **lens-arcgis** - ArcGIS Pro/Desktop (marketplace or BYOL)
-  - Campus license server support
-  - Named user authentication
-  - Concurrent use licenses
-
-**Statistics & Social Sciences**
-- [ ] **lens-stata** - Stata (BYOL)
+**Statistics & Social Sciences** (Legacy Licensing)
+- [ ] **lens-stata** - Stata (BYOL license files)
+  - License file configuration
+  - Network license server support (if needed)
 - [ ] **lens-spss** - SPSS Statistics (BYOL or subscription)
+  - License configuration
 - [ ] SAS (via lens-tool catalog)
 
 **Bioinformatics**
-- [ ] **lens-geneious** - Geneious Prime (subscription)
 - [ ] **lens-pymol** - PyMOL (open source + commercial)
 - [ ] CellProfiler (via lens-tool catalog)
 
@@ -776,12 +790,17 @@ Support specialized tools for specific research domains.
 - [ ] Tool discovery: `lens tools search bioinformatics`
 - [ ] Tool info: `lens tools info geneious`
 
+### Infrastructure Needed
+- [ ] License file upload and storage system
+- [ ] License server configuration
+- [ ] Pre-launch license validation (optional)
+
 ### Success Criteria
-- ✅ 10+ additional specialized tools supported
-- ✅ Tool catalog system fully operational
+- ✅ Legacy license tools (Stata, SPSS) working
+- ✅ License file configuration documented for IT admins
+- ✅ Tool catalog system operational for long-tail tools
 - ✅ Community can contribute tool definitions
-- ✅ BYOL licensing working reliably
-- ✅ Clear documentation for each tool
+- ✅ Clear separation: cloud-auth tools (easy) vs legacy (complex)
 
 ---
 
