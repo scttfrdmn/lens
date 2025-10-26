@@ -3,6 +3,7 @@ go 1.25.1
 use (
 	./apps/dcv-desktop
 	./apps/jupyter
+	./apps/qgis
 	./apps/rstudio
 	./apps/vscode
 	./pkg

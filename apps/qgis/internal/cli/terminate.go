@@ -1,0 +1,15 @@
+package cli
+
+import ("github.com/spf13/cobra")
+
+func NewTerminateCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "terminate [instance-id]",
+		Short: "Terminate a QGIS instance",
+		Args:  cobra.MaximumNArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			cmd.Println("QGIS terminate coming soon!")
+			return nil
+		},
+	}
+}
